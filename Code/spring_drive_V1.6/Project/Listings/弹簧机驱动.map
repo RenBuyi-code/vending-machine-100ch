@@ -1,0 +1,974 @@
+Component: ARM Compiler 5.06 update 6 (build 750) Tool: armlink [4d35ed]
+
+==============================================================================
+
+Section Cross References
+
+    main.o(i.board_init) refers to system_swm181.o(i.SystemInit) for SystemInit
+    main.o(i.board_init) refers to led.o(i.LED_Init) for LED_Init
+    main.o(i.board_init) refers to swm181_gpio.o(i.GPIO_SetBit) for GPIO_SetBit
+    main.o(i.board_init) refers to infrared_ray_check.o(i.IR_check_init) for IR_check_init
+    main.o(i.board_init) refers to motor_driver.o(i.Motor_Driver_GPIO_Init) for Motor_Driver_GPIO_Init
+    main.o(i.board_init) refers to rs485.o(i.RS485_Chnnel1_Cfg) for RS485_Chnnel1_Cfg
+    main.o(i.board_init) refers to rs485.o(i.RS485_Chnnel2_Cfg) for RS485_Chnnel2_Cfg
+    main.o(i.board_init) refers to rs485.o(i.RS485_Ch1_SendData) for RS485_Ch1_SendData
+    main.o(i.board_init) refers to timer.o(i.TIM2_init) for TIM2_init
+    main.o(i.board_init) refers to timer.o(i.TIMR_Delay_init) for TIMR_Delay_init
+    main.o(i.board_init) refers to swm181_gpio.o(i.GPIO_ClrBit) for GPIO_ClrBit
+    main.o(i.board_init) refers to address.o(i.Address_GPIO_Init) for Address_GPIO_Init
+    main.o(i.board_init) refers to swm181_wdt.o(i.WDT_Init) for WDT_Init
+    main.o(i.board_init) refers to swm181_wdt.o(i.WDT_Start) for WDT_Start
+    main.o(i.board_init) refers to main.o(.data) for hello
+    main.o(i.board_init) refers to system_swm181.o(.data) for SystemCoreClock
+    main.o(i.main) refers to main.o(i.board_init) for board_init
+    main.o(i.main) refers to swm181_wdt.o(i.WDT_Feed) for WDT_Feed
+    main.o(i.main) refers to vm.o(i.RS485_CH1_Recv) for RS485_CH1_Recv
+    main.o(i.main) refers to vm.o(i.RS485_CH1_Reply) for RS485_CH1_Reply
+    vm.o(i.RS485_CH1_Recv) refers to memseta.o(.text) for __aeabi_memclr4
+    vm.o(i.RS485_CH1_Recv) refers to rs485.o(i.RS485_CH1_GetData) for RS485_CH1_GetData
+    vm.o(i.RS485_CH1_Recv) refers to memcpya.o(.text) for __aeabi_memcpy
+    vm.o(i.RS485_CH1_Recv) refers to vm.o(i.frame_check) for frame_check
+    vm.o(i.RS485_CH1_Recv) refers to motor_driver.o(i.Motor_On) for Motor_On
+    vm.o(i.RS485_CH1_Recv) refers to lock.o(i.open_the_door) for open_the_door
+    vm.o(i.RS485_CH1_Recv) refers to swm181_gpio.o(i.GPIO_ClrBit) for GPIO_ClrBit
+    vm.o(i.RS485_CH1_Recv) refers to rs485.o(.data) for __RS485_Ch1_RX_Finish
+    vm.o(i.RS485_CH1_Recv) refers to vm.o(.bss) for vm_data_frame
+    vm.o(i.RS485_CH1_Recv) refers to vm.o(.data) for vm_control
+    vm.o(i.RS485_CH1_Reply) refers to vm.o(i.frame_default) for frame_default
+    vm.o(i.RS485_CH1_Reply) refers to memcpya.o(.text) for __aeabi_memcpy
+    vm.o(i.RS485_CH1_Reply) refers to vm.o(i.write_frame_checkcode) for write_frame_checkcode
+    vm.o(i.RS485_CH1_Reply) refers to rs485.o(i.RS485_Ch1_SendData) for RS485_Ch1_SendData
+    vm.o(i.RS485_CH1_Reply) refers to swm181_gpio.o(i.GPIO_GetBit) for GPIO_GetBit
+    vm.o(i.RS485_CH1_Reply) refers to vm.o(.data) for current_result
+    vm.o(i.RS485_CH1_Reply) refers to vm.o(.bss) for vm_data_frame
+    vm.o(i.crc16tablefast) refers to vm.o(.constdata) for crctalbeabs
+    vm.o(i.frame_check) refers to uread4.o(.text) for __aeabi_uread4
+    vm.o(i.frame_check) refers to vm.o(i.crc16tablefast) for crc16tablefast
+    vm.o(i.frame_default) refers to uwrite4.o(.text) for __aeabi_uwrite4
+    vm.o(i.frame_default) refers to address.o(i.Get_Driver_Addr) for Get_Driver_Addr
+    vm.o(i.write_frame_checkcode) refers to vm.o(i.crc16tablefast) for crc16tablefast
+    swm_it.o(i.IRQ28_Handler) refers to swm181_uart.o(i.UART_INTRXThresholdStat) for UART_INTRXThresholdStat
+    swm_it.o(i.IRQ28_Handler) refers to swm181_uart.o(i.UART_INTTimeoutStat) for UART_INTTimeoutStat
+    swm_it.o(i.IRQ28_Handler) refers to swm181_timr.o(i.TIMR_Start) for TIMR_Start
+    swm_it.o(i.IRQ28_Handler) refers to swm181_uart.o(i.UART_ReadByte) for UART_ReadByte
+    swm_it.o(i.IRQ28_Handler) refers to swm181_uart.o(i.UART_IsRXFIFOEmpty) for UART_IsRXFIFOEmpty
+    swm_it.o(i.IRQ28_Handler) refers to rs485.o(.data) for RS485_Ch1_RXIndex
+    swm_it.o(i.IRQ28_Handler) refers to rs485.o(.bss) for RS485_Ch1_Buffer
+    swm_it.o(i.IRQ29_Handler) refers to swm181_uart.o(i.UART_INTRXThresholdStat) for UART_INTRXThresholdStat
+    swm_it.o(i.IRQ29_Handler) refers to swm181_uart.o(i.UART_INTTimeoutStat) for UART_INTTimeoutStat
+    swm_it.o(i.IRQ29_Handler) refers to swm181_uart.o(i.UART_ReadByte) for UART_ReadByte
+    swm_it.o(i.IRQ29_Handler) refers to swm181_uart.o(i.UART_IsRXFIFOEmpty) for UART_IsRXFIFOEmpty
+    swm_it.o(i.IRQ29_Handler) refers to rs485.o(.data) for RS485_Ch2_RXIndex
+    swm_it.o(i.IRQ29_Handler) refers to rs485.o(.bss) for RS485_Ch2_Buffer
+    swm_it.o(i.IRQ4_Handler) refers to swm181_exti.o(i.EXTI_State) for EXTI_State
+    swm_it.o(i.IRQ4_Handler) refers to motor_driver.o(i.Motor_Off) for Motor_Off
+    swm_it.o(i.IRQ4_Handler) refers to motor_driver.o(.data) for fb_count_Y1
+    swm_it.o(i.IRQ5_Handler) refers to swm181_timr.o(i.TIMR_INTStat) for TIMR_INTStat
+    swm_it.o(i.IRQ5_Handler) refers to swm181_timr.o(i.TIMR_INTClr) for TIMR_INTClr
+    swm_it.o(i.IRQ5_Handler) refers to swm181_timr.o(i.TIMR_Stop) for TIMR_Stop
+    swm_it.o(i.IRQ5_Handler) refers to swm181_uart.o(i.UART_ReadByte) for UART_ReadByte
+    swm_it.o(i.IRQ5_Handler) refers to swm181_uart.o(i.UART_IsRXFIFOEmpty) for UART_IsRXFIFOEmpty
+    swm_it.o(i.IRQ5_Handler) refers to swm181_gpio.o(i.GPIO_InvBit) for GPIO_InvBit
+    swm_it.o(i.IRQ5_Handler) refers to rs485.o(i.RS485_Ch1_SendData) for RS485_Ch1_SendData
+    swm_it.o(i.IRQ5_Handler) refers to memseta.o(.text) for __aeabi_memclr
+    swm_it.o(i.IRQ5_Handler) refers to rs485.o(.data) for RS485_Ch1_RXIndex
+    swm_it.o(i.IRQ5_Handler) refers to rs485.o(.bss) for RS485_Ch1_Buffer
+    swm_it.o(i.IRQ7_Handler) refers to swm181_timr.o(i.TIMR_INTStat) for TIMR_INTStat
+    swm_it.o(i.IRQ7_Handler) refers to swm181_timr.o(i.TIMR_INTClr) for TIMR_INTClr
+    swm_it.o(i.IRQ8_Handler) refers to swm181_exti.o(i.EXTI_State) for EXTI_State
+    swm_it.o(i.IRQ8_Handler) refers to infrared_ray_check.o(.data) for ir_count
+    swm_it.o(i.IRQ8_Handler) refers to motor_driver.o(.data) for fb_count_Y1
+    swm_it.o(i.IRQ8_Handler) refers to vm.o(.data) for vm_control
+    ambient.o(i.Ack_Ambient) refers to rs485.o(i.RS485_Ch2_SendData) for RS485_Ch2_SendData
+    ambient.o(i.Ack_Ambient) refers to ambient.o(.constdata) for ask_fream
+    ambient.o(i.RS485_Ch2_Recv) refers to memseta.o(.text) for __aeabi_memclr4
+    motor_driver.o(i.Driver_GPIO_Init) refers to swm181_gpio.o(i.GPIO_Init) for GPIO_Init
+    motor_driver.o(i.Driver_GPIO_Init) refers to swm181_gpio.o(i.GPIO_ClrBit) for GPIO_ClrBit
+    motor_driver.o(i.Driver_GPIO_Init) refers to swm181_gpio.o(i.GPIO_SetBit) for GPIO_SetBit
+    motor_driver.o(i.Driver_GPIO_Init) refers to motor_driver.o(.constdata) for motorDrive_tab
+    motor_driver.o(i.MotorFB_EXTI_Init) refers to swm181_exti.o(i.EXTI_Init) for EXTI_Init
+    motor_driver.o(i.MotorFB_EXTI_Init) refers to swm181_irqmux.o(i.IRQ_Connect) for IRQ_Connect
+    motor_driver.o(i.MotorFB_EXTI_Init) refers to motor_driver.o(.constdata) for motorDrive_tab
+    motor_driver.o(i.MotorFB_GPIO_Init) refers to swm181_gpio.o(i.GPIO_Init) for GPIO_Init
+    motor_driver.o(i.MotorFB_GPIO_Init) refers to motor_driver.o(.constdata) for motorDrive_tab
+    motor_driver.o(i.Motor_Driver_GPIO_Init) refers to motor_driver.o(i.Driver_GPIO_Init) for Driver_GPIO_Init
+    motor_driver.o(i.Motor_Driver_GPIO_Init) refers to motor_driver.o(i.MotorFB_GPIO_Init) for MotorFB_GPIO_Init
+    motor_driver.o(i.Motor_Driver_GPIO_Init) refers to motor_driver.o(i.MotorFB_EXTI_Init) for MotorFB_EXTI_Init
+    motor_driver.o(i.Motor_FB_EXTI_Disable) refers to swm181_exti.o(i.EXTI_Close) for EXTI_Close
+    motor_driver.o(i.Motor_FB_EXTI_Disable) refers to motor_driver.o(.constdata) for motorDrive_tab
+    motor_driver.o(i.Motor_FB_EXTI_Enable) refers to swm181_exti.o(i.EXTI_Open) for EXTI_Open
+    motor_driver.o(i.Motor_FB_EXTI_Enable) refers to motor_driver.o(.constdata) for motorDrive_tab
+    motor_driver.o(i.Motor_Off) refers to idiv.o(.text) for __aeabi_idivmod
+    motor_driver.o(i.Motor_Off) refers to swm181_gpio.o(i.GPIO_ClrBit) for GPIO_ClrBit
+    motor_driver.o(i.Motor_Off) refers to swm181_gpio.o(i.GPIO_SetBit) for GPIO_SetBit
+    motor_driver.o(i.Motor_Off) refers to motor_driver.o(i.Motor_FB_EXTI_Disable) for Motor_FB_EXTI_Disable
+    motor_driver.o(i.Motor_Off) refers to swm181_exti.o(i.EXTI_Close) for EXTI_Close
+    motor_driver.o(i.Motor_Off) refers to motor_driver.o(.constdata) for motorDrive_tab
+    motor_driver.o(i.Motor_Off) refers to motor_driver.o(.data) for current_num
+    motor_driver.o(i.Motor_Off) refers to vm.o(.data) for vm_control
+    motor_driver.o(i.Motor_On) refers to idiv.o(.text) for __aeabi_idivmod
+    motor_driver.o(i.Motor_On) refers to motor_driver.o(i.Motor_FB_EXTI_Enable) for Motor_FB_EXTI_Enable
+    motor_driver.o(i.Motor_On) refers to swm181_exti.o(i.EXTI_Open) for EXTI_Open
+    motor_driver.o(i.Motor_On) refers to swm181_gpio.o(i.GPIO_SetBit) for GPIO_SetBit
+    motor_driver.o(i.Motor_On) refers to swm181_gpio.o(i.GPIO_ClrBit) for GPIO_ClrBit
+    motor_driver.o(i.Motor_On) refers to motor_driver.o(.data) for current_num
+    motor_driver.o(i.Motor_On) refers to motor_driver.o(.constdata) for motorDrive_tab
+    uart.o(i.SendData) refers to swm181_uart.o(i.UART_WriteByte) for UART_WriteByte
+    uart.o(i.SendData) refers to swm181_uart.o(i.UART_IsTXBusy) for UART_IsTXBusy
+    uart.o(i.uart_init) refers to swm181_port.o(i.PORT_Init) for PORT_Init
+    uart.o(i.uart_init) refers to swm181_uart.o(i.UART_Init) for UART_Init
+    uart.o(i.uart_init) refers to swm181_uart.o(i.UART_Open) for UART_Open
+    rs485.o(i.RS485_CH1_GetData) refers to rs485.o(i.__NVIC_DisableIRQ) for __NVIC_DisableIRQ
+    rs485.o(i.RS485_CH1_GetData) refers to memcpya.o(.text) for __aeabi_memcpy
+    rs485.o(i.RS485_CH1_GetData) refers to memseta.o(.text) for __aeabi_memclr
+    rs485.o(i.RS485_CH1_GetData) refers to rs485.o(i.__NVIC_EnableIRQ) for __NVIC_EnableIRQ
+    rs485.o(i.RS485_CH1_GetData) refers to rs485.o(.data) for RS485_Ch1_RXIndex
+    rs485.o(i.RS485_CH1_GetData) refers to rs485.o(.bss) for RS485_Ch1_Buffer
+    rs485.o(i.RS485_CH2_GetData) refers to rs485.o(i.__NVIC_DisableIRQ) for __NVIC_DisableIRQ
+    rs485.o(i.RS485_CH2_GetData) refers to memcpya.o(.text) for __aeabi_memcpy
+    rs485.o(i.RS485_CH2_GetData) refers to rs485.o(i.__NVIC_EnableIRQ) for __NVIC_EnableIRQ
+    rs485.o(i.RS485_CH2_GetData) refers to rs485.o(.data) for RS485_Ch1_RXIndex
+    rs485.o(i.RS485_CH2_GetData) refers to rs485.o(.bss) for RS485_Ch1_Buffer
+    rs485.o(i.RS485_Ch1_SendData) refers to swm181_gpio.o(i.GPIO_SetBit) for GPIO_SetBit
+    rs485.o(i.RS485_Ch1_SendData) refers to uart.o(i.SendData) for SendData
+    rs485.o(i.RS485_Ch1_SendData) refers to swm181_gpio.o(i.GPIO_ClrBit) for GPIO_ClrBit
+    rs485.o(i.RS485_Ch2_SendData) refers to swm181_gpio.o(i.GPIO_SetBit) for GPIO_SetBit
+    rs485.o(i.RS485_Ch2_SendData) refers to uart.o(i.SendData) for SendData
+    rs485.o(i.RS485_Ch2_SendData) refers to swm181_gpio.o(i.GPIO_ClrBit) for GPIO_ClrBit
+    rs485.o(i.RS485_Chnnel1_Cfg) refers to uart.o(i.uart_init) for uart_init
+    rs485.o(i.RS485_Chnnel1_Cfg) refers to swm181_gpio.o(i.GPIO_Init) for GPIO_Init
+    rs485.o(i.RS485_Chnnel1_Cfg) refers to swm181_irqmux.o(i.IRQ_Connect) for IRQ_Connect
+    rs485.o(i.RS485_Chnnel1_Cfg) refers to swm181_gpio.o(i.GPIO_ClrBit) for GPIO_ClrBit
+    rs485.o(i.RS485_Chnnel2_Cfg) refers to uart.o(i.uart_init) for uart_init
+    rs485.o(i.RS485_Chnnel2_Cfg) refers to swm181_gpio.o(i.GPIO_Init) for GPIO_Init
+    rs485.o(i.RS485_Chnnel2_Cfg) refers to swm181_irqmux.o(i.IRQ_Connect) for IRQ_Connect
+    rs485.o(i.RS485_Chnnel2_Cfg) refers to swm181_gpio.o(i.GPIO_ClrBit) for GPIO_ClrBit
+    led.o(i.LED_Init) refers to swm181_gpio.o(i.GPIO_Init) for GPIO_Init
+    led.o(i.LED_Init) refers to swm181_gpio.o(i.GPIO_ClrBit) for GPIO_ClrBit
+    timer.o(i.TIM2_init) refers to uidiv.o(.text) for __aeabi_uidivmod
+    timer.o(i.TIM2_init) refers to swm181_timr.o(i.TIMR_Init) for TIMR_Init
+    timer.o(i.TIM2_init) refers to swm181_irqmux.o(i.IRQ_Connect) for IRQ_Connect
+    timer.o(i.TIM2_init) refers to system_swm181.o(.data) for SystemCoreClock
+    timer.o(i.TIMR_Delay_init) refers to uidiv.o(.text) for __aeabi_uidivmod
+    timer.o(i.TIMR_Delay_init) refers to swm181_timr.o(i.TIMR_Init) for TIMR_Init
+    timer.o(i.TIMR_Delay_init) refers to swm181_irqmux.o(i.IRQ_Connect) for IRQ_Connect
+    timer.o(i.TIMR_Delay_init) refers to swm181_timr.o(i.TIMR_Start) for TIMR_Start
+    timer.o(i.TIMR_Delay_init) refers to system_swm181.o(.data) for SystemCoreClock
+    infrared_ray_check.o(i.IR_EXTI_Init) refers to swm181_exti.o(i.EXTI_Init) for EXTI_Init
+    infrared_ray_check.o(i.IR_EXTI_Init) refers to swm181_irqmux.o(i.IRQ_Connect) for IRQ_Connect
+    infrared_ray_check.o(i.IR_GPIO_Init) refers to swm181_gpio.o(i.GPIO_Init) for GPIO_Init
+    infrared_ray_check.o(i.IR_GPIO_Init) refers to swm181_gpio.o(i.GPIO_ClrBit) for GPIO_ClrBit
+    infrared_ray_check.o(i.IR_check_init) refers to infrared_ray_check.o(i.IR_GPIO_Init) for IR_GPIO_Init
+    infrared_ray_check.o(i.IR_check_init) refers to infrared_ray_check.o(i.IR_EXTI_Init) for IR_EXTI_Init
+    lock.o(i.Lock_GPIO_Init) refers to swm181_gpio.o(i.GPIO_Init) for GPIO_Init
+    lock.o(i.open_the_door) refers to swm181_gpio.o(i.GPIO_SetBit) for GPIO_SetBit
+    address.o(i.Address_GPIO_Init) refers to swm181_gpio.o(i.GPIO_Init) for GPIO_Init
+    address.o(i.Get_Driver_Addr) refers to swm181_gpio.o(i.GPIO_GetBit) for GPIO_GetBit
+    swm181_dma.o(i.DMA_CHM_Config) refers to swm181_dma.o(i.DMA_CH_Close) for DMA_CH_Close
+    swm181_dma.o(i.DMA_CHM_Config) refers to swm181_dma.o(i.DMA_CH_INTClr) for DMA_CH_INTClr
+    swm181_dma.o(i.DMA_CHM_Config) refers to swm181_dma.o(i.DMA_CH_INTEn) for DMA_CH_INTEn
+    swm181_dma.o(i.DMA_CHM_Config) refers to swm181_dma.o(i.DMA_CH_INTDis) for DMA_CH_INTDis
+    swm181_dma.o(i.DMA_CH_Close) refers to swm181_dma.o(i.__ARM_common_switch8) for __ARM_common_switch8
+    swm181_dma.o(i.DMA_CH_Config) refers to swm181_dma.o(i.DMA_CH_Close) for DMA_CH_Close
+    swm181_dma.o(i.DMA_CH_Config) refers to swm181_dma.o(i.DMA_CH_INTClr) for DMA_CH_INTClr
+    swm181_dma.o(i.DMA_CH_Config) refers to swm181_dma.o(i.DMA_CH_INTEn) for DMA_CH_INTEn
+    swm181_dma.o(i.DMA_CH_Config) refers to swm181_dma.o(i.DMA_CH_INTDis) for DMA_CH_INTDis
+    swm181_dma.o(i.DMA_CH_INTClr) refers to swm181_dma.o(i.__ARM_common_switch8) for __ARM_common_switch8
+    swm181_dma.o(i.DMA_CH_INTDis) refers to swm181_dma.o(i.__ARM_common_switch8) for __ARM_common_switch8
+    swm181_dma.o(i.DMA_CH_INTEn) refers to swm181_dma.o(i.__ARM_common_switch8) for __ARM_common_switch8
+    swm181_dma.o(i.DMA_CH_INTStat) refers to swm181_dma.o(i.__ARM_common_switch8) for __ARM_common_switch8
+    swm181_dma.o(i.DMA_CH_Open) refers to swm181_dma.o(i.__ARM_common_switch8) for __ARM_common_switch8
+    swm181_exti.o(i.EXTI_Init) refers to swm181_exti.o(i.EXTI_Clear) for EXTI_Clear
+    swm181_flash.o(i.FLASH_Erase) refers to swm181_cache.o(i.CACHE_Invalid) for CACHE_Invalid
+    swm181_flash.o(i.FLASH_Erase) refers to swm181_flash.o(.data) for IAPfunc
+    swm181_flash.o(i.FLASH_Write) refers to swm181_cache.o(i.CACHE_Invalid) for CACHE_Invalid
+    swm181_flash.o(i.FLASH_Write) refers to swm181_flash.o(.data) for IAPfunc
+    swm181_gpio.o(i.GPIO_Init) refers to swm181_port.o(i.PORT_Init) for PORT_Init
+    swm181_irqmux.o(i.IRQ_Connect) refers to swm181_irqmux.o(i.__NVIC_SetPriority) for __NVIC_SetPriority
+    swm181_timr.o(i.TIMR_Init) refers to swm181_timr.o(i.TIMR_Stop) for TIMR_Stop
+    swm181_timr.o(i.TIMR_Init) refers to swm181_timr.o(i.TIMR_INTClr) for TIMR_INTClr
+    swm181_uart.o(i.UART_Init) refers to swm181_uart.o(i.UART_Close) for UART_Close
+    swm181_uart.o(i.UART_Init) refers to uidiv.o(.text) for __aeabi_uidivmod
+    swm181_uart.o(i.UART_Init) refers to system_swm181.o(.data) for SystemCoreClock
+    swm181_uart.o(i.UART_SetBaudrate) refers to uidiv.o(.text) for __aeabi_uidivmod
+    swm181_uart.o(i.UART_SetBaudrate) refers to system_swm181.o(.data) for SystemCoreClock
+    swm181_wdt.o(i.WDT_Init) refers to swm181_wdt.o(i.WDT_Stop) for WDT_Stop
+    swm181_wdt.o(i.WDT_Init) refers to swm181_wdt.o(i.WDT_INTClr) for WDT_INTClr
+    startup_swm181.o(RESET) refers to startup_swm181.o(STACK) for Stack_Mem
+    startup_swm181.o(RESET) refers to startup_swm181.o(.text) for NMI_Handler
+    startup_swm181.o(RESET) refers to swm_it.o(i.SysTick_Handler) for SysTick_Handler
+    startup_swm181.o(RESET) refers to swm_it.o(i.IRQ4_Handler) for IRQ4_Handler
+    startup_swm181.o(RESET) refers to swm_it.o(i.IRQ5_Handler) for IRQ5_Handler
+    startup_swm181.o(RESET) refers to swm_it.o(i.IRQ7_Handler) for IRQ7_Handler
+    startup_swm181.o(RESET) refers to swm_it.o(i.IRQ8_Handler) for IRQ8_Handler
+    startup_swm181.o(RESET) refers to swm_it.o(i.IRQ28_Handler) for IRQ28_Handler
+    startup_swm181.o(RESET) refers to swm_it.o(i.IRQ29_Handler) for IRQ29_Handler
+    startup_swm181.o(RESET) refers to entry.o(.ARM.Collect$$$$00000000) for __main
+    system_swm181.o(i.SystemCoreClockUpdate) refers to system_swm181.o(.data) for SystemCoreClock
+    system_swm181.o(i.SystemInit) refers to swm181_dma.o(i.__ARM_common_switch8) for __ARM_common_switch8
+    system_swm181.o(i.SystemInit) refers to system_swm181.o(i.switchToRC32KHz) for switchToRC32KHz
+    system_swm181.o(i.SystemInit) refers to system_swm181.o(i.switchToRC24MHz) for switchToRC24MHz
+    system_swm181.o(i.SystemInit) refers to system_swm181.o(i.switchToRC6MHz) for switchToRC6MHz
+    system_swm181.o(i.SystemInit) refers to system_swm181.o(i.switchToRC48MHz) for switchToRC48MHz
+    system_swm181.o(i.SystemInit) refers to system_swm181.o(i.switchToRC12MHz) for switchToRC12MHz
+    system_swm181.o(i.SystemInit) refers to system_swm181.o(i.switchToXTAL) for switchToXTAL
+    system_swm181.o(i.SystemInit) refers to system_swm181.o(i.SystemCoreClockUpdate) for SystemCoreClockUpdate
+    system_swm181.o(i.switchToXTAL) refers to swm181_port.o(i.PORT_Init) for PORT_Init
+    entry.o(.ARM.Collect$$$$00000000) refers (Special) to entry10a.o(.ARM.Collect$$$$0000000D) for __rt_final_cpp
+    entry.o(.ARM.Collect$$$$00000000) refers (Special) to entry11a.o(.ARM.Collect$$$$0000000F) for __rt_final_exit
+    entry.o(.ARM.Collect$$$$00000000) refers (Special) to entry7b.o(.ARM.Collect$$$$00000008) for _main_clock
+    entry.o(.ARM.Collect$$$$00000000) refers (Special) to entry8b.o(.ARM.Collect$$$$0000000A) for _main_cpp_init
+    entry.o(.ARM.Collect$$$$00000000) refers (Special) to entry9a.o(.ARM.Collect$$$$0000000B) for _main_init
+    entry.o(.ARM.Collect$$$$00000000) refers (Special) to entry5.o(.ARM.Collect$$$$00000004) for _main_scatterload
+    entry.o(.ARM.Collect$$$$00000000) refers (Special) to entry2.o(.ARM.Collect$$$$00000001) for _main_stk
+    idiv.o(.text) refers to uidiv.o(.text) for __aeabi_uidivmod
+    entry2.o(.ARM.Collect$$$$00000001) refers to entry2.o(.ARM.Collect$$$$00002712) for __lit__00000000
+    entry2.o(.ARM.Collect$$$$00002712) refers to startup_swm181.o(STACK) for __initial_sp
+    entry2.o(__vectab_stack_and_reset_area) refers to startup_swm181.o(STACK) for __initial_sp
+    entry2.o(__vectab_stack_and_reset_area) refers to entry.o(.ARM.Collect$$$$00000000) for __main
+    entry5.o(.ARM.Collect$$$$00000004) refers to init.o(.text) for __scatterload
+    entry9a.o(.ARM.Collect$$$$0000000B) refers to main.o(i.main) for main
+    entry9b.o(.ARM.Collect$$$$0000000C) refers to main.o(i.main) for main
+    init.o(.text) refers to entry5.o(.ARM.Collect$$$$00000004) for __main_after_scatterload
+
+
+==============================================================================
+
+Removing Unused input sections from the image.
+
+    Removing main.o(.rev16_text), (4 bytes).
+    Removing main.o(.revsh_text), (4 bytes).
+    Removing vm.o(.rev16_text), (4 bytes).
+    Removing vm.o(.revsh_text), (4 bytes).
+    Removing swm_it.o(.rev16_text), (4 bytes).
+    Removing swm_it.o(.revsh_text), (4 bytes).
+    Removing ambient.o(.rev16_text), (4 bytes).
+    Removing ambient.o(.revsh_text), (4 bytes).
+    Removing ambient.o(i.Ack_Ambient), (16 bytes).
+    Removing ambient.o(i.RS485_Ch2_Recv), (16 bytes).
+    Removing ambient.o(.constdata), (8 bytes).
+    Removing motor_driver.o(.rev16_text), (4 bytes).
+    Removing motor_driver.o(.revsh_text), (4 bytes).
+    Removing uart.o(.rev16_text), (4 bytes).
+    Removing uart.o(.revsh_text), (4 bytes).
+    Removing rs485.o(.rev16_text), (4 bytes).
+    Removing rs485.o(.revsh_text), (4 bytes).
+    Removing rs485.o(i.RS485_CH2_GetData), (60 bytes).
+    Removing rs485.o(i.RS485_Ch2_SendData), (44 bytes).
+    Removing led.o(.rev16_text), (4 bytes).
+    Removing led.o(.revsh_text), (4 bytes).
+    Removing timer.o(.rev16_text), (4 bytes).
+    Removing timer.o(.revsh_text), (4 bytes).
+    Removing timer.o(.data), (1 bytes).
+    Removing infrared_ray_check.o(.rev16_text), (4 bytes).
+    Removing infrared_ray_check.o(.revsh_text), (4 bytes).
+    Removing lock.o(.rev16_text), (4 bytes).
+    Removing lock.o(.revsh_text), (4 bytes).
+    Removing lock.o(i.Lock_GPIO_Init), (44 bytes).
+    Removing address.o(.rev16_text), (4 bytes).
+    Removing address.o(.revsh_text), (4 bytes).
+    Removing swm181_cache.o(.rev16_text), (4 bytes).
+    Removing swm181_cache.o(.revsh_text), (4 bytes).
+    Removing swm181_cache.o(i.CACHE_Init), (44 bytes).
+    Removing swm181_cache.o(i.CACHE_Invalid), (68 bytes).
+    Removing swm181_cache.o(i.CACHE_InvalidSlotNumber), (20 bytes).
+    Removing swm181_cache.o(i.CACHE_Prefetch), (92 bytes).
+    Removing swm181_cache.o(i.CACHE_PrefetchSlotNumber), (20 bytes).
+    Removing swm181_cache.o(i.CACHE_Reset), (18 bytes).
+    Removing swm181_dma.o(.rev16_text), (4 bytes).
+    Removing swm181_dma.o(.revsh_text), (4 bytes).
+    Removing swm181_dma.o(i.DMA_CHM_Config), (116 bytes).
+    Removing swm181_dma.o(i.DMA_CH_Close), (80 bytes).
+    Removing swm181_dma.o(i.DMA_CH_Config), (192 bytes).
+    Removing swm181_dma.o(i.DMA_CH_INTClr), (70 bytes).
+    Removing swm181_dma.o(i.DMA_CH_INTDis), (176 bytes).
+    Removing swm181_dma.o(i.DMA_CH_INTEn), (176 bytes).
+    Removing swm181_dma.o(i.DMA_CH_INTStat), (92 bytes).
+    Removing swm181_dma.o(i.DMA_CH_Open), (80 bytes).
+    Removing swm181_exti.o(.rev16_text), (4 bytes).
+    Removing swm181_exti.o(.revsh_text), (4 bytes).
+    Removing swm181_exti.o(i.EXTI_RawState), (12 bytes).
+    Removing swm181_flash.o(.rev16_text), (4 bytes).
+    Removing swm181_flash.o(.revsh_text), (4 bytes).
+    Removing swm181_flash.o(PlaceInRAM), (172 bytes).
+    Removing swm181_flash.o(i.FLASH_Erase), (52 bytes).
+    Removing swm181_flash.o(i.FLASH_Read), (136 bytes).
+    Removing swm181_flash.o(i.FLASH_Write), (48 bytes).
+    Removing swm181_flash.o(.data), (4 bytes).
+    Removing swm181_gpio.o(.rev16_text), (4 bytes).
+    Removing swm181_gpio.o(.revsh_text), (4 bytes).
+    Removing swm181_gpio.o(i.GPIO_AtomicClrBit), (16 bytes).
+    Removing swm181_gpio.o(i.GPIO_AtomicClrBits), (32 bytes).
+    Removing swm181_gpio.o(i.GPIO_AtomicInvBit), (16 bytes).
+    Removing swm181_gpio.o(i.GPIO_AtomicInvBits), (32 bytes).
+    Removing swm181_gpio.o(i.GPIO_AtomicSetBit), (16 bytes).
+    Removing swm181_gpio.o(i.GPIO_AtomicSetBits), (32 bytes).
+    Removing swm181_gpio.o(i.GPIO_ClrBits), (28 bytes).
+    Removing swm181_gpio.o(i.GPIO_GetBits), (28 bytes).
+    Removing swm181_gpio.o(i.GPIO_InvBits), (28 bytes).
+    Removing swm181_gpio.o(i.GPIO_SetBits), (28 bytes).
+    Removing swm181_irqmux.o(.rev16_text), (4 bytes).
+    Removing swm181_irqmux.o(.revsh_text), (4 bytes).
+    Removing swm181_irqmux.o(i.IRQ_Which), (76 bytes).
+    Removing swm181_port.o(.rev16_text), (4 bytes).
+    Removing swm181_port.o(.revsh_text), (4 bytes).
+    Removing swm181_timr.o(.rev16_text), (4 bytes).
+    Removing swm181_timr.o(.revsh_text), (4 bytes).
+    Removing swm181_timr.o(i.TIMR_GetCurValue), (6 bytes).
+    Removing swm181_timr.o(i.TIMR_GetPeriod), (6 bytes).
+    Removing swm181_timr.o(i.TIMR_Halt), (92 bytes).
+    Removing swm181_timr.o(i.TIMR_INTDis), (92 bytes).
+    Removing swm181_timr.o(i.TIMR_INTEn), (92 bytes).
+    Removing swm181_timr.o(i.TIMR_Resume), (92 bytes).
+    Removing swm181_timr.o(i.TIMR_SetPeriod), (4 bytes).
+    Removing swm181_uart.o(.rev16_text), (4 bytes).
+    Removing swm181_uart.o(.revsh_text), (4 bytes).
+    Removing swm181_uart.o(i.UART_ABRIsDone), (38 bytes).
+    Removing swm181_uart.o(i.UART_ABRStart), (100 bytes).
+    Removing swm181_uart.o(i.UART_CTSConfig), (22 bytes).
+    Removing swm181_uart.o(i.UART_CTSLineState), (12 bytes).
+    Removing swm181_uart.o(i.UART_GetBaudrate), (10 bytes).
+    Removing swm181_uart.o(i.UART_INTRXThresholdDis), (10 bytes).
+    Removing swm181_uart.o(i.UART_INTRXThresholdEn), (10 bytes).
+    Removing swm181_uart.o(i.UART_INTTXDoneDis), (10 bytes).
+    Removing swm181_uart.o(i.UART_INTTXDoneEn), (10 bytes).
+    Removing swm181_uart.o(i.UART_INTTXDoneStat), (14 bytes).
+    Removing swm181_uart.o(i.UART_INTTXThresholdDis), (10 bytes).
+    Removing swm181_uart.o(i.UART_INTTXThresholdEn), (10 bytes).
+    Removing swm181_uart.o(i.UART_INTTXThresholdStat), (14 bytes).
+    Removing swm181_uart.o(i.UART_INTTimeoutDis), (12 bytes).
+    Removing swm181_uart.o(i.UART_INTTimeoutEn), (12 bytes).
+    Removing swm181_uart.o(i.UART_IsTXFIFOFull), (12 bytes).
+    Removing swm181_uart.o(i.UART_LINConfig), (22 bytes).
+    Removing swm181_uart.o(i.UART_LINGenerate), (10 bytes).
+    Removing swm181_uart.o(i.UART_LINIsDetected), (10 bytes).
+    Removing swm181_uart.o(i.UART_LINIsGenerated), (12 bytes).
+    Removing swm181_uart.o(i.UART_RTSConfig), (28 bytes).
+    Removing swm181_uart.o(i.UART_RTSLineState), (14 bytes).
+    Removing swm181_uart.o(i.UART_SetBaudrate), (40 bytes).
+    Removing swm181_wdt.o(.rev16_text), (4 bytes).
+    Removing swm181_wdt.o(.revsh_text), (4 bytes).
+    Removing swm181_wdt.o(i.WDT_GetValue), (6 bytes).
+    Removing swm181_wdt.o(i.WDT_INTStat), (6 bytes).
+    Removing startup_swm181.o(HEAP), (0 bytes).
+    Removing system_swm181.o(.rev16_text), (4 bytes).
+    Removing system_swm181.o(.revsh_text), (4 bytes).
+
+117 unused section(s) (total 3211 bytes) removed from the image.
+
+==============================================================================
+
+Image Symbol Table
+
+    Local Symbols
+
+    Symbol Name                              Value     Ov Type        Size  Object(Section)
+
+    RESET                                    0x00000000   Section      200  startup_swm181.o(RESET)
+    ../clib/microlib/division.c              0x00000000   Number         0  uidiv.o ABSOLUTE
+    ../clib/microlib/division.c              0x00000000   Number         0  idiv.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry5.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry10a.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry9b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry7a.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry9a.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry11b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry10b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry8b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry8a.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry7b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry2.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry11a.o ABSOLUTE
+    ../clib/microlib/string/memcpy.c         0x00000000   Number         0  memcpyb.o ABSOLUTE
+    ../clib/microlib/string/memcpy.c         0x00000000   Number         0  memcpya.o ABSOLUTE
+    ../clib/microlib/string/memset.c         0x00000000   Number         0  memseta.o ABSOLUTE
+    ../clib/microlib/unhosted.c              0x00000000   Number         0  uwrite4.o ABSOLUTE
+    ../clib/microlib/unhosted.c              0x00000000   Number         0  uread4.o ABSOLUTE
+    ..\Application\Drivers\Source\address.c  0x00000000   Number         0  address.o ABSOLUTE
+    ..\Application\Drivers\Source\infrared_ray_check.c 0x00000000   Number         0  infrared_ray_check.o ABSOLUTE
+    ..\Application\Drivers\Source\led.c      0x00000000   Number         0  led.o ABSOLUTE
+    ..\Application\Drivers\Source\lock.c     0x00000000   Number         0  lock.o ABSOLUTE
+    ..\Application\Drivers\Source\motor_driver.c 0x00000000   Number         0  motor_driver.o ABSOLUTE
+    ..\Application\Drivers\Source\rs485.c    0x00000000   Number         0  rs485.o ABSOLUTE
+    ..\Application\Drivers\Source\timer.c    0x00000000   Number         0  timer.o ABSOLUTE
+    ..\Application\Drivers\Source\uart.c     0x00000000   Number         0  uart.o ABSOLUTE
+    ..\Application\ambient.c                 0x00000000   Number         0  ambient.o ABSOLUTE
+    ..\Application\main.c                    0x00000000   Number         0  main.o ABSOLUTE
+    ..\Application\swm_it.c                  0x00000000   Number         0  swm_it.o ABSOLUTE
+    ..\Application\vm.c                      0x00000000   Number         0  vm.o ABSOLUTE
+    ..\\Application\\Drivers\\Source\\address.c 0x00000000   Number         0  address.o ABSOLUTE
+    ..\\Application\\Drivers\\Source\\infrared_ray_check.c 0x00000000   Number         0  infrared_ray_check.o ABSOLUTE
+    ..\\Application\\Drivers\\Source\\led.c  0x00000000   Number         0  led.o ABSOLUTE
+    ..\\Application\\Drivers\\Source\\lock.c 0x00000000   Number         0  lock.o ABSOLUTE
+    ..\\Application\\Drivers\\Source\\motor_driver.c 0x00000000   Number         0  motor_driver.o ABSOLUTE
+    ..\\Application\\Drivers\\Source\\rs485.c 0x00000000   Number         0  rs485.o ABSOLUTE
+    ..\\Application\\Drivers\\Source\\timer.c 0x00000000   Number         0  timer.o ABSOLUTE
+    ..\\Application\\Drivers\\Source\\uart.c 0x00000000   Number         0  uart.o ABSOLUTE
+    ..\\Application\\ambient.c               0x00000000   Number         0  ambient.o ABSOLUTE
+    ..\\Application\\main.c                  0x00000000   Number         0  main.o ABSOLUTE
+    ..\\Application\\swm_it.c                0x00000000   Number         0  swm_it.o ABSOLUTE
+    ..\\Application\\vm.c                    0x00000000   Number         0  vm.o ABSOLUTE
+    E:\IDE\Keil_v5\ARM\PACK\Synwit\SWM32_DFP\1.7.4\CSL\SWM181\SWM181_StdPeriph_Driver\SWM181_cache.c 0x00000000   Number         0  swm181_cache.o ABSOLUTE
+    E:\IDE\Keil_v5\ARM\PACK\Synwit\SWM32_DFP\1.7.4\CSL\SWM181\SWM181_StdPeriph_Driver\SWM181_dma.c 0x00000000   Number         0  swm181_dma.o ABSOLUTE
+    E:\IDE\Keil_v5\ARM\PACK\Synwit\SWM32_DFP\1.7.4\CSL\SWM181\SWM181_StdPeriph_Driver\SWM181_exti.c 0x00000000   Number         0  swm181_exti.o ABSOLUTE
+    E:\IDE\Keil_v5\ARM\PACK\Synwit\SWM32_DFP\1.7.4\CSL\SWM181\SWM181_StdPeriph_Driver\SWM181_flash.c 0x00000000   Number         0  swm181_flash.o ABSOLUTE
+    E:\IDE\Keil_v5\ARM\PACK\Synwit\SWM32_DFP\1.7.4\CSL\SWM181\SWM181_StdPeriph_Driver\SWM181_gpio.c 0x00000000   Number         0  swm181_gpio.o ABSOLUTE
+    E:\IDE\Keil_v5\ARM\PACK\Synwit\SWM32_DFP\1.7.4\CSL\SWM181\SWM181_StdPeriph_Driver\SWM181_irqmux.c 0x00000000   Number         0  swm181_irqmux.o ABSOLUTE
+    E:\IDE\Keil_v5\ARM\PACK\Synwit\SWM32_DFP\1.7.4\CSL\SWM181\SWM181_StdPeriph_Driver\SWM181_port.c 0x00000000   Number         0  swm181_port.o ABSOLUTE
+    E:\IDE\Keil_v5\ARM\PACK\Synwit\SWM32_DFP\1.7.4\CSL\SWM181\SWM181_StdPeriph_Driver\SWM181_timr.c 0x00000000   Number         0  swm181_timr.o ABSOLUTE
+    E:\IDE\Keil_v5\ARM\PACK\Synwit\SWM32_DFP\1.7.4\CSL\SWM181\SWM181_StdPeriph_Driver\SWM181_uart.c 0x00000000   Number         0  swm181_uart.o ABSOLUTE
+    E:\IDE\Keil_v5\ARM\PACK\Synwit\SWM32_DFP\1.7.4\CSL\SWM181\SWM181_StdPeriph_Driver\SWM181_wdt.c 0x00000000   Number         0  swm181_wdt.o ABSOLUTE
+    E:\\IDE\\Keil_v5\\ARM\\PACK\\Synwit\\SWM32_DFP\\1.7.4\\CSL\\SWM181\\SWM181_StdPeriph_Driver\\SWM181_cache.c 0x00000000   Number         0  swm181_cache.o ABSOLUTE
+    E:\\IDE\\Keil_v5\\ARM\\PACK\\Synwit\\SWM32_DFP\\1.7.4\\CSL\\SWM181\\SWM181_StdPeriph_Driver\\SWM181_dma.c 0x00000000   Number         0  swm181_dma.o ABSOLUTE
+    E:\\IDE\\Keil_v5\\ARM\\PACK\\Synwit\\SWM32_DFP\\1.7.4\\CSL\\SWM181\\SWM181_StdPeriph_Driver\\SWM181_exti.c 0x00000000   Number         0  swm181_exti.o ABSOLUTE
+    E:\\IDE\\Keil_v5\\ARM\\PACK\\Synwit\\SWM32_DFP\\1.7.4\\CSL\\SWM181\\SWM181_StdPeriph_Driver\\SWM181_flash.c 0x00000000   Number         0  swm181_flash.o ABSOLUTE
+    E:\\IDE\\Keil_v5\\ARM\\PACK\\Synwit\\SWM32_DFP\\1.7.4\\CSL\\SWM181\\SWM181_StdPeriph_Driver\\SWM181_gpio.c 0x00000000   Number         0  swm181_gpio.o ABSOLUTE
+    E:\\IDE\\Keil_v5\\ARM\\PACK\\Synwit\\SWM32_DFP\\1.7.4\\CSL\\SWM181\\SWM181_StdPeriph_Driver\\SWM181_irqmux.c 0x00000000   Number         0  swm181_irqmux.o ABSOLUTE
+    E:\\IDE\\Keil_v5\\ARM\\PACK\\Synwit\\SWM32_DFP\\1.7.4\\CSL\\SWM181\\SWM181_StdPeriph_Driver\\SWM181_port.c 0x00000000   Number         0  swm181_port.o ABSOLUTE
+    E:\\IDE\\Keil_v5\\ARM\\PACK\\Synwit\\SWM32_DFP\\1.7.4\\CSL\\SWM181\\SWM181_StdPeriph_Driver\\SWM181_timr.c 0x00000000   Number         0  swm181_timr.o ABSOLUTE
+    E:\\IDE\\Keil_v5\\ARM\\PACK\\Synwit\\SWM32_DFP\\1.7.4\\CSL\\SWM181\\SWM181_StdPeriph_Driver\\SWM181_uart.c 0x00000000   Number         0  swm181_uart.o ABSOLUTE
+    E:\\IDE\\Keil_v5\\ARM\\PACK\\Synwit\\SWM32_DFP\\1.7.4\\CSL\\SWM181\\SWM181_StdPeriph_Driver\\SWM181_wdt.c 0x00000000   Number         0  swm181_wdt.o ABSOLUTE
+    RTE\Device\SWM181xB\startup_SWM181.s     0x00000000   Number         0  startup_swm181.o ABSOLUTE
+    RTE\Device\SWM181xB\system_SWM181.c      0x00000000   Number         0  system_swm181.o ABSOLUTE
+    RTE\\Device\\SWM181xB\\system_SWM181.c   0x00000000   Number         0  system_swm181.o ABSOLUTE
+    dc.s                                     0x00000000   Number         0  dc.o ABSOLUTE
+    handlers.s                               0x00000000   Number         0  handlers.o ABSOLUTE
+    init.s                                   0x00000000   Number         0  init.o ABSOLUTE
+    .ARM.Collect$$$$00000000                 0x000000c8   Section        0  entry.o(.ARM.Collect$$$$00000000)
+    .ARM.Collect$$$$00000001                 0x000000c8   Section        4  entry2.o(.ARM.Collect$$$$00000001)
+    .ARM.Collect$$$$00000004                 0x000000cc   Section        4  entry5.o(.ARM.Collect$$$$00000004)
+    .ARM.Collect$$$$00000008                 0x000000d0   Section        0  entry7b.o(.ARM.Collect$$$$00000008)
+    .ARM.Collect$$$$0000000A                 0x000000d0   Section        0  entry8b.o(.ARM.Collect$$$$0000000A)
+    .ARM.Collect$$$$0000000B                 0x000000d0   Section        8  entry9a.o(.ARM.Collect$$$$0000000B)
+    .ARM.Collect$$$$0000000D                 0x000000d8   Section        0  entry10a.o(.ARM.Collect$$$$0000000D)
+    .ARM.Collect$$$$0000000F                 0x000000d8   Section        0  entry11a.o(.ARM.Collect$$$$0000000F)
+    .ARM.Collect$$$$00002712                 0x000000d8   Section        4  entry2.o(.ARM.Collect$$$$00002712)
+    __lit__00000000                          0x000000d8   Data           4  entry2.o(.ARM.Collect$$$$00002712)
+    .text                                    0x000000dc   Section       80  startup_swm181.o(.text)
+    .text                                    0x0000012c   Section        0  uidiv.o(.text)
+    .text                                    0x00000158   Section        0  idiv.o(.text)
+    .text                                    0x00000180   Section        0  memcpya.o(.text)
+    .text                                    0x000001a4   Section        0  memseta.o(.text)
+    .text                                    0x000001c8   Section        0  uread4.o(.text)
+    .text                                    0x000001dc   Section        0  uwrite4.o(.text)
+    .text                                    0x000001f0   Section       36  init.o(.text)
+    i.Address_GPIO_Init                      0x00000214   Section        0  address.o(i.Address_GPIO_Init)
+    i.Driver_GPIO_Init                       0x00000240   Section        0  motor_driver.o(i.Driver_GPIO_Init)
+    Driver_GPIO_Init                         0x00000241   Thumb Code   132  motor_driver.o(i.Driver_GPIO_Init)
+    i.EXTI_Clear                             0x000002c8   Section        0  swm181_exti.o(i.EXTI_Clear)
+    i.EXTI_Close                             0x000002d0   Section        0  swm181_exti.o(i.EXTI_Close)
+    i.EXTI_Init                              0x000002dc   Section        0  swm181_exti.o(i.EXTI_Init)
+    i.EXTI_Open                              0x00000366   Section        0  swm181_exti.o(i.EXTI_Open)
+    i.EXTI_State                             0x00000372   Section        0  swm181_exti.o(i.EXTI_State)
+    i.GPIO_ClrBit                            0x0000037e   Section        0  swm181_gpio.o(i.GPIO_ClrBit)
+    i.GPIO_GetBit                            0x0000038a   Section        0  swm181_gpio.o(i.GPIO_GetBit)
+    i.GPIO_Init                              0x00000398   Section        0  swm181_gpio.o(i.GPIO_Init)
+    i.GPIO_InvBit                            0x000004f0   Section        0  swm181_gpio.o(i.GPIO_InvBit)
+    i.GPIO_SetBit                            0x000004fc   Section        0  swm181_gpio.o(i.GPIO_SetBit)
+    i.Get_Driver_Addr                        0x00000508   Section        0  address.o(i.Get_Driver_Addr)
+    i.IRQ28_Handler                          0x00000530   Section        0  swm_it.o(i.IRQ28_Handler)
+    i.IRQ29_Handler                          0x00000594   Section        0  swm_it.o(i.IRQ29_Handler)
+    i.IRQ4_Handler                           0x000005ec   Section        0  swm_it.o(i.IRQ4_Handler)
+    i.IRQ5_Handler                           0x00000768   Section        0  swm_it.o(i.IRQ5_Handler)
+    i.IRQ7_Handler                           0x000007f8   Section        0  swm_it.o(i.IRQ7_Handler)
+    i.IRQ8_Handler                           0x00000810   Section        0  swm_it.o(i.IRQ8_Handler)
+    i.IRQ_Connect                            0x000008f0   Section        0  swm181_irqmux.o(i.IRQ_Connect)
+    i.IR_EXTI_Init                           0x0000097c   Section        0  infrared_ray_check.o(i.IR_EXTI_Init)
+    IR_EXTI_Init                             0x0000097d   Thumb Code    24  infrared_ray_check.o(i.IR_EXTI_Init)
+    i.IR_GPIO_Init                           0x00000998   Section        0  infrared_ray_check.o(i.IR_GPIO_Init)
+    IR_GPIO_Init                             0x00000999   Thumb Code    32  infrared_ray_check.o(i.IR_GPIO_Init)
+    i.IR_check_init                          0x000009bc   Section        0  infrared_ray_check.o(i.IR_check_init)
+    i.LED_Init                               0x000009c8   Section        0  led.o(i.LED_Init)
+    i.MotorFB_EXTI_Init                      0x000009ec   Section        0  motor_driver.o(i.MotorFB_EXTI_Init)
+    MotorFB_EXTI_Init                        0x000009ed   Thumb Code   142  motor_driver.o(i.MotorFB_EXTI_Init)
+    i.MotorFB_GPIO_Init                      0x00000a80   Section        0  motor_driver.o(i.MotorFB_GPIO_Init)
+    MotorFB_GPIO_Init                        0x00000a81   Thumb Code    52  motor_driver.o(i.MotorFB_GPIO_Init)
+    i.Motor_Driver_GPIO_Init                 0x00000ab8   Section        0  motor_driver.o(i.Motor_Driver_GPIO_Init)
+    i.Motor_FB_EXTI_Disable                  0x00000ac8   Section        0  motor_driver.o(i.Motor_FB_EXTI_Disable)
+    i.Motor_FB_EXTI_Enable                   0x00000af8   Section        0  motor_driver.o(i.Motor_FB_EXTI_Enable)
+    i.Motor_Off                              0x00000b28   Section        0  motor_driver.o(i.Motor_Off)
+    i.Motor_On                               0x00000bf4   Section        0  motor_driver.o(i.Motor_On)
+    i.PORT_Init                              0x00000cac   Section        0  swm181_port.o(i.PORT_Init)
+    i.RS485_CH1_GetData                      0x00000f5c   Section        0  rs485.o(i.RS485_CH1_GetData)
+    i.RS485_CH1_Recv                         0x00000fa4   Section        0  vm.o(i.RS485_CH1_Recv)
+    i.RS485_CH1_Reply                        0x00001064   Section        0  vm.o(i.RS485_CH1_Reply)
+    i.RS485_Ch1_SendData                     0x00001104   Section        0  rs485.o(i.RS485_Ch1_SendData)
+    i.RS485_Chnnel1_Cfg                      0x00001130   Section        0  rs485.o(i.RS485_Chnnel1_Cfg)
+    i.RS485_Chnnel2_Cfg                      0x00001174   Section        0  rs485.o(i.RS485_Chnnel2_Cfg)
+    i.SendData                               0x000011b8   Section        0  uart.o(i.SendData)
+    i.SysTick_Handler                        0x000011e4   Section        0  swm_it.o(i.SysTick_Handler)
+    i.SystemCoreClockUpdate                  0x000011e8   Section        0  system_swm181.o(i.SystemCoreClockUpdate)
+    i.SystemInit                             0x00001270   Section        0  system_swm181.o(i.SystemInit)
+    i.TIM2_init                              0x0000133c   Section        0  timer.o(i.TIM2_init)
+    i.TIMR_Delay_init                        0x0000136c   Section        0  timer.o(i.TIMR_Delay_init)
+    i.TIMR_INTClr                            0x000013a0   Section        0  swm181_timr.o(i.TIMR_INTClr)
+    i.TIMR_INTStat                           0x000013e4   Section        0  swm181_timr.o(i.TIMR_INTStat)
+    i.TIMR_Init                              0x00001438   Section        0  swm181_timr.o(i.TIMR_Init)
+    i.TIMR_Start                             0x0000150c   Section        0  swm181_timr.o(i.TIMR_Start)
+    i.TIMR_Stop                              0x00001516   Section        0  swm181_timr.o(i.TIMR_Stop)
+    i.UART_Close                             0x00001520   Section        0  swm181_uart.o(i.UART_Close)
+    i.UART_INTRXThresholdStat                0x0000152c   Section        0  swm181_uart.o(i.UART_INTRXThresholdStat)
+    i.UART_INTTimeoutStat                    0x0000153a   Section        0  swm181_uart.o(i.UART_INTTimeoutStat)
+    i.UART_Init                              0x00001548   Section        0  swm181_uart.o(i.UART_Init)
+    i.UART_IsRXFIFOEmpty                     0x00001654   Section        0  swm181_uart.o(i.UART_IsRXFIFOEmpty)
+    i.UART_IsTXBusy                          0x00001660   Section        0  swm181_uart.o(i.UART_IsTXBusy)
+    i.UART_Open                              0x0000166e   Section        0  swm181_uart.o(i.UART_Open)
+    i.UART_ReadByte                          0x0000167a   Section        0  swm181_uart.o(i.UART_ReadByte)
+    i.UART_WriteByte                         0x00001696   Section        0  swm181_uart.o(i.UART_WriteByte)
+    i.WDT_Feed                               0x0000169a   Section        0  swm181_wdt.o(i.WDT_Feed)
+    i.WDT_INTClr                             0x000016a0   Section        0  swm181_wdt.o(i.WDT_INTClr)
+    i.WDT_Init                               0x000016a6   Section        0  swm181_wdt.o(i.WDT_Init)
+    i.WDT_Start                              0x000016e4   Section        0  swm181_wdt.o(i.WDT_Start)
+    i.WDT_Stop                               0x000016ee   Section        0  swm181_wdt.o(i.WDT_Stop)
+    i.__ARM_common_switch8                   0x000016f8   Section        0  swm181_dma.o(i.__ARM_common_switch8)
+    i.__NVIC_DisableIRQ                      0x00001714   Section        0  rs485.o(i.__NVIC_DisableIRQ)
+    __NVIC_DisableIRQ                        0x00001715   Thumb Code    50  rs485.o(i.__NVIC_DisableIRQ)
+    i.__NVIC_EnableIRQ                       0x0000174c   Section        0  rs485.o(i.__NVIC_EnableIRQ)
+    __NVIC_EnableIRQ                         0x0000174d   Thumb Code    18  rs485.o(i.__NVIC_EnableIRQ)
+    i.__NVIC_SetPriority                     0x00001764   Section        0  swm181_irqmux.o(i.__NVIC_SetPriority)
+    __NVIC_SetPriority                       0x00001765   Thumb Code   110  swm181_irqmux.o(i.__NVIC_SetPriority)
+    i.__scatterload_copy                     0x000017dc   Section       14  handlers.o(i.__scatterload_copy)
+    i.__scatterload_null                     0x000017ea   Section        2  handlers.o(i.__scatterload_null)
+    i.__scatterload_zeroinit                 0x000017ec   Section       14  handlers.o(i.__scatterload_zeroinit)
+    i.board_init                             0x000017fc   Section        0  main.o(i.board_init)
+    board_init                               0x000017fd   Thumb Code    96  main.o(i.board_init)
+    i.crc16tablefast                         0x00001870   Section        0  vm.o(i.crc16tablefast)
+    i.frame_check                            0x000018b8   Section        0  vm.o(i.frame_check)
+    i.frame_default                          0x000018fc   Section        0  vm.o(i.frame_default)
+    i.main                                   0x00001934   Section        0  main.o(i.main)
+    i.open_the_door                          0x00001980   Section        0  lock.o(i.open_the_door)
+    i.switchToRC12MHz                        0x0000199c   Section        0  system_swm181.o(i.switchToRC12MHz)
+    switchToRC12MHz                          0x0000199d   Thumb Code    34  system_swm181.o(i.switchToRC12MHz)
+    i.switchToRC24MHz                        0x000019c4   Section        0  system_swm181.o(i.switchToRC24MHz)
+    switchToRC24MHz                          0x000019c5   Thumb Code    32  system_swm181.o(i.switchToRC24MHz)
+    i.switchToRC32KHz                        0x000019e8   Section        0  system_swm181.o(i.switchToRC32KHz)
+    switchToRC32KHz                          0x000019e9   Thumb Code    34  system_swm181.o(i.switchToRC32KHz)
+    i.switchToRC48MHz                        0x00001a10   Section        0  system_swm181.o(i.switchToRC48MHz)
+    switchToRC48MHz                          0x00001a11   Thumb Code    34  system_swm181.o(i.switchToRC48MHz)
+    i.switchToRC6MHz                         0x00001a38   Section        0  system_swm181.o(i.switchToRC6MHz)
+    switchToRC6MHz                           0x00001a39   Thumb Code    32  system_swm181.o(i.switchToRC6MHz)
+    i.switchToXTAL                           0x00001a5c   Section        0  system_swm181.o(i.switchToXTAL)
+    switchToXTAL                             0x00001a5d   Thumb Code    72  system_swm181.o(i.switchToXTAL)
+    i.uart_init                              0x00001ab0   Section        0  uart.o(i.uart_init)
+    i.write_frame_checkcode                  0x00001b78   Section        0  vm.o(i.write_frame_checkcode)
+    .constdata                               0x00001b8c   Section       32  vm.o(.constdata)
+    crctalbeabs                              0x00001b8c   Data          32  vm.o(.constdata)
+    .constdata                               0x00001bac   Section      264  motor_driver.o(.constdata)
+    .data                                    0x20000000   Section        5  main.o(.data)
+    .data                                    0x20000005   Section        9  vm.o(.data)
+    .data                                    0x2000000e   Section       11  motor_driver.o(.data)
+    .data                                    0x2000001c   Section       12  rs485.o(.data)
+    .data                                    0x20000028   Section        1  infrared_ray_check.o(.data)
+    .data                                    0x2000002c   Section        8  system_swm181.o(.data)
+    .bss                                     0x20000034   Section       17  vm.o(.bss)
+    .bss                                     0x20000045   Section       64  rs485.o(.bss)
+    STACK                                    0x20000088   Section     2048  startup_swm181.o(STACK)
+    Stack_Mem                                0x20000088   Data        2048  startup_swm181.o(STACK)
+
+    Global Symbols
+
+    Symbol Name                              Value     Ov Type        Size  Object(Section)
+
+    BuildAttributes$$THM_ISAv3M$S$PE$A:L22$X:L11$S22$IEEE1$IW$USESV6$~STKCKD$USESV7$~SHL$OSPACE$EBA8$MICROLIB$REQ8$PRES8$EABIv2 0x00000000   Number         0  anon$$obj.o ABSOLUTE
+    __ARM_use_no_argv                        0x00000000   Number         0  main.o ABSOLUTE
+    __Vectors                                0x00000000   Data           4  startup_swm181.o(RESET)
+    __cpp_initialize__aeabi_                  - Undefined Weak Reference
+    __cxa_finalize                            - Undefined Weak Reference
+    __decompress                              - Undefined Weak Reference
+    _clock_init                               - Undefined Weak Reference
+    _microlib_exit                            - Undefined Weak Reference
+    Reset_Handler                            0x000000c1   Thumb Code     4  startup_swm181.o(RESET)
+    __Vectors_End                            0x000000c1   Thumb Code     0  startup_swm181.o(RESET)
+    __Vectors_Size                           0x000000c0   Number         0  startup_swm181.o ABSOLUTE
+    __main                                   0x000000c9   Thumb Code     0  entry.o(.ARM.Collect$$$$00000000)
+    _main_stk                                0x000000c9   Thumb Code     0  entry2.o(.ARM.Collect$$$$00000001)
+    _main_scatterload                        0x000000cd   Thumb Code     0  entry5.o(.ARM.Collect$$$$00000004)
+    __main_after_scatterload                 0x000000d1   Thumb Code     0  entry5.o(.ARM.Collect$$$$00000004)
+    _main_clock                              0x000000d1   Thumb Code     0  entry7b.o(.ARM.Collect$$$$00000008)
+    _main_cpp_init                           0x000000d1   Thumb Code     0  entry8b.o(.ARM.Collect$$$$0000000A)
+    _main_init                               0x000000d1   Thumb Code     0  entry9a.o(.ARM.Collect$$$$0000000B)
+    __rt_final_cpp                           0x000000d9   Thumb Code     0  entry10a.o(.ARM.Collect$$$$0000000D)
+    __rt_final_exit                          0x000000d9   Thumb Code     0  entry11a.o(.ARM.Collect$$$$0000000F)
+    NMI_Handler                              0x000000dd   Thumb Code     2  startup_swm181.o(.text)
+    HardFault_Handler                        0x000000df   Thumb Code     2  startup_swm181.o(.text)
+    SVC_Handler                              0x000000e1   Thumb Code     2  startup_swm181.o(.text)
+    PendSV_Handler                           0x000000e3   Thumb Code     2  startup_swm181.o(.text)
+    IRQ0_Handler                             0x000000e7   Thumb Code     2  startup_swm181.o(.text)
+    IRQ1_Handler                             0x000000e9   Thumb Code     2  startup_swm181.o(.text)
+    IRQ2_Handler                             0x000000eb   Thumb Code     2  startup_swm181.o(.text)
+    IRQ3_Handler                             0x000000ed   Thumb Code     2  startup_swm181.o(.text)
+    IRQ6_Handler                             0x000000f3   Thumb Code     2  startup_swm181.o(.text)
+    IRQ9_Handler                             0x000000f9   Thumb Code     2  startup_swm181.o(.text)
+    IRQ10_Handler                            0x000000fb   Thumb Code     2  startup_swm181.o(.text)
+    IRQ11_Handler                            0x000000fd   Thumb Code     2  startup_swm181.o(.text)
+    IRQ12_Handler                            0x000000ff   Thumb Code     2  startup_swm181.o(.text)
+    IRQ13_Handler                            0x00000101   Thumb Code     2  startup_swm181.o(.text)
+    IRQ14_Handler                            0x00000103   Thumb Code     2  startup_swm181.o(.text)
+    IRQ15_Handler                            0x00000105   Thumb Code     2  startup_swm181.o(.text)
+    IRQ16_Handler                            0x00000107   Thumb Code     2  startup_swm181.o(.text)
+    IRQ17_Handler                            0x00000109   Thumb Code     2  startup_swm181.o(.text)
+    IRQ18_Handler                            0x0000010b   Thumb Code     2  startup_swm181.o(.text)
+    IRQ19_Handler                            0x0000010d   Thumb Code     2  startup_swm181.o(.text)
+    IRQ20_Handler                            0x0000010f   Thumb Code     2  startup_swm181.o(.text)
+    IRQ21_Handler                            0x00000111   Thumb Code     2  startup_swm181.o(.text)
+    IRQ22_Handler                            0x00000113   Thumb Code     2  startup_swm181.o(.text)
+    IRQ23_Handler                            0x00000115   Thumb Code     2  startup_swm181.o(.text)
+    IRQ24_Handler                            0x00000117   Thumb Code     2  startup_swm181.o(.text)
+    IRQ25_Handler                            0x00000119   Thumb Code     2  startup_swm181.o(.text)
+    IRQ26_Handler                            0x0000011b   Thumb Code     2  startup_swm181.o(.text)
+    IRQ27_Handler                            0x0000011d   Thumb Code     2  startup_swm181.o(.text)
+    IRQ30_Handler                            0x00000127   Thumb Code     2  startup_swm181.o(.text)
+    IRQ31_Handler                            0x00000129   Thumb Code     2  startup_swm181.o(.text)
+    __aeabi_uidiv                            0x0000012d   Thumb Code     0  uidiv.o(.text)
+    __aeabi_uidivmod                         0x0000012d   Thumb Code    44  uidiv.o(.text)
+    __aeabi_idiv                             0x00000159   Thumb Code     0  idiv.o(.text)
+    __aeabi_idivmod                          0x00000159   Thumb Code    40  idiv.o(.text)
+    __aeabi_memcpy                           0x00000181   Thumb Code    36  memcpya.o(.text)
+    __aeabi_memcpy4                          0x00000181   Thumb Code     0  memcpya.o(.text)
+    __aeabi_memcpy8                          0x00000181   Thumb Code     0  memcpya.o(.text)
+    __aeabi_memset                           0x000001a5   Thumb Code    14  memseta.o(.text)
+    __aeabi_memset4                          0x000001a5   Thumb Code     0  memseta.o(.text)
+    __aeabi_memset8                          0x000001a5   Thumb Code     0  memseta.o(.text)
+    __aeabi_memclr                           0x000001b3   Thumb Code     4  memseta.o(.text)
+    __aeabi_memclr4                          0x000001b3   Thumb Code     0  memseta.o(.text)
+    __aeabi_memclr8                          0x000001b3   Thumb Code     0  memseta.o(.text)
+    _memset$wrapper                          0x000001b7   Thumb Code    18  memseta.o(.text)
+    __aeabi_uread4                           0x000001c9   Thumb Code    20  uread4.o(.text)
+    __rt_uread4                              0x000001c9   Thumb Code     0  uread4.o(.text)
+    _uread4                                  0x000001c9   Thumb Code     0  uread4.o(.text)
+    __aeabi_uwrite4                          0x000001dd   Thumb Code    18  uwrite4.o(.text)
+    __rt_uwrite4                             0x000001dd   Thumb Code     0  uwrite4.o(.text)
+    _uwrite4                                 0x000001dd   Thumb Code     0  uwrite4.o(.text)
+    __scatterload                            0x000001f1   Thumb Code    28  init.o(.text)
+    __scatterload_rt2                        0x000001f1   Thumb Code     0  init.o(.text)
+    Address_GPIO_Init                        0x00000215   Thumb Code    40  address.o(i.Address_GPIO_Init)
+    EXTI_Clear                               0x000002c9   Thumb Code     8  swm181_exti.o(i.EXTI_Clear)
+    EXTI_Close                               0x000002d1   Thumb Code    12  swm181_exti.o(i.EXTI_Close)
+    EXTI_Init                                0x000002dd   Thumb Code   138  swm181_exti.o(i.EXTI_Init)
+    EXTI_Open                                0x00000367   Thumb Code    12  swm181_exti.o(i.EXTI_Open)
+    EXTI_State                               0x00000373   Thumb Code    12  swm181_exti.o(i.EXTI_State)
+    GPIO_ClrBit                              0x0000037f   Thumb Code    12  swm181_gpio.o(i.GPIO_ClrBit)
+    GPIO_GetBit                              0x0000038b   Thumb Code    12  swm181_gpio.o(i.GPIO_GetBit)
+    GPIO_Init                                0x00000399   Thumb Code   332  swm181_gpio.o(i.GPIO_Init)
+    GPIO_InvBit                              0x000004f1   Thumb Code    12  swm181_gpio.o(i.GPIO_InvBit)
+    GPIO_SetBit                              0x000004fd   Thumb Code    12  swm181_gpio.o(i.GPIO_SetBit)
+    Get_Driver_Addr                          0x00000509   Thumb Code    34  address.o(i.Get_Driver_Addr)
+    IRQ28_Handler                            0x00000531   Thumb Code    82  swm_it.o(i.IRQ28_Handler)
+    IRQ29_Handler                            0x00000595   Thumb Code    76  swm_it.o(i.IRQ29_Handler)
+    IRQ4_Handler                             0x000005ed   Thumb Code   322  swm_it.o(i.IRQ4_Handler)
+    IRQ5_Handler                             0x00000769   Thumb Code   118  swm_it.o(i.IRQ5_Handler)
+    IRQ7_Handler                             0x000007f9   Thumb Code    20  swm_it.o(i.IRQ7_Handler)
+    IRQ8_Handler                             0x00000811   Thumb Code   162  swm_it.o(i.IRQ8_Handler)
+    IRQ_Connect                              0x000008f1   Thumb Code   134  swm181_irqmux.o(i.IRQ_Connect)
+    IR_check_init                            0x000009bd   Thumb Code    12  infrared_ray_check.o(i.IR_check_init)
+    LED_Init                                 0x000009c9   Thumb Code    30  led.o(i.LED_Init)
+    Motor_Driver_GPIO_Init                   0x00000ab9   Thumb Code    16  motor_driver.o(i.Motor_Driver_GPIO_Init)
+    Motor_FB_EXTI_Disable                    0x00000ac9   Thumb Code    44  motor_driver.o(i.Motor_FB_EXTI_Disable)
+    Motor_FB_EXTI_Enable                     0x00000af9   Thumb Code    44  motor_driver.o(i.Motor_FB_EXTI_Enable)
+    Motor_Off                                0x00000b29   Thumb Code   188  motor_driver.o(i.Motor_Off)
+    Motor_On                                 0x00000bf5   Thumb Code   172  motor_driver.o(i.Motor_On)
+    PORT_Init                                0x00000cad   Thumb Code   678  swm181_port.o(i.PORT_Init)
+    RS485_CH1_GetData                        0x00000f5d   Thumb Code    62  rs485.o(i.RS485_CH1_GetData)
+    RS485_CH1_Recv                           0x00000fa5   Thumb Code   166  vm.o(i.RS485_CH1_Recv)
+    RS485_CH1_Reply                          0x00001065   Thumb Code   140  vm.o(i.RS485_CH1_Reply)
+    RS485_Ch1_SendData                       0x00001105   Thumb Code    34  rs485.o(i.RS485_Ch1_SendData)
+    RS485_Chnnel1_Cfg                        0x00001131   Thumb Code    58  rs485.o(i.RS485_Chnnel1_Cfg)
+    RS485_Chnnel2_Cfg                        0x00001175   Thumb Code    58  rs485.o(i.RS485_Chnnel2_Cfg)
+    SendData                                 0x000011b9   Thumb Code    44  uart.o(i.SendData)
+    SysTick_Handler                          0x000011e5   Thumb Code     2  swm_it.o(i.SysTick_Handler)
+    SystemCoreClockUpdate                    0x000011e9   Thumb Code   112  system_swm181.o(i.SystemCoreClockUpdate)
+    SystemInit                               0x00001271   Thumb Code   198  system_swm181.o(i.SystemInit)
+    TIM2_init                                0x0000133d   Thumb Code    38  timer.o(i.TIM2_init)
+    TIMR_Delay_init                          0x0000136d   Thumb Code    44  timer.o(i.TIMR_Delay_init)
+    TIMR_INTClr                              0x000013a1   Thumb Code    58  swm181_timr.o(i.TIMR_INTClr)
+    TIMR_INTStat                             0x000013e5   Thumb Code    74  swm181_timr.o(i.TIMR_INTStat)
+    TIMR_Init                                0x00001439   Thumb Code   204  swm181_timr.o(i.TIMR_Init)
+    TIMR_Start                               0x0000150d   Thumb Code    10  swm181_timr.o(i.TIMR_Start)
+    TIMR_Stop                                0x00001517   Thumb Code    10  swm181_timr.o(i.TIMR_Stop)
+    UART_Close                               0x00001521   Thumb Code    12  swm181_uart.o(i.UART_Close)
+    UART_INTRXThresholdStat                  0x0000152d   Thumb Code    14  swm181_uart.o(i.UART_INTRXThresholdStat)
+    UART_INTTimeoutStat                      0x0000153b   Thumb Code    14  swm181_uart.o(i.UART_INTTimeoutStat)
+    UART_Init                                0x00001549   Thumb Code   254  swm181_uart.o(i.UART_Init)
+    UART_IsRXFIFOEmpty                       0x00001655   Thumb Code    12  swm181_uart.o(i.UART_IsRXFIFOEmpty)
+    UART_IsTXBusy                            0x00001661   Thumb Code    14  swm181_uart.o(i.UART_IsTXBusy)
+    UART_Open                                0x0000166f   Thumb Code    12  swm181_uart.o(i.UART_Open)
+    UART_ReadByte                            0x0000167b   Thumb Code    28  swm181_uart.o(i.UART_ReadByte)
+    UART_WriteByte                           0x00001697   Thumb Code     4  swm181_uart.o(i.UART_WriteByte)
+    WDT_Feed                                 0x0000169b   Thumb Code     6  swm181_wdt.o(i.WDT_Feed)
+    WDT_INTClr                               0x000016a1   Thumb Code     6  swm181_wdt.o(i.WDT_INTClr)
+    WDT_Init                                 0x000016a7   Thumb Code    62  swm181_wdt.o(i.WDT_Init)
+    WDT_Start                                0x000016e5   Thumb Code    10  swm181_wdt.o(i.WDT_Start)
+    WDT_Stop                                 0x000016ef   Thumb Code    10  swm181_wdt.o(i.WDT_Stop)
+    __ARM_common_switch8                     0x000016f9   Thumb Code    28  swm181_dma.o(i.__ARM_common_switch8)
+    __scatterload_copy                       0x000017dd   Thumb Code    14  handlers.o(i.__scatterload_copy)
+    __scatterload_null                       0x000017eb   Thumb Code     2  handlers.o(i.__scatterload_null)
+    __scatterload_zeroinit                   0x000017ed   Thumb Code    14  handlers.o(i.__scatterload_zeroinit)
+    crc16tablefast                           0x00001871   Thumb Code    62  vm.o(i.crc16tablefast)
+    frame_check                              0x000018b9   Thumb Code    60  vm.o(i.frame_check)
+    frame_default                            0x000018fd   Thumb Code    52  vm.o(i.frame_default)
+    main                                     0x00001935   Thumb Code    70  main.o(i.main)
+    open_the_door                            0x00001981   Thumb Code    20  lock.o(i.open_the_door)
+    uart_init                                0x00001ab1   Thumb Code   186  uart.o(i.uart_init)
+    write_frame_checkcode                    0x00001b79   Thumb Code    20  vm.o(i.write_frame_checkcode)
+    motorDrive_tab                           0x00001bac   Data         264  motor_driver.o(.constdata)
+    Region$$Table$$Base                      0x00001cb4   Number         0  anon$$obj.o(Region$$Table)
+    Region$$Table$$Limit                     0x00001cd4   Number         0  anon$$obj.o(Region$$Table)
+    hello                                    0x20000000   Data           5  main.o(.data)
+    vm_control                               0x20000005   Data           3  vm.o(.data)
+    vm_states                                0x20000008   Data           5  vm.o(.data)
+    current_result                           0x2000000d   Data           1  vm.o(.data)
+    fb_count_Y1                              0x2000000e   Data           1  motor_driver.o(.data)
+    fb_count_Y2                              0x2000000f   Data           1  motor_driver.o(.data)
+    fb_count_Y3                              0x20000010   Data           1  motor_driver.o(.data)
+    fb_count_Y4                              0x20000011   Data           1  motor_driver.o(.data)
+    fb_count_Y5                              0x20000012   Data           1  motor_driver.o(.data)
+    fb_count_Y6                              0x20000013   Data           1  motor_driver.o(.data)
+    fb_count_Y7                              0x20000014   Data           1  motor_driver.o(.data)
+    fb_count_Y8                              0x20000015   Data           1  motor_driver.o(.data)
+    fb_count_Y9                              0x20000016   Data           1  motor_driver.o(.data)
+    fb_count_Y10                             0x20000017   Data           1  motor_driver.o(.data)
+    current_num                              0x20000018   Data           1  motor_driver.o(.data)
+    __RS485_Ch1_RX_Finish                    0x2000001c   Data           1  rs485.o(.data)
+    __RS485_Ch2_RX_Finish                    0x2000001d   Data           1  rs485.o(.data)
+    __UART2_RX_Finish                        0x2000001e   Data           1  rs485.o(.data)
+    RS485_Ch2_RXIndex                        0x20000020   Data           4  rs485.o(.data)
+    RS485_Ch1_RXIndex                        0x20000024   Data           4  rs485.o(.data)
+    ir_count                                 0x20000028   Data           1  infrared_ray_check.o(.data)
+    SystemCoreClock                          0x2000002c   Data           4  system_swm181.o(.data)
+    CyclesPerUs                              0x20000030   Data           4  system_swm181.o(.data)
+    vm_data_frame                            0x20000034   Data          17  vm.o(.bss)
+    RS485_Ch2_Buffer                         0x20000045   Data          32  rs485.o(.bss)
+    RS485_Ch1_Buffer                         0x20000065   Data          32  rs485.o(.bss)
+    __initial_sp                             0x20000888   Data           0  startup_swm181.o(STACK)
+
+
+
+==============================================================================
+
+Memory Map of the image
+
+  Image Entry point : 0x000000c9
+
+  Load Region LR_IROM1 (Base: 0x00000000, Size: 0x00001d08, Max: 0x0001e000, ABSOLUTE)
+
+    Execution Region ER_IROM1 (Exec base: 0x00000000, Load base: 0x00000000, Size: 0x00001cd4, Max: 0x0001e000, ABSOLUTE)
+
+    Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
+
+    0x00000000   0x00000000   0x000000c8   Code   RO         1436    RESET               startup_swm181.o
+    0x000000c8   0x000000c8   0x00000000   Code   RO         1510  * .ARM.Collect$$$$00000000  mc_p.l(entry.o)
+    0x000000c8   0x000000c8   0x00000004   Code   RO         1527    .ARM.Collect$$$$00000001  mc_p.l(entry2.o)
+    0x000000cc   0x000000cc   0x00000004   Code   RO         1530    .ARM.Collect$$$$00000004  mc_p.l(entry5.o)
+    0x000000d0   0x000000d0   0x00000000   Code   RO         1532    .ARM.Collect$$$$00000008  mc_p.l(entry7b.o)
+    0x000000d0   0x000000d0   0x00000000   Code   RO         1534    .ARM.Collect$$$$0000000A  mc_p.l(entry8b.o)
+    0x000000d0   0x000000d0   0x00000008   Code   RO         1535    .ARM.Collect$$$$0000000B  mc_p.l(entry9a.o)
+    0x000000d8   0x000000d8   0x00000000   Code   RO         1537    .ARM.Collect$$$$0000000D  mc_p.l(entry10a.o)
+    0x000000d8   0x000000d8   0x00000000   Code   RO         1539    .ARM.Collect$$$$0000000F  mc_p.l(entry11a.o)
+    0x000000d8   0x000000d8   0x00000004   Code   RO         1528    .ARM.Collect$$$$00002712  mc_p.l(entry2.o)
+    0x000000dc   0x000000dc   0x00000050   Code   RO         1437    .text               startup_swm181.o
+    0x0000012c   0x0000012c   0x0000002c   Code   RO         1513    .text               mc_p.l(uidiv.o)
+    0x00000158   0x00000158   0x00000028   Code   RO         1515    .text               mc_p.l(idiv.o)
+    0x00000180   0x00000180   0x00000024   Code   RO         1517    .text               mc_p.l(memcpya.o)
+    0x000001a4   0x000001a4   0x00000024   Code   RO         1519    .text               mc_p.l(memseta.o)
+    0x000001c8   0x000001c8   0x00000014   Code   RO         1523    .text               mc_p.l(uread4.o)
+    0x000001dc   0x000001dc   0x00000012   Code   RO         1525    .text               mc_p.l(uwrite4.o)
+    0x000001ee   0x000001ee   0x00000002   PAD
+    0x000001f0   0x000001f0   0x00000024   Code   RO         1541    .text               mc_p.l(init.o)
+    0x00000214   0x00000214   0x0000002c   Code   RO          655    i.Address_GPIO_Init  address.o
+    0x00000240   0x00000240   0x00000088   Code   RO          329    i.Driver_GPIO_Init  motor_driver.o
+    0x000002c8   0x000002c8   0x00000008   Code   RO          807    i.EXTI_Clear        swm181_exti.o
+    0x000002d0   0x000002d0   0x0000000c   Code   RO          808    i.EXTI_Close        swm181_exti.o
+    0x000002dc   0x000002dc   0x0000008a   Code   RO          809    i.EXTI_Init         swm181_exti.o
+    0x00000366   0x00000366   0x0000000c   Code   RO          810    i.EXTI_Open         swm181_exti.o
+    0x00000372   0x00000372   0x0000000c   Code   RO          812    i.EXTI_State        swm181_exti.o
+    0x0000037e   0x0000037e   0x0000000c   Code   RO          912    i.GPIO_ClrBit       swm181_gpio.o
+    0x0000038a   0x0000038a   0x0000000c   Code   RO          914    i.GPIO_GetBit       swm181_gpio.o
+    0x00000396   0x00000396   0x00000002   PAD
+    0x00000398   0x00000398   0x00000158   Code   RO          916    i.GPIO_Init         swm181_gpio.o
+    0x000004f0   0x000004f0   0x0000000c   Code   RO          917    i.GPIO_InvBit       swm181_gpio.o
+    0x000004fc   0x000004fc   0x0000000c   Code   RO          919    i.GPIO_SetBit       swm181_gpio.o
+    0x00000508   0x00000508   0x00000028   Code   RO          656    i.Get_Driver_Addr   address.o
+    0x00000530   0x00000530   0x00000064   Code   RO          233    i.IRQ28_Handler     swm_it.o
+    0x00000594   0x00000594   0x00000058   Code   RO          234    i.IRQ29_Handler     swm_it.o
+    0x000005ec   0x000005ec   0x0000017c   Code   RO          235    i.IRQ4_Handler      swm_it.o
+    0x00000768   0x00000768   0x00000090   Code   RO          236    i.IRQ5_Handler      swm_it.o
+    0x000007f8   0x000007f8   0x00000018   Code   RO          237    i.IRQ7_Handler      swm_it.o
+    0x00000810   0x00000810   0x000000e0   Code   RO          238    i.IRQ8_Handler      swm_it.o
+    0x000008f0   0x000008f0   0x0000008c   Code   RO         1014    i.IRQ_Connect       swm181_irqmux.o
+    0x0000097c   0x0000097c   0x0000001c   Code   RO          585    i.IR_EXTI_Init      infrared_ray_check.o
+    0x00000998   0x00000998   0x00000024   Code   RO          586    i.IR_GPIO_Init      infrared_ray_check.o
+    0x000009bc   0x000009bc   0x0000000c   Code   RO          587    i.IR_check_init     infrared_ray_check.o
+    0x000009c8   0x000009c8   0x00000024   Code   RO          525    i.LED_Init          led.o
+    0x000009ec   0x000009ec   0x00000094   Code   RO          330    i.MotorFB_EXTI_Init  motor_driver.o
+    0x00000a80   0x00000a80   0x00000038   Code   RO          331    i.MotorFB_GPIO_Init  motor_driver.o
+    0x00000ab8   0x00000ab8   0x00000010   Code   RO          332    i.Motor_Driver_GPIO_Init  motor_driver.o
+    0x00000ac8   0x00000ac8   0x00000030   Code   RO          333    i.Motor_FB_EXTI_Disable  motor_driver.o
+    0x00000af8   0x00000af8   0x00000030   Code   RO          334    i.Motor_FB_EXTI_Enable  motor_driver.o
+    0x00000b28   0x00000b28   0x000000cc   Code   RO          335    i.Motor_Off         motor_driver.o
+    0x00000bf4   0x00000bf4   0x000000b8   Code   RO          336    i.Motor_On          motor_driver.o
+    0x00000cac   0x00000cac   0x000002b0   Code   RO         1052    i.PORT_Init         swm181_port.o
+    0x00000f5c   0x00000f5c   0x00000048   Code   RO          451    i.RS485_CH1_GetData  rs485.o
+    0x00000fa4   0x00000fa4   0x000000c0   Code   RO          161    i.RS485_CH1_Recv    vm.o
+    0x00001064   0x00001064   0x000000a0   Code   RO          162    i.RS485_CH1_Reply   vm.o
+    0x00001104   0x00001104   0x0000002c   Code   RO          453    i.RS485_Ch1_SendData  rs485.o
+    0x00001130   0x00001130   0x00000044   Code   RO          455    i.RS485_Chnnel1_Cfg  rs485.o
+    0x00001174   0x00001174   0x00000044   Code   RO          456    i.RS485_Chnnel2_Cfg  rs485.o
+    0x000011b8   0x000011b8   0x0000002c   Code   RO          417    i.SendData          uart.o
+    0x000011e4   0x000011e4   0x00000002   Code   RO          239    i.SysTick_Handler   swm_it.o
+    0x000011e6   0x000011e6   0x00000002   PAD
+    0x000011e8   0x000011e8   0x00000088   Code   RO         1446    i.SystemCoreClockUpdate  system_swm181.o
+    0x00001270   0x00001270   0x000000cc   Code   RO         1447    i.SystemInit        system_swm181.o
+    0x0000133c   0x0000133c   0x00000030   Code   RO          549    i.TIM2_init         timer.o
+    0x0000136c   0x0000136c   0x00000034   Code   RO          550    i.TIMR_Delay_init   timer.o
+    0x000013a0   0x000013a0   0x00000044   Code   RO         1079    i.TIMR_INTClr       swm181_timr.o
+    0x000013e4   0x000013e4   0x00000054   Code   RO         1082    i.TIMR_INTStat      swm181_timr.o
+    0x00001438   0x00001438   0x000000d4   Code   RO         1083    i.TIMR_Init         swm181_timr.o
+    0x0000150c   0x0000150c   0x0000000a   Code   RO         1086    i.TIMR_Start        swm181_timr.o
+    0x00001516   0x00001516   0x0000000a   Code   RO         1087    i.TIMR_Stop         swm181_timr.o
+    0x00001520   0x00001520   0x0000000c   Code   RO         1170    i.UART_Close        swm181_uart.o
+    0x0000152c   0x0000152c   0x0000000e   Code   RO         1174    i.UART_INTRXThresholdStat  swm181_uart.o
+    0x0000153a   0x0000153a   0x0000000e   Code   RO         1183    i.UART_INTTimeoutStat  swm181_uart.o
+    0x00001548   0x00001548   0x0000010c   Code   RO         1184    i.UART_Init         swm181_uart.o
+    0x00001654   0x00001654   0x0000000c   Code   RO         1185    i.UART_IsRXFIFOEmpty  swm181_uart.o
+    0x00001660   0x00001660   0x0000000e   Code   RO         1186    i.UART_IsTXBusy     swm181_uart.o
+    0x0000166e   0x0000166e   0x0000000c   Code   RO         1192    i.UART_Open         swm181_uart.o
+    0x0000167a   0x0000167a   0x0000001c   Code   RO         1195    i.UART_ReadByte     swm181_uart.o
+    0x00001696   0x00001696   0x00000004   Code   RO         1197    i.UART_WriteByte    swm181_uart.o
+    0x0000169a   0x0000169a   0x00000006   Code   RO         1376    i.WDT_Feed          swm181_wdt.o
+    0x000016a0   0x000016a0   0x00000006   Code   RO         1378    i.WDT_INTClr        swm181_wdt.o
+    0x000016a6   0x000016a6   0x0000003e   Code   RO         1380    i.WDT_Init          swm181_wdt.o
+    0x000016e4   0x000016e4   0x0000000a   Code   RO         1381    i.WDT_Start         swm181_wdt.o
+    0x000016ee   0x000016ee   0x0000000a   Code   RO         1382    i.WDT_Stop          swm181_wdt.o
+    0x000016f8   0x000016f8   0x0000001c   Code   RO          796    i.__ARM_common_switch8  swm181_dma.o
+    0x00001714   0x00001714   0x00000038   Code   RO          457    i.__NVIC_DisableIRQ  rs485.o
+    0x0000174c   0x0000174c   0x00000018   Code   RO          458    i.__NVIC_EnableIRQ  rs485.o
+    0x00001764   0x00001764   0x00000078   Code   RO         1016    i.__NVIC_SetPriority  swm181_irqmux.o
+    0x000017dc   0x000017dc   0x0000000e   Code   RO         1545    i.__scatterload_copy  mc_p.l(handlers.o)
+    0x000017ea   0x000017ea   0x00000002   Code   RO         1546    i.__scatterload_null  mc_p.l(handlers.o)
+    0x000017ec   0x000017ec   0x0000000e   Code   RO         1547    i.__scatterload_zeroinit  mc_p.l(handlers.o)
+    0x000017fa   0x000017fa   0x00000002   PAD
+    0x000017fc   0x000017fc   0x00000074   Code   RO            3    i.board_init        main.o
+    0x00001870   0x00001870   0x00000048   Code   RO          163    i.crc16tablefast    vm.o
+    0x000018b8   0x000018b8   0x00000044   Code   RO          164    i.frame_check       vm.o
+    0x000018fc   0x000018fc   0x00000038   Code   RO          165    i.frame_default     vm.o
+    0x00001934   0x00001934   0x0000004c   Code   RO            4    i.main              main.o
+    0x00001980   0x00001980   0x0000001c   Code   RO          626    i.open_the_door     lock.o
+    0x0000199c   0x0000199c   0x00000028   Code   RO         1448    i.switchToRC12MHz   system_swm181.o
+    0x000019c4   0x000019c4   0x00000024   Code   RO         1449    i.switchToRC24MHz   system_swm181.o
+    0x000019e8   0x000019e8   0x00000028   Code   RO         1450    i.switchToRC32KHz   system_swm181.o
+    0x00001a10   0x00001a10   0x00000028   Code   RO         1451    i.switchToRC48MHz   system_swm181.o
+    0x00001a38   0x00001a38   0x00000024   Code   RO         1452    i.switchToRC6MHz    system_swm181.o
+    0x00001a5c   0x00001a5c   0x00000054   Code   RO         1453    i.switchToXTAL      system_swm181.o
+    0x00001ab0   0x00001ab0   0x000000c8   Code   RO          418    i.uart_init         uart.o
+    0x00001b78   0x00001b78   0x00000014   Code   RO          166    i.write_frame_checkcode  vm.o
+    0x00001b8c   0x00001b8c   0x00000020   Data   RO          168    .constdata          vm.o
+    0x00001bac   0x00001bac   0x00000108   Data   RO          337    .constdata          motor_driver.o
+    0x00001cb4   0x00001cb4   0x00000020   Data   RO         1543    Region$$Table       anon$$obj.o
+
+
+    Execution Region RW_IRAM1 (Exec base: 0x20000000, Load base: 0x00001cd4, Size: 0x00000888, Max: 0x00004000, ABSOLUTE)
+
+    Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
+
+    0x20000000   0x00001cd4   0x00000005   Data   RW            5    .data               main.o
+    0x20000005   0x00001cd9   0x00000009   Data   RW          169    .data               vm.o
+    0x2000000e   0x00001ce2   0x0000000b   Data   RW          338    .data               motor_driver.o
+    0x20000019   0x00001ced   0x00000003   PAD
+    0x2000001c   0x00001cf0   0x0000000c   Data   RW          460    .data               rs485.o
+    0x20000028   0x00001cfc   0x00000001   Data   RW          588    .data               infrared_ray_check.o
+    0x20000029   0x00001cfd   0x00000003   PAD
+    0x2000002c   0x00001d00   0x00000008   Data   RW         1454    .data               system_swm181.o
+    0x20000034        -       0x00000011   Zero   RW          167    .bss                vm.o
+    0x20000045        -       0x00000040   Zero   RW          459    .bss                rs485.o
+    0x20000085   0x00001d08   0x00000003   PAD
+    0x20000088        -       0x00000800   Zero   RW         1434    STACK               startup_swm181.o
+
+
+==============================================================================
+
+Image component sizes
+
+
+      Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
+
+        84         10          0          0          0        986   address.o
+        76          8          0          1          0       1627   infrared_ray_check.o
+        36          6          0          0          0        447   led.o
+        28          8          0          0          0        460   lock.o
+       192         26          0          5          0     102547   main.o
+       840         50        264         11          0      11273   motor_driver.o
+       332         52          0         12         64      11867   rs485.o
+       280        202          0          0       2048       2188   startup_swm181.o
+        28          0          0          0          0         76   swm181_dma.o
+       182          0          0          0          0       3675   swm181_exti.o
+       392         12          0          0          0       3944   swm181_gpio.o
+       260         16          0          0          0       9922   swm181_irqmux.o
+       688         10          0          0          0       1620   swm181_port.o
+       384         28          0          0          0       3690   swm181_timr.o
+       378         14          0          0          0       6043   swm181_uart.o
+        94          0          0          0          0       3438   swm181_wdt.o
+       962        180          0          0          0       3414   swm_it.o
+       616         76          0          8          0       3875   system_swm181.o
+       100         18          0          0          0        918   timer.o
+       244         14          0          0          0       1959   uart.o
+       568         68         32          9         17       5170   vm.o
+
+    ----------------------------------------------------------------------
+      6768        798        328         52       2132     179139   Object Totals
+         0          0         32          0          0          0   (incl. Generated)
+         4          0          0          6          3          0   (incl. Padding)
+
+    ----------------------------------------------------------------------
+
+      Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Library Member Name
+
+         0          0          0          0          0          0   entry.o
+         0          0          0          0          0          0   entry10a.o
+         0          0          0          0          0          0   entry11a.o
+         8          4          0          0          0          0   entry2.o
+         4          0          0          0          0          0   entry5.o
+         0          0          0          0          0          0   entry7b.o
+         0          0          0          0          0          0   entry8b.o
+         8          4          0          0          0          0   entry9a.o
+        30          0          0          0          0          0   handlers.o
+        40          0          0          0          0         72   idiv.o
+        36          8          0          0          0         68   init.o
+        36          0          0          0          0         60   memcpya.o
+        36          0          0          0          0        100   memseta.o
+        44          0          0          0          0         72   uidiv.o
+        20          0          0          0          0         60   uread4.o
+        18          0          0          0          0         60   uwrite4.o
+
+    ----------------------------------------------------------------------
+       284         16          0          0          0        492   Library Totals
+         4          0          0          0          0          0   (incl. Padding)
+
+    ----------------------------------------------------------------------
+
+      Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Library Name
+
+       280         16          0          0          0        492   mc_p.l
+
+    ----------------------------------------------------------------------
+       284         16          0          0          0        492   Library Totals
+
+    ----------------------------------------------------------------------
+
+==============================================================================
+
+
+      Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
+
+      7052        814        328         52       2132     176123   Grand Totals
+      7052        814        328         52       2132     176123   ELF Image Totals
+      7052        814        328         52          0          0   ROM Totals
+
+==============================================================================
+
+    Total RO  Size (Code + RO Data)                 7380 (   7.21kB)
+    Total RW  Size (RW Data + ZI Data)              2184 (   2.13kB)
+    Total ROM Size (Code + RO Data + RW Data)       7432 (   7.26kB)
+
+==============================================================================
+

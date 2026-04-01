@@ -1,0 +1,612 @@
+#ifndef _MOTOR_DRIVER_H
+#define _MOTOR_DRIVER_H
+
+#include "driver_config.h"
+#define WM   0		//微米
+#define XSC	 0  	//新视窗
+#define DEFAULT 0 //默认
+#define REVERSE_ORDER 1 //倒序
+/**  行引脚定义 **/
+#if  WM>0ul							//微米
+
+#define DRIVER_X10_PART   GPIOB
+#define DRIVER_X10_PIN		PIN6
+
+#define DRIVER_X9_PART		GPIOB
+#define DRIVER_X9_PIN			PIN7
+
+#define DRIVER_X8_PART		GPIOB
+#define DRIVER_X8_PIN			PIN8
+
+#define DRIVER_X7_PART		GPIOB
+#define DRIVER_X7_PIN			PIN9
+
+#define DRIVER_X6_PART		GPIOB	
+#define DRIVER_X6_PIN			PIN10
+
+#define DRIVER_X5_PART		GPIOB
+#define DRIVER_X5_PIN			PIN11
+
+#define DRIVER_X4_PART		GPIOB
+#define DRIVER_X4_PIN			PIN12
+
+#define DRIVER_X3_PART		GPIOB
+#define DRIVER_X3_PIN			PIN13
+
+#define DRIVER_X2_PART		GPIOB
+#define DRIVER_X2_PIN			PIN14
+
+#define DRIVER_X1_PART		GPIOB
+#define DRIVER_X1_PIN			PIN15
+
+#endif
+
+#if  XSC>0ul						//新视窗
+
+#define DRIVER_X10_PART   GPIOB
+#define DRIVER_X10_PIN		PIN6
+
+#define DRIVER_X9_PART		GPIOB
+#define DRIVER_X9_PIN			PIN7
+
+#define DRIVER_X8_PART		GPIOB
+#define DRIVER_X8_PIN			PIN8
+
+#define DRIVER_X7_PART		GPIOB
+#define DRIVER_X7_PIN			PIN9
+
+#define DRIVER_X6_PART		GPIOB	
+#define DRIVER_X6_PIN			PIN10
+
+#define DRIVER_X5_PART		GPIOB
+#define DRIVER_X5_PIN			PIN11
+
+#define DRIVER_X4_PART		GPIOB
+#define DRIVER_X4_PIN			PIN12
+
+#define DRIVER_X3_PART		GPIOB
+#define DRIVER_X3_PIN			PIN13
+
+#define DRIVER_X2_PART		GPIOB
+#define DRIVER_X2_PIN			PIN14
+
+#define DRIVER_X1_PART		GPIOB
+#define DRIVER_X1_PIN			PIN15
+
+#endif
+
+
+#if  DEFAULT>0ul				//默认
+#define DRIVER_X10_PART   GPIOB
+#define DRIVER_X10_PIN		PIN15
+
+#define DRIVER_X9_PART		GPIOB
+#define DRIVER_X9_PIN			PIN14
+
+#define DRIVER_X8_PART		GPIOB
+#define DRIVER_X8_PIN			PIN13
+
+#define DRIVER_X7_PART		GPIOB
+#define DRIVER_X7_PIN			PIN12
+
+#define DRIVER_X6_PART		GPIOB	
+#define DRIVER_X6_PIN			PIN11
+
+#define DRIVER_X5_PART		GPIOB
+#define DRIVER_X5_PIN			PIN10
+
+#define DRIVER_X4_PART		GPIOB
+#define DRIVER_X4_PIN			PIN9
+
+#define DRIVER_X3_PART		GPIOB
+#define DRIVER_X3_PIN			PIN8
+
+#define DRIVER_X2_PART		GPIOB
+#define DRIVER_X2_PIN			PIN7
+
+#define DRIVER_X1_PART		GPIOB
+#define DRIVER_X1_PIN			PIN6
+#endif
+
+#if  REVERSE_ORDER>0ul	//倒序
+
+#define DRIVER_X10_PART   GPIOB
+#define DRIVER_X10_PIN		PIN6
+
+#define DRIVER_X9_PART		GPIOB
+#define DRIVER_X9_PIN			PIN7
+
+#define DRIVER_X8_PART		GPIOB
+#define DRIVER_X8_PIN			PIN8
+
+#define DRIVER_X7_PART		GPIOB
+#define DRIVER_X7_PIN			PIN9
+
+#define DRIVER_X6_PART		GPIOB	
+#define DRIVER_X6_PIN			PIN10
+
+#define DRIVER_X5_PART		GPIOB
+#define DRIVER_X5_PIN			PIN11
+
+#define DRIVER_X4_PART		GPIOB
+#define DRIVER_X4_PIN			PIN12
+
+#define DRIVER_X3_PART		GPIOB
+#define DRIVER_X3_PIN			PIN13
+
+#define DRIVER_X2_PART		GPIOB
+#define DRIVER_X2_PIN			PIN14
+
+#define DRIVER_X1_PART		GPIOB
+#define DRIVER_X1_PIN			PIN15
+
+#endif
+
+
+/**  行引脚定义 **/
+
+
+/**  列引脚定义 **/
+//WM55	
+#if WM>0ul							//微米
+
+#define DRIVER_Y10_PART		GPIOD	
+#define DRIVER_Y10_PIN		PIN6
+
+#define DRIVER_Y9_PART		GPIOD	
+#define DRIVER_Y9_PIN			PIN5
+
+#define DRIVER_Y8_PART		GPIOD
+#define DRIVER_Y8_PIN			PIN4
+
+#define DRIVER_Y7_PART		GPIOD
+#define DRIVER_Y7_PIN			PIN3
+
+#define DRIVER_Y6_PART		GPIOD
+#define DRIVER_Y6_PIN			PIN2
+
+#define DRIVER_Y5_PART		GPIOD
+#define DRIVER_Y5_PIN			PIN1
+
+#define DRIVER_Y4_PART		GPIOD
+#define DRIVER_Y4_PIN			PIN0
+
+#define DRIVER_Y3_PART		GPIOC
+#define DRIVER_Y3_PIN			PIN5
+
+#define DRIVER_Y2_PART		GPIOC
+#define DRIVER_Y2_PIN			PIN4
+
+#define DRIVER_Y1_PART		GPIOC
+#define DRIVER_Y1_PIN			PIN3
+
+#endif
+
+#if XSC  >0UL						//新视窗
+#define DRIVER_Y10_PART		GPIOD	
+#define DRIVER_Y10_PIN		PIN6
+
+#define DRIVER_Y9_PART		GPIOD	
+#define DRIVER_Y9_PIN			PIN5
+
+#define DRIVER_Y8_PART		GPIOD
+#define DRIVER_Y8_PIN			PIN4
+
+#define DRIVER_Y7_PART		GPIOD
+#define DRIVER_Y7_PIN			PIN3
+
+#define DRIVER_Y6_PART		GPIOD
+#define DRIVER_Y6_PIN			PIN2
+
+#define DRIVER_Y5_PART		GPIOD
+#define DRIVER_Y5_PIN			PIN1
+
+#define DRIVER_Y4_PART		GPIOD
+#define DRIVER_Y4_PIN			PIN0
+
+#define DRIVER_Y3_PART		GPIOC
+#define DRIVER_Y3_PIN			PIN5
+
+#define DRIVER_Y2_PART		GPIOC
+#define DRIVER_Y2_PIN			PIN4
+
+#define DRIVER_Y1_PART		GPIOC
+#define DRIVER_Y1_PIN			PIN3
+
+
+#endif 
+
+
+#if DEFAULT>0ul					//默认
+
+#define DRIVER_Y10_PART		GPIOD	
+#define DRIVER_Y10_PIN		PIN6
+
+#define DRIVER_Y9_PART		GPIOD	
+#define DRIVER_Y9_PIN			PIN5
+
+#define DRIVER_Y8_PART		GPIOD
+#define DRIVER_Y8_PIN			PIN4
+
+#define DRIVER_Y7_PART		GPIOD
+#define DRIVER_Y7_PIN			PIN3
+
+#define DRIVER_Y6_PART		GPIOD
+#define DRIVER_Y6_PIN			PIN2
+
+#define DRIVER_Y5_PART		GPIOD
+#define DRIVER_Y5_PIN			PIN1
+
+#define DRIVER_Y4_PART		GPIOD
+#define DRIVER_Y4_PIN			PIN0
+
+#define DRIVER_Y3_PART		GPIOC
+#define DRIVER_Y3_PIN			PIN5
+
+#define DRIVER_Y2_PART		GPIOC
+#define DRIVER_Y2_PIN			PIN4
+
+#define DRIVER_Y1_PART		GPIOC
+#define DRIVER_Y1_PIN			PIN3
+#endif
+
+
+#if REVERSE_ORDER >0ul  //倒序
+#define DRIVER_Y10_PART		GPIOC	
+#define DRIVER_Y10_PIN		PIN3
+
+#define DRIVER_Y9_PART		GPIOC	
+#define DRIVER_Y9_PIN			PIN4
+
+#define DRIVER_Y8_PART		GPIOC
+#define DRIVER_Y8_PIN			PIN5
+
+#define DRIVER_Y7_PART		GPIOD
+#define DRIVER_Y7_PIN			PIN0
+
+#define DRIVER_Y6_PART		GPIOD
+#define DRIVER_Y6_PIN			PIN1
+
+#define DRIVER_Y5_PART		GPIOD
+#define DRIVER_Y5_PIN			PIN2
+
+#define DRIVER_Y4_PART		GPIOD
+#define DRIVER_Y4_PIN			PIN3
+
+#define DRIVER_Y3_PART		GPIOC
+#define DRIVER_Y3_PIN			PIN4
+
+#define DRIVER_Y2_PART		GPIOC
+#define DRIVER_Y2_PIN			PIN5
+
+#define DRIVER_Y1_PART	GPIOD
+#define DRIVER_Y1_PIN		PIN6
+#endif
+
+/**  列引脚定义 **/
+
+
+/**  反馈引脚定义 **/
+
+#if  WM>0ul							 //微米
+
+#define MOTOR_FB1_PART    GPIOA
+#define MOTOR_FB1_PIN			PIN0
+
+#define MOTOR_FB2_PART		GPIOB
+#define MOTOR_FB2_PIN			PIN1
+
+#define MOTOR_FB3_PART		GPIOE		
+#define MOTOR_FB3_PIN			PIN5
+
+#define MOTOR_FB4_PART		GPIOE
+#define MOTOR_FB4_PIN			PIN4
+
+#define MOTOR_FB5_PART		GPIOA	
+#define MOTOR_FB5_PIN			PIN15	
+
+#define MOTOR_FB6_PART		GPIOA
+#define MOTOR_FB6_PIN			PIN14
+
+#define MOTOR_FB7_PART		GPIOA	
+#define MOTOR_FB7_PIN			PIN13
+
+#define MOTOR_FB8_PART		GPIOA
+#define MOTOR_FB8_PIN			PIN12
+
+#define MOTOR_FB9_PART		GPIOC
+#define MOTOR_FB9_PIN			PIN7
+
+#define MOTOR_FB10_PART		GPIOC
+#define MOTOR_FB10_PIN		PIN6
+
+#endif
+
+#if  XSC > 0ul					 //新视窗
+#define MOTOR_FB1_PART    GPIOC
+#define MOTOR_FB1_PIN			PIN6
+
+#define MOTOR_FB2_PART		GPIOC
+#define MOTOR_FB2_PIN			PIN7
+
+#define MOTOR_FB3_PART		GPIOA		
+#define MOTOR_FB3_PIN			PIN12
+
+#define MOTOR_FB4_PART		GPIOA
+#define MOTOR_FB4_PIN			PIN13
+
+#define MOTOR_FB5_PART		GPIOA	
+#define MOTOR_FB5_PIN			PIN14	
+
+#define MOTOR_FB6_PART		GPIOA
+#define MOTOR_FB6_PIN			PIN15
+
+#define MOTOR_FB7_PART		GPIOE	
+#define MOTOR_FB7_PIN			PIN4
+
+#define MOTOR_FB8_PART		GPIOE
+#define MOTOR_FB8_PIN			PIN5
+
+#define MOTOR_FB9_PART		GPIOC
+#define MOTOR_FB9_PIN			PIN1
+
+#define MOTOR_FB10_PART		GPIOB
+#define MOTOR_FB10_PIN		PIN5
+#endif
+
+
+#if  DEFAULT>0ul				 //默认
+
+#define MOTOR_FB1_PART    GPIOB
+#define MOTOR_FB1_PIN			PIN5
+
+#define MOTOR_FB2_PART		GPIOB
+#define MOTOR_FB2_PIN			PIN1
+
+#define MOTOR_FB3_PART		GPIOE		
+#define MOTOR_FB3_PIN			PIN5
+
+#define MOTOR_FB4_PART		GPIOE
+#define MOTOR_FB4_PIN			PIN4
+
+#define MOTOR_FB5_PART		GPIOA	
+#define MOTOR_FB5_PIN			PIN15	
+
+#define MOTOR_FB6_PART		GPIOA
+#define MOTOR_FB6_PIN			PIN14
+
+#define MOTOR_FB7_PART		GPIOA	
+#define MOTOR_FB7_PIN			PIN13
+
+#define MOTOR_FB8_PART		GPIOA
+#define MOTOR_FB8_PIN			PIN12
+
+#define MOTOR_FB9_PART		GPIOC
+#define MOTOR_FB9_PIN			PIN7
+
+#define MOTOR_FB10_PART		GPIOC
+#define MOTOR_FB10_PIN		PIN6
+#endif
+
+
+#if  REVERSE_ORDER >0ul  //倒序
+
+#define MOTOR_FB10_PART    GPIOC
+#define MOTOR_FB10_PIN			PIN6
+
+#define MOTOR_FB9_PART		GPIOC
+#define MOTOR_FB9_PIN			PIN7
+
+#define MOTOR_FB8_PART		GPIOA		
+#define MOTOR_FB8_PIN			PIN12
+
+#define MOTOR_FB7_PART		GPIOA
+#define MOTOR_FB7_PIN			PIN13
+
+#define MOTOR_FB6_PART		GPIOA	
+#define MOTOR_FB6_PIN			PIN14	
+
+#define MOTOR_FB5_PART		GPIOA
+#define MOTOR_FB5_PIN			PIN15
+
+#define MOTOR_FB4_PART		GPIOE	
+#define MOTOR_FB4_PIN			PIN4
+
+#define MOTOR_FB3_PART		GPIOE
+#define MOTOR_FB3_PIN			PIN5
+
+#define MOTOR_FB2_PART		GPIOC
+#define MOTOR_FB2_PIN			PIN1
+
+#define MOTOR_FB1_PART		GPIOA
+#define MOTOR_FB1_PIN		PIN0
+#endif
+
+/**反馈引脚定义**/
+
+/**反馈引脚外设中断定义**/
+#if WM>0ul							//微米
+
+#define MOTOR_FB1_PERIPH_INTEERUPT    IRQ0_15_GPIOB5	
+#define MOTOR_FB2_PERIPH_INTEERUPT		IRQ0_15_GPIOB1
+#define MOTOR_FB3_PERIPH_INTEERUPT		IRQ0_15_GPIOE5
+#define MOTOR_FB4_PERIPH_INTEERUPT		IRQ0_15_GPIOE4
+#define MOTOR_FB5_PERIPH_INTEERUPT		IRQ0_15_GPIOA15	
+#define MOTOR_FB6_PERIPH_INTEERUPT		IRQ0_15_GPIOA14
+#define MOTOR_FB7_PERIPH_INTEERUPT		IRQ0_15_GPIOA13
+#define MOTOR_FB8_PERIPH_INTEERUPT		IRQ0_15_GPIOA12
+#define MOTOR_FB9_PERIPH_INTEERUPT		IRQ0_15_GPIOC7
+#define MOTOR_FB10_PERIPH_INTEERUPT	  IRQ0_15_GPIOC6
+
+#endif 
+
+#if XSC>0ul							//新视窗	
+
+#define MOTOR_FB1_PERIPH_INTEERUPT    IRQ0_15_GPIOC6	
+#define MOTOR_FB2_PERIPH_INTEERUPT		IRQ0_15_GPIOC7
+#define MOTOR_FB3_PERIPH_INTEERUPT		IRQ0_15_GPIOA12
+#define MOTOR_FB4_PERIPH_INTEERUPT		IRQ0_15_GPIOA13
+#define MOTOR_FB5_PERIPH_INTEERUPT		IRQ0_15_GPIOA14	
+#define MOTOR_FB6_PERIPH_INTEERUPT		IRQ0_15_GPIOA15
+#define MOTOR_FB7_PERIPH_INTEERUPT		IRQ0_15_GPIOE4
+#define MOTOR_FB8_PERIPH_INTEERUPT		IRQ0_15_GPIOE5
+#define MOTOR_FB9_PERIPH_INTEERUPT		IRQ0_15_GPIOC1
+#define MOTOR_FB10_PERIPH_INTEERUPT	  IRQ0_15_GPIOB5
+#endif 
+
+#if DEFAULT>0ul					//默认
+
+#define MOTOR_FB1_PERIPH_INTEERUPT    IRQ0_15_GPIOB5	
+#define MOTOR_FB2_PERIPH_INTEERUPT		IRQ0_15_GPIOB1
+#define MOTOR_FB3_PERIPH_INTEERUPT		IRQ0_15_GPIOE5
+#define MOTOR_FB4_PERIPH_INTEERUPT		IRQ0_15_GPIOE4
+#define MOTOR_FB5_PERIPH_INTEERUPT		IRQ0_15_GPIOA15	
+#define MOTOR_FB6_PERIPH_INTEERUPT		IRQ0_15_GPIOA14
+#define MOTOR_FB7_PERIPH_INTEERUPT		IRQ0_15_GPIOA13
+#define MOTOR_FB8_PERIPH_INTEERUPT		IRQ0_15_GPIOA12
+#define MOTOR_FB9_PERIPH_INTEERUPT		IRQ0_15_GPIOC7
+#define MOTOR_FB10_PERIPH_INTEERUPT	  IRQ0_15_GPIOC6
+
+#endif 
+#if REVERSE_ORDER >0ul  //倒序
+
+#define MOTOR_FB1_PERIPH_INTEERUPT    IRQ0_15_GPIOC6	
+#define MOTOR_FB2_PERIPH_INTEERUPT		IRQ0_15_GPIOC7
+#define MOTOR_FB3_PERIPH_INTEERUPT		IRQ0_15_GPIOA12
+#define MOTOR_FB4_PERIPH_INTEERUPT		IRQ0_15_GPIOA13
+#define MOTOR_FB5_PERIPH_INTEERUPT		IRQ0_15_GPIOA14	
+#define MOTOR_FB6_PERIPH_INTEERUPT		IRQ0_15_GPIOA15
+#define MOTOR_FB7_PERIPH_INTEERUPT		IRQ0_15_GPIOE4
+#define MOTOR_FB8_PERIPH_INTEERUPT		IRQ0_15_GPIOE5
+#define MOTOR_FB9_PERIPH_INTEERUPT		IRQ0_15_GPIOC1
+#define MOTOR_FB10_PERIPH_INTEERUPT	  IRQ0_15_GPIOB5
+
+#endif 
+/**反馈引脚外设中断定义**/
+
+
+/* X PART & PIN */
+#define DRIVER_X1_PIN_AND_PART    DRIVER_X1_PART  , DRIVER_X1_PIN
+#define DRIVER_X2_PIN_AND_PART    DRIVER_X2_PART  ,	DRIVER_X2_PIN
+#define DRIVER_X3_PIN_AND_PART    DRIVER_X3_PART  ,	DRIVER_X3_PIN
+#define DRIVER_X4_PIN_AND_PART    DRIVER_X4_PART  ,	DRIVER_X4_PIN
+#define DRIVER_X5_PIN_AND_PART    DRIVER_X5_PART  ,	DRIVER_X5_PIN
+#define DRIVER_X6_PIN_AND_PART    DRIVER_X6_PART  ,	DRIVER_X6_PIN
+#define DRIVER_X7_PIN_AND_PART    DRIVER_X7_PART  ,	DRIVER_X7_PIN
+#define DRIVER_X8_PIN_AND_PART    DRIVER_X8_PART  ,	DRIVER_X8_PIN
+#define DRIVER_X9_PIN_AND_PART    DRIVER_X9_PART  ,	DRIVER_X9_PIN
+#define DRIVER_X10_PIN_AND_PART   DRIVER_X10_PART ,	DRIVER_X10_PIN
+/* PART & PIN */
+
+
+
+/* Y PART & PIN */
+#define DRIVER_Y1_PIN_AND_PART    DRIVER_Y1_PART  , DRIVER_Y1_PIN
+#define DRIVER_Y2_PIN_AND_PART    DRIVER_Y2_PART  ,	DRIVER_Y2_PIN
+#define DRIVER_Y3_PIN_AND_PART    DRIVER_Y3_PART  ,	DRIVER_Y3_PIN
+#define DRIVER_Y4_PIN_AND_PART    DRIVER_Y4_PART  ,	DRIVER_Y4_PIN
+#define DRIVER_Y5_PIN_AND_PART    DRIVER_Y5_PART  ,	DRIVER_Y5_PIN
+#define DRIVER_Y6_PIN_AND_PART    DRIVER_Y6_PART  ,	DRIVER_Y6_PIN
+#define DRIVER_Y7_PIN_AND_PART    DRIVER_Y7_PART  ,	DRIVER_Y7_PIN
+#define DRIVER_Y8_PIN_AND_PART    DRIVER_Y8_PART  ,	DRIVER_Y8_PIN
+#define DRIVER_Y9_PIN_AND_PART    DRIVER_Y9_PART  ,	DRIVER_Y9_PIN
+#define DRIVER_Y10_PIN_AND_PART   DRIVER_Y10_PART ,	DRIVER_Y10_PIN
+/* PART & PIN */
+
+
+/* FB PART & PIN */
+
+#define MOTOR_FB1_PIN_AND_PART   	MOTOR_FB1_PART,MOTOR_FB1_PIN
+#define MOTOR_FB2_PIN_AND_PART   	MOTOR_FB2_PART,MOTOR_FB2_PIN
+#define MOTOR_FB3_PIN_AND_PART  	MOTOR_FB3_PART,MOTOR_FB3_PIN
+#define MOTOR_FB4_PIN_AND_PART   	MOTOR_FB4_PART,MOTOR_FB4_PIN
+#define MOTOR_FB5_PIN_AND_PART  	MOTOR_FB5_PART,MOTOR_FB5_PIN
+#define MOTOR_FB6_PIN_AND_PART  	MOTOR_FB6_PART,MOTOR_FB6_PIN
+#define MOTOR_FB7_PIN_AND_PART   	MOTOR_FB7_PART,MOTOR_FB7_PIN
+#define MOTOR_FB8_PIN_AND_PART   	MOTOR_FB8_PART,MOTOR_FB8_PIN
+#define MOTOR_FB9_PIN_AND_PART   	MOTOR_FB9_PART,MOTOR_FB9_PIN
+#define MOTOR_FB10_PIN_AND_PART   MOTOR_FB10_PART,MOTOR_FB10_PIN
+/* FB PART & PIN */
+
+
+/**  反馈中断号 **/
+
+#define	MOTOR_FB1_IRQn						IRQ0_IRQ
+#define	MOTOR_FB2_IRQn						IRQ1_IRQ
+#define	MOTOR_FB3_IRQn						IRQ2_IRQ
+#define	MOTOR_FB4_IRQn						IRQ3_IRQ
+#define	MOTOR_FB5_IRQn						IRQ4_IRQ
+#define	MOTOR_FB6_IRQn						IRQ5_IRQ
+#define	MOTOR_FB7_IRQn						IRQ6_IRQ
+#define	MOTOR_FB8_IRQn						IRQ7_IRQ
+#define	MOTOR_FB9_IRQn						IRQ8_IRQ
+#define	MOTOR_FB10_IRQn						IRQ9_IRQ
+
+#define MOTOR_FB_IRQ_PRIORITY		0
+
+/**  反馈中断号 **/
+
+
+#define CHANNEL_X_MAX   10
+#define CHANNEL_Y_MAX	  10	
+#define CHANNEL_FB_MAX  10	
+#define CHANNEL_MAX	 100 				//CHANNEL_X_MAX *  CHANNEL_Y_MAX
+#define MOTOR_TIMER_OUT  0X00   //超时  
+#define MOTOR_OK  0X01				  //找到电机
+#define MOTOR_ERR 0XEE					//没有找到电机
+
+
+/**反馈通道定义*/
+#define FB_CH1  0x01
+#define FB_CH2  0x02
+#define FB_CH3  0x03
+#define FB_CH4  0x04
+#define FB_CH5  0x05
+#define FB_CH6  0x06
+#define FB_CH7  0x07
+#define FB_CH8  0x08
+#define FB_CH9  0x09
+#define FB_CH10 0x0A
+/**反馈通道定义*/
+
+
+#define LOAD_IS_BUYS 	1//电机忙
+#define LOAD_IS_FREE 	0//空闲	
+
+
+typedef GPIO_TypeDef  MotorDrive_GPIO_PART;
+typedef uint32_t 			MotorDrive_GPIO_Pin;
+	
+typedef GPIO_TypeDef	MotorFB_GPIO_PART;
+typedef uint32_t 			MotorFB_GPIO_Pin;
+	
+void motor_init(void);
+int  fb_motor_on(uint8_t number);
+int  motor_off(uint8_t number);
+
+void fb_cnt_updata(uint8_t fb_num);
+void fb_cnt_clear(uint8_t fb_num);
+void fb_cnt_clear_all(void);
+uint8_t fb_cnt_get(uint8_t fb_num);
+
+
+
+uint8_t updata_current_channel(uint8_t num);
+void 		clear_current_channel(void);
+uint8_t get_current_channel(void);
+
+void load_free_buys(void);
+void load_set_buys(void);
+uint8_t load_status_get(void);
+
+uint8_t read_fb_channel_status(uint8_t channel_num); //读反馈引脚状态
+uint8_t fb_electromagnet_action(uint8_t number);     //驱动有反馈电磁铁
+uint8_t nfb_electromagnet_action(uint8_t number);		 //驱动无反馈电磁铁
+
+void crawler_output(uint8_t number);
+
+void fb_cnt_set(uint8_t fb_cnt);
+uint8_t fb_exti_cnt_get(void);
+
+
+#endif

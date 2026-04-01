@@ -1,0 +1,11 @@
+Removed Pin From Net: NetName=24V_IN Pin=R25-1
+Removed Pin From Net: NetName=IR_POWER Pin=R25-2
+Change Component Footprint: Designator=R25 Old Footprint=0805_R New Footprint=R 0603
+Change Component Comment : Designator=R25 Old Comment=0Ω (0R0) ±1% New Comment=0R
+Change component parameters: Designator = "R25"; Footprint = "R 0603"; UniqueID = "\GJCQHUJK\HXGXSYUJ"
+Change component parameters. Clean all parameters for all variants
+Change component parameters (AddParameter): Name = "BOM名称"; Value = "贴片电阻"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "学习资源"; Value = "www.ooocke.com"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "版权归属"; Value = "源创客"; VariantName = "[No Variations]"
+Added Pin To Net: NetName=IR_POWER Pin=R25-1
+Added Pin To Net: NetName=24V_IN Pin=R25-2

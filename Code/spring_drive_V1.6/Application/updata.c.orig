@@ -1,0 +1,132 @@
+/******************************************************************************
+* @file app.c
+* @author Zohar_Lee
+* @version V1.00
+* @date 2018.05.30
+* @brief
+******************************************************************************/
+#include "updata.h"
+#include "xmodem.h"
+
+
+/******************************************************************************
+* 功能说明: 接收Xmodem并存储
+* 输入: 无
+* 输出: 无
+* 返回：无
+* 注意：无
+******************************************************************************/
+uint32_t GetNewCode(void)
+{
+  uint32_t Number = 0; //数据包序号
+  uint8_t BinDataBuf[BINDATABUFLEN] = {0};
+  uint32_t RamSource = 0;
+  uint32_t WriteINdex = 0; //flash写入地址的偏移量
+  uint32_t LengthOfNewCode = 0;
+
+  do
+  {
+    switch (XmodemData.XmodemStatus)
+    {
+    case DEF_NO_Reflect:
+      if (1 == Xmodem(&Number, BinDataBuf))
+      {
+        if (1 == Number)
+        {
+          //首个数据接收成功
+          RamSource = (uint32_t)&BinDataBuf[0]; //32位字对齐
+          FLASH_Erase(ADD_CODE_NEW);
+          FLASH_Write(ADD_CODE_NEW, (uint32_t *)RamSource, BINDATABUFLEN / 4);
+          WriteINdex = BINDATABUFLEN; //写入偏移量移至下一个页
+        }
+      }
+      break;
+    case DEF_Packet_OK:
+      if (1 == Xmodem(&Number, BinDataBuf))
+      {
+        if (END_XMODEM != Number)
+        {
+          //后续数据接收成功
+          if (WriteINdex % 4096 == 0)
+          {
+            FLASH_Erase(ADD_CODE_NEW + WriteINdex);
+          }
+          RamSource = (uint32_t)&BinDataBuf[0]; //32位字对齐
+          FLASH_Write(ADD_CODE_NEW + WriteINdex, (uint32_t *)RamSource, BINDATABUFLEN / 4);
+          WriteINdex += BINDATABUFLEN; //写入偏移量移至下一个页
+        }
+        else
+        {
+//          debug("Get Xmodem Over ! \r\n");
+          LengthOfNewCode = WriteINdex;
+          WriteINdex = 0;
+        }
+      }
+      break;
+
+    default:
+      break;
+    }
+  } while (0 == LengthOfNewCode);
+
+  return LengthOfNewCode;
+}
+
+/******************************************************************************
+* 功能说明: 填写辅助区域数据
+* 输入: 无
+* 输出: 无
+* 返回：无
+* 注意：无
+******************************************************************************/
+void updata(void)
+{
+  UpdataCode_Struct struct_of_updata;
+  uint32_t *p = &(struct_of_updata.version_of_old);
+  uint32_t LengthOfNewCode = 0;
+
+  LengthOfNewCode = GetNewCode();
+  if (0 != LengthOfNewCode)
+  {
+    FLASH_Erase(ADD_ASSIST_OF_UPDATA_CODE);
+    //写入完成后更新版本号
+    struct_of_updata.version_of_old = 0x20180601;
+    struct_of_updata.version_of_new = 0x20180602;
+    struct_of_updata.length_of_new_code = LengthOfNewCode;
+    struct_of_updata.crc_of_new_code = 0;
+    FLASH_Erase(ADD_ASSIST_OF_UPDATA_CODE);
+    FLASH_Write(ADD_ASSIST_OF_UPDATA_CODE, p, sizeof(struct_of_updata) / sizeof(uint32_t));
+    //复位，重启代码进行更新
+    *(volatile uint32_t *)0x40000304 |= 1; //此复位是复位全部模块
+  }
+}
+
+/******************************************************************************
+* 功能说明: 打印当前软件版本号
+* 输入: 无
+* 输出: 无
+* 返回：无
+* 注意：无
+******************************************************************************/
+void PrintfVersionOfCode(void)
+{
+  uint32_t VersionOfCode = 0;
+//  uint32_t CodeBuf[64];
+
+  FLASH_Read(ADD_ASSIST_OF_UPDATA_CODE, &VersionOfCode, 1);
+  //debug("Version is %x \r\n", VersionOfCode);
+#if 0
+  for (uint32_t i = 0; i < 40 * 256; i += 256)
+  {
+    FLASH_Read(ADD_CODE_NEW + i, CodeBuf, 64);
+    debug("\r\nadd = %x\r\n", ADD_CODE_NEW + i);
+    for (int j = 0; j < 64; j++)
+    {
+      if (j % 8 == 0)
+        debug("\r\n");
+      debug("%08x ", CodeBuf[j]);
+    }
+  }
+#endif
+}
+/******************************* end of file *********************************/

@@ -1,0 +1,1245 @@
+ /**
+ *********************************************************************************************************
+ * @copy 
+ *                                 (c) Copyright 2010-2017 
+ *                                   All Rights Reserved
+ *
+ *                                 INTERNAL FILE,DON'T PUBLIC.
+ * 
+ * <h2><center>&copy; COPYRIGHT hnclcj@hotmail.com </center></h2>
+ *********************************************************************************************************
+ * @file      swm181_uart_buf.c
+ * @history
+ * @version   V1.0.0
+ * @date      2018.11.08 把4个中断 统一用一个服务程序实现,
+ ********************************************************************************************************* 
+ */ 
+ 
+
+#define  UART_GLOBALS
+#include <cpu.h>
+#include <swm181_uart_buf.h>
+
+
+
+#if UART_MODULE_EN > 0
+
+
+
+
+
+
+/*********************************************************************************************************
+*                                              局 部 常 数
+*********************************************************************************************************/
+
+typedef enum _uart_rst_                             // UART FIFO复位
+{
+    UART_RST_RX   = 1,                              // RX
+    UART_RST_TX   = 2,                              // TX
+    UART_RST_RXTX = 3,                              // RX+TX
+}emUART_RST;
+
+#define UART_TX_BUSY         (TRUE)
+#define UART_TX_NO_BUSY      (FALSE)
+
+
+
+/*********************************************************************************************************
+*                                             模块局部变量
+*********************************************************************************************************/
+
+static BOOL     UartUsgFlag[UART_MAX_NUM];          // 串口是否在使用标志
+
+
+
+
+
+
+/*********************************************************************************************************
+*                                             模块内局部函数
+*********************************************************************************************************/
+
+static void  UartRxInBuf     (u8_t port, u8_t Data);
+static void  UartTxByte      (u8_t port, u8_t Data);
+static void  UartTxInBuf     (u8_t port, u8_t Data);
+static u8_t  UartTxOutBuf    (u8_t port);
+static void  UartBufFlush    (u8_t port, emUART_RST type);
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+ *********************************************************************************************************
+ * @brief      UART的公用中断处理		   
+ * @param[in]  None
+ * @param[out] None   
+ * @retval     None	 
+ * @par Description
+ * @details    
+ * @note       1. UART0, 2, 3 相同处理
+ *             2. UART1 强制转换后相同处理(扩展功能不支持 )
+ *********************************************************************************************************
+ */
+
+void UartIntProc (u8_t port, UART_TypeDef *UARTx)
+{
+    stUART_BUF_DEF *p     = NULL;
+    stUART_CTRL    *pCtrl = NULL; 
+	uint32_t chr;
+	
+    
+	if(UART_INTRXThresholdStat(UARTx) || UART_INTTimeoutStat(UARTx)) {
+        p     = &UartBuf[port].Rx;
+        pCtrl = &p->stCtrl;
+        
+		while(UART_IsRXFIFOEmpty(UARTx) == 0) {
+			if(UART_ReadByte(UARTx, &chr) == 0)	{
+                UartRxInBuf(port, chr);                     // 进缓存
+			}
+		}
+	}
+
+    
+	if ( UART_INTTXThresholdStat(UARTx) )	{
+        p     = &UartBuf[port].Tx;
+        pCtrl = &p->stCtrl;
+        
+		while (UART_IsTXFIFOFull(UARTx) == 0) {
+            if ( pCtrl->bit.Cnt > 0 ) {                     // 发送缓存有数据 并且发送寄存器为空
+                UART_WriteByte(UARTx, UartTxOutBuf(port));  // 读走一个数据到发送寄存器
+            } else {
+                UART_INTTXThresholdDis(UARTx);              // 禁止发送中断
+                pCtrl->bit.TxEn = UART_TX_NO_BUSY;          // 允许后台直接写发送寄存器发送数据
+                break;
+            }
+		}
+	}
+}
+
+
+/**
+ *********************************************************************************************************
+ * @brief      UART0的中断处理		   
+ * @param[in]  None
+ * @param[out] None   
+ * @retval     None	 
+ * @par Description
+ * @details    
+ * @note       None
+ *********************************************************************************************************
+ */
+#if UART0_UNIT_EN > 0
+
+void UART0_Handler  (void)
+{
+    UartIntProc(0, UART0);                          // 调用公用的UART数据处理函数
+}
+#endif
+
+
+/**
+ *********************************************************************************************************
+ * @brief      UART1的中断处理		   
+ * @param[in]  None
+ * @param[out] None   
+ * @retval     None	 
+ * @par Description
+ * @details    
+ * @note       None
+ *********************************************************************************************************
+ */
+#if UART1_UNIT_EN > 0
+
+void UART1_Handler  (void)
+{
+    UartIntProc(1, UART1);                          // 调用公用的UART数据处理函数
+}
+#endif
+
+
+/**
+ *********************************************************************************************************
+ * @brief      UART2的中断处理		   
+ * @param[in]  None
+ * @param[out] None   
+ * @retval     None	 
+ * @par Description
+ * @details    
+ * @note       None
+ *********************************************************************************************************
+ */
+#if UART2_UNIT_EN > 0
+
+void UART2_Handler  (void)
+{
+    UartIntProc(2, UART2);                          // 调用公用的UART数据处理函数
+}
+#endif
+
+
+/**
+ *********************************************************************************************************
+ * @brief      UART2的中断处理		   
+ * @param[in]  None
+ * @param[out] None   
+ * @retval     None	 
+ * @par Description
+ * @details    
+ * @note       None
+ *********************************************************************************************************
+ */
+#if UART2_UNIT_EN > 0
+
+void UART3_Handler  (void)
+{
+    UartIntProc(3, UART3);                          // 调用公用的UART数据处理函数
+}
+#endif
+
+
+/*********************************************************************************************************
+* 功 能 : 清空对应端口的变量
+* 入 口 : 'port'   串口编号
+*         ‘type’ 操作类型 1=RX 2=TX 3=RX+TX
+* 返 回 : 无
+* 说 明 : 1> TX FIFO 设置标志后 复位完成后会自动清除此标志
+*         2> RX FIFO 设置标志后 不会自动复位此标志 需要手工清除
+*********************************************************************************************************/
+
+static void  UartBufFlush (u8_t port, emUART_RST type)
+{
+    stUART_BUF_DEF *p     = NULL;
+    stUART_CTRL    *pCtrl = NULL; 
+
+
+    UART_ENTER_CRITICAL();                          // 进入临界
+
+    if ( (type & 0x01) || (type & 0x03) ) {         // RX
+        p              = &UartBuf[port].Rx;
+        pCtrl          = &p->stCtrl;
+        
+        pCtrl->bit.Cnt = 0;                        // 接收缓存数据计数器
+        pCtrl->bit.In  = 0;                        // 接收输入索引
+        pCtrl->bit.Out = 0;                        // 接收输出索引
+    }
+    
+    if ( (type & 0x02) || (type & 0x03) ) {         // TX
+        p              = &UartBuf[port].Tx;
+        pCtrl          = &p->stCtrl;
+        
+        pCtrl->bit.Cnt = 0;                        // 接收缓存数据计数器
+        pCtrl->bit.In  = 0;                        // 接收输入索引
+        pCtrl->bit.Out = 0;                        // 接收输出索引
+    }
+
+    UART_EXIT_CRITICAL();                           // 退出临界
+}
+
+
+/*********************************************************************************************************
+* 功 能 : 清空对应端口的变量
+* 入 口 : 'port'   串口编号
+* 返 回 : 无
+* 说 明 : 1>RX FIFO 设置标志后 不会自动复位此标志 需要手工清除
+*********************************************************************************************************/
+
+void  UartRxBufFlush (u8_t port)
+{
+    if (port >= UART_MAX_NUM) {                     // 参数检查
+        return;                                     // 退出
+    }
+
+    UartBufFlush(port, UART_RST_RX);                // 接收缓存
+}
+
+
+/*********************************************************************************************************
+* 功 能 : 清空对应端口的变量
+* 入 口 : 'port'   串口编号
+* 返 回 : 无
+* 说 明 : 1> TX FIFO 设置标志后 复位完成后会自动清除此标志
+*********************************************************************************************************/
+
+void  UartTxBufFlush (u8_t port)
+{
+    if (port >= UART_MAX_NUM) {                     // 参数检查
+        return;                                     // 退出
+    }
+
+    UartBufFlush(port, UART_RST_TX);                // 发送缓存
+}
+
+
+/*********************************************************************************************************
+* 功 能 : 对指定端口的发送寄存器写一字节数据
+* 入 口 : 'port' 串口编号
+*         'Data' 待发送的数据
+* 返 回 : 无
+* 说 明 : 无
+*********************************************************************************************************/
+
+static void  UartTxByte (u8_t port, u8_t Data)
+{
+    stUART_BUF_DEF *p     = NULL;
+    stUART_CTRL    *pCtrl = NULL; 
+
+
+    p              = &UartBuf[port].Tx;
+    pCtrl          = &p->stCtrl;
+    if ( !pCtrl->bit.bEn ) {
+        return;
+    }
+    
+    switch (port) {                                 //
+#if UART0_UNIT_EN > 0
+    case 0 :                                        // -- 串口0
+        pCtrl->bit.TxEn = UART_TX_BUSY;             // 忙
+        UART_INTTXThresholdEn(UART0);               // 使能中断
+        UART_WriteByte(UART0, Data);                // 发送出数据
+        break;
+#endif
+
+#if UART1_UNIT_EN > 0
+    case 1 :                                        // -- 串口1
+        pCtrl->bit.TxEn = UART_TX_BUSY;             // 忙
+        UART_INTTXThresholdEn(UART1);               // 使能中断
+        UART_WriteByte(UART1, Data);                // 发送出数据
+        break;
+#endif
+
+#if UART2_UNIT_EN > 0
+    case 2 :                                        // -- 串口2
+        pCtrl->bit.TxEn = UART_TX_BUSY;             // 忙
+        UART_INTTXThresholdEn(UART2);               // 使能中断
+        UART_WriteByte(UART2, Data);                // 发送出数据
+        break;
+#endif
+
+#if UART3_UNIT_EN > 0
+    case 3 :                                        // -- 串口3
+        pCtrl->bit.TxEn = UART_TX_BUSY;             // 忙
+        UART_INTTXThresholdEn(UART3);               // 使能中断
+        UART_WriteByte(UART3, Data);                // 发送出数据
+        break;
+#endif
+    
+    default :
+        break;
+    }
+}
+
+
+/*********************************************************************************************************
+* 功 能 : UART 工作模式配置
+* 入 口 : 'port'   串口编号
+*         'baud'   波特率 最大波特率为实际硬件能支持的波特率和数据处理能力设置
+*         'parity' 奇偶效验 0为不激活奇偶校验 1为
+*         'bits'   数据位
+*         'stops'  停止位  这里根据bits自行更改为固定模式 为了兼容以后的版本预留
+* 返 回 : 1> UART_ERR_NO_ERR  串口设置没有错误
+*         2> UART_ERR_ERR     错误的模式
+* 说 明 : 无
+*********************************************************************************************************/
+
+u8_t  UartCfgPort (u8_t port, u32_t baud, u8_t parity, u8_t bits, u8_t stops)
+{
+    if (port >= UART_MAX_NUM) {                     // 参数检查
+        return (UART_ERR_ERR);                      // 返回失败
+    }
+    if ( UartUsgFlag[port] ) {                      // 当前串口时候正在使用?
+        return (UART_ERR_USE);                      // 是还没初始化端口 返回配置失败
+    }
+    if ((bits < 8) || (bits > 9)) {                 // 数据位数
+        return (UART_ERR_ERR);                      // 错误模式
+    }
+    if (parity > 3)  {                              // 校验
+        return (UART_ERR_ERR);                      // 错误模式
+    }
+    if ((stops < 1) || (stops > 2)) {               // 停止位
+        return (UART_ERR_ERR);                      // 错误模式
+    }
+    
+    switch (parity) {                               // 校验模式
+    case UART_NONE :                                // --不使用奇偶校验
+        parity = UART_PARITY_NONE;
+        break;
+    case UART_ODD :                                 // --奇校验
+        parity = UART_PARITY_ODD;
+        break;
+    case UART_EVEN :                                // --偶校验
+        parity = UART_PARITY_EVEN;
+        break;
+    case UART_ONE :                                 // --强制为1
+        parity = UART_PARITY_ONE;
+        break;
+    case UART_ZERO :                                // --强制为0
+        parity = UART_PARITY_ZERO;
+        break;
+    default :                                       //
+        return(UART_ERR_ERR);                       // 错误模式
+    }
+
+    switch (bits) {                                 // 设置bits
+    case 8 :                                        // 8
+        bits = UART_DATA_8BIT;                      // 1
+        break;
+    case 9 :                                        // 9
+        bits = UART_DATA_9BIT;                      // 2
+        break;
+    default:                                        //
+        bits = UART_DATA_8BIT;                      // 1
+        return(UART_ERR_ERR);                       // 错误模式
+    }
+
+    switch (stops) {                                // 停止位
+    case 1 :                                        // --1BIT
+        stops = UART_STOP_1BIT;                     // 0
+        break;
+    case 2 :                                        // --2BIT
+        stops = UART_STOP_2BIT;                     // 1
+        break;
+    default :                                       //
+        stops = UART_STOP_1BIT;                     // 0
+        return(UART_ERR_ERR);                       // 错误模式
+    }
+
+    UART_ENTER_CRITICAL();                              // 进入临界
+    UartUsgFlag[port]       = TRUE;                     // 此端口已经配置过  
+
+    switch (port) {
+#if UART0_UNIT_EN > 0
+    case 0 :                                                  // -- 串口0
+    {
+        UART_InitStructure UART_CFG;
+
+    
+        NVIC_DisableIRQ(IRQn_UART0);                          // 禁止中断
+
+        PORT_Init(UART0_RXD_PORT, UART0_RXD_IO, FUNMUX_UART0_RXD, 1);	// GPIOA.0配置为UART1输入引脚
+        PORT_Init(UART0_TXD_PORT, UART0_TXD_IO, FUNMUX_UART0_TXD, 0);	// GPIOA.1配置为UART1输出引脚
+        
+        UART_CFG.Baudrate       = baud;
+        UART_CFG.DataBits       = bits;
+        UART_CFG.Parity         = parity;
+        UART_CFG.StopBits       = stops;
+        
+        UART_CFG.RXThreshold    = 2;
+        UART_CFG.RXThresholdIEn = 1;
+        
+        UART_CFG.TXThreshold    = 3;
+        UART_CFG.TXThresholdIEn = 0;
+        
+        UART_CFG.TimeoutTime    = 2;
+        UART_CFG.TimeoutIEn     = 1;
+
+        UART_Init(UART0, &UART_CFG);
+        IRQ_Connect(IRQ0_15_UART0, IRQn_UART0, 1);
+        UART_Open(UART0);
+
+        NVIC_EnableIRQ(IRQn_UART0);                           // 使能中断
+    }
+        break;
+#endif
+
+#if UART1_UNIT_EN > 0                                         //
+    case 1 :                                                  // -- 串口1
+    {
+        UART_InitStructure UART_CFG;
+
+    
+        NVIC_DisableIRQ(IRQn_UART1);                          // 禁止中断
+
+        PORT_Init(UART1_RXD_PORT, UART1_RXD_IO, FUNMUX_UART1_RXD, 1);   // GPIOB.8配置为UART1输入引脚
+        PORT_Init(UART1_TXD_PORT, UART1_TXD_IO, FUNMUX_UART1_TXD, 0);	// GPIOB.9配置为UART1输出引脚
+        
+        UART_CFG.Baudrate       = baud;
+        UART_CFG.DataBits       = bits;
+        UART_CFG.Parity         = parity;
+        UART_CFG.StopBits       = stops;
+        
+        UART_CFG.RXThreshold    = 2;
+        UART_CFG.RXThresholdIEn = 1;
+        
+        UART_CFG.TXThreshold    = 3;
+        UART_CFG.TXThresholdIEn = 0;
+        
+        UART_CFG.TimeoutTime    = 2;
+        UART_CFG.TimeoutIEn     = 1;
+
+        UART_Init(UART1, &UART_CFG);
+        IRQ_Connect(IRQ0_15_UART1, IRQn_UART1, 1);
+        UART_Open(UART1);
+
+        NVIC_EnableIRQ(IRQn_UART1);                           // 使能中断
+    }
+    break;
+#endif
+
+#if UART2_UNIT_EN > 0
+    case 2 :                                                  // -- 串口2
+    {
+        UART_InitStructure UART_CFG;
+
+    
+        NVIC_DisableIRQ(IRQn_UART2);                          // 禁止中断
+
+        PORT_Init(UART2_RXD_PORT, UART2_RXD_IO, FUNMUX_UART2_RXD, 1);	//GPIOB.8配置为UART1输入引脚
+        PORT_Init(UART2_TXD_PORT, UART2_TXD_IO, FUNMUX_UART2_TXD, 0);	//GPIOB.9配置为UART1输出引脚
+        
+        UART_CFG.Baudrate       = baud;
+        UART_CFG.DataBits       = bits;
+        UART_CFG.Parity         = parity;
+        UART_CFG.StopBits       = stops;
+        
+        UART_CFG.RXThreshold    = 2;
+        UART_CFG.RXThresholdIEn = 1;
+        
+        UART_CFG.TXThreshold    = 3;
+        UART_CFG.TXThresholdIEn = 0;
+        
+        UART_CFG.TimeoutTime    = 2;
+        UART_CFG.TimeoutIEn     = 1;
+
+        UART_Init(UART2, &UART_CFG);
+        IRQ_Connect(IRQ0_15_UART2, IRQn_UART2, 1);
+        UART_Open(UART2);
+
+        NVIC_EnableIRQ(IRQn_UART2);                           // 使能中断
+    }
+        break;
+#endif
+
+#if UART3_UNIT_EN > 0
+    case 3 :                                                  // -- 串口3
+    {
+        UART_InitStructure UART_CFG;
+
+    
+        NVIC_DisableIRQ(IRQn_UART3);                          // 禁止中断
+
+        PORT_Init(UART3_RXD_PORT, UART3_RXD_IO, FUNMUX_UART3_RXD, 1);	//GPIOB.8配置为UART1输入引脚
+        PORT_Init(UART3_TXD_PORT, UART3_TXD_IO, FUNMUX_UART3_TXD, 0);	//GPIOB.9配置为UART1输出引脚
+        
+        UART_CFG.Baudrate       = baud;
+        UART_CFG.DataBits       = bits;
+        UART_CFG.Parity         = parity;
+        UART_CFG.StopBits       = stops;
+        
+        UART_CFG.RXThreshold    = 2;
+        UART_CFG.RXThresholdIEn = 1;
+        
+        UART_CFG.TXThreshold    = 3;
+        UART_CFG.TXThresholdIEn = 0;
+        
+        UART_CFG.TimeoutTime    = 2;
+        UART_CFG.TimeoutIEn     = 1;
+        
+        UART_Init(UART3, &UART_CFG);
+        IRQ_Connect(IRQ0_15_UART3, IRQn_UART3, 1);
+        UART_Open(UART3);
+
+        NVIC_EnableIRQ(IRQn_UART3);                           // 使能中断
+    }
+        break;
+#endif
+    
+    default :                                                 // -- 串口错误
+        UART_EXIT_CRITICAL();                                 // 退出临界
+        return UART_ERR_ERR;
+    }
+    UART_EXIT_CRITICAL();                               // 退出临界
+
+    return (UART_ERR_NONE);                             // 没有错误
+}
+
+
+/*********************************************************************************************************
+* 功 能 : 串口关闭
+* 入 口 : 'port' 串口号
+* 返 回 : 无
+* 说 明 : 1> 停止UART中断
+*         2> 恢复对应的IO资源为GPIO
+*********************************************************************************************************/
+
+void UartClose (u8_t port)
+{
+    if (port >= UART_MAX_NUM) {                     // 参数检查
+        return;                                     // 超过最大串口数据 退出
+    }
+
+    UART_ENTER_CRITICAL();                          // 进入临界
+    if ( !UartUsgFlag[port] ) {                     // 当前串口时候正在使用?
+        UART_EXIT_CRITICAL();                       // 退出临界
+        return;                                     // 已经关闭了 直接退出
+    }
+
+    UartUsgFlag[port] = FALSE;                      // 设置串口使用标志为未使用
+
+    switch (port) {                                 // -- 根据端口号来处理
+#if UART0_UNIT_EN > 0
+    case 0 :                                        // -- 串口0
+        NVIC_DisableIRQ(IRQn_UART0);                // 禁止中断
+
+        UART_Close(UART0);
+        break;
+#endif
+
+#if UART1_UNIT_EN > 0                               //
+    case 1 :                                        // -- 串口1
+        NVIC_DisableIRQ(IRQn_UART1);                // 禁止中断
+
+        UART_Close(UART1);
+        break;
+#endif
+
+#if UART2_UNIT_EN > 0
+    case 2 :                                        // -- 串口2
+        NVIC_DisableIRQ(IRQn_UART2);                // 禁止中断
+
+        UART_Close(UART2);
+        break;
+#endif
+
+#if UART3_UNIT_EN > 0
+    case 3 :                                        // -- 串口2
+        NVIC_DisableIRQ(IRQn_UART2);                // 禁止中断
+
+        UART_Close(UART3);
+        break;
+#endif
+    
+    default :                                       // -- 串口错误
+        break;
+    }
+
+    UartBufFlush(port, UART_RST_RXTX);              // 清空端口变量内容(接收/发送)
+
+    UART_EXIT_CRITICAL();                           // 退出临界
+}
+
+
+/*********************************************************************************************************
+* 功 能 : 串口读数据
+* 入 口 : 'port' 串口编号
+*         'err'  返回错误信息的指针
+* 返 回 : 1> 读到的数据
+*         2> err=UART_RXD_EMPTY 接收缓存没有数据
+*         3> err=UART_RXD_OK    正确在接收缓存读到数据
+* 说 明 : 1> 在调用此函数前 最好用Uart1RxGetNMsgs函数检查一下接收缓存里面有没有信息
+*         2> 如果不按1>的用法用 则要对返回的错误代码分析
+*********************************************************************************************************/
+
+u8_t  UartRxGetChar  (u8_t port, u8_t *err)
+{
+    stUART_BUF_DEF *p     = NULL;
+    stUART_CTRL    *pCtrl = NULL; 
+    u8_t            msg = 0;
+
+
+    if (port >= UART_MAX_NUM) {                     // 参数检查
+        *err = UART_ERR_RXD_EMPTY;                  // 返回代码为接收为空
+        return 0;                                   //
+    }
+
+    UART_ENTER_CRITICAL();                          // 进入临界
+    if ( !UartUsgFlag[port] ) {                     // 参数检查
+        *err = UART_ERR_NO_USE;                     // 串口未配置
+        UART_EXIT_CRITICAL();                       // 退出临界
+        return 0;                                   //
+    }
+
+    p     = &UartBuf[port].Rx;                      // 取对应串口缓存
+    pCtrl = &p->stCtrl;                             //
+    if ( !pCtrl->bit.bEn ) {                        //
+        UART_EXIT_CRITICAL();                       // 退出临界        
+        return 0;                                   //  
+    }
+    
+    if (pCtrl->bit.Cnt > 0) {                       // 检测接收缓存是否有数据
+        pCtrl->bit.Cnt--;                           // 有数据计数器减1
+        msg = p->pBuf[pCtrl->bit.Out++];            // 取出数据
+        if (pCtrl->bit.Out >= p->BufSize) {         // 检查出数据计数器 是否大于最大接收缓存
+            pCtrl->bit.Out  = 0;                    // 是复位出数据计数器
+        }
+        *err = UART_ERR_RXD_NO_ERR;                 // 返回代码为读数据正确
+    } else {
+        *err = UART_ERR_RXD_EMPTY;                  // 返回代码为接收为空
+    }
+    UART_EXIT_CRITICAL();                           // 退出临界
+
+    return (msg);                                   //
+}
+
+
+/*********************************************************************************************************
+* 功 能 : 串口读N个数据
+* 入 口 : 'port' 串口编号
+*         'p'    返回数据信息的指针
+*         'len'  读的数据长度
+* 返 回 : 1> UART_RXD_EMPTY 读数据为空    一般是len为空 或接收缓存中没有数据
+*         2> UART_RXD_FALSE 错误读数据    一般为len大于数据接收缓存中的数据
+*         3> UART_RXD_OK    数据正确读到
+* 说 明 : 1> 对于返回参数2> 可以使用Uart1RxGetNMsgs 先取得缓存中的数据个数再一次读走
+*********************************************************************************************************/
+
+u8_t  UartRxGetNChar (u8_t port, u8_t *pRBuf, UART_TYPE len)
+{
+    stUART_BUF_DEF *p     = NULL;
+    stUART_CTRL    *pCtrl = NULL; 
+    UART_TYPE       i = len;
+
+
+
+    if (port >= UART_MAX_NUM) {                     // 参数检查 端口号是否正确
+        return 0;                                   // 返回0
+    }
+
+    if ( (pRBuf == NULL) || (len == 0) ) {          // 参数检查
+        return 0;                                   // 返回0
+    }
+
+    UART_ENTER_CRITICAL();                          // 进入临界
+    if ( !UartUsgFlag[port] ) {                     // 参数检查 此端口是否已经配置
+        UART_EXIT_CRITICAL();                       // 退出临界
+        return 0;                                   // 返回0
+    }
+
+    p     = &UartBuf[port].Rx;                      // 取对应串口缓存
+    pCtrl = &p->stCtrl;                             //
+    if ( !pCtrl->bit.bEn ) {                        //
+        UART_EXIT_CRITICAL();                       // 退出临界        
+        return 0;                                   //  
+    }
+    
+    if (pCtrl->bit.Cnt == 0) {                      // 检查数据长度 和接收缓存是否为空
+        UART_EXIT_CRITICAL();                       // 退出临界
+        return 0;                                   // 返回代码接收数据为0个
+    }
+
+    if (len > pCtrl->bit.Cnt) {                     // 检查读数长度跟实际接收缓存数据个数
+        i      = pCtrl->bit.Cnt;                    // 只能交给缓存中实际的数据量
+        len    = i;                                 // 返回读取到p->Cnt个数据
+        pCtrl->bit.Cnt = 0;                         // 缓存中的数据全部交给当前读取了
+    } else {
+        pCtrl->bit.Cnt = pCtrl->bit.Cnt - len;      //
+    }
+
+    while (i--) {                                   // 读走i个数据
+        *pRBuf++ = p->pBuf[pCtrl->bit.Out++];       // 取出数据
+        if (pCtrl->bit.Out >= p->BufSize) {         // 处理接收出数据计数器
+            pCtrl->bit.Out = 0;                     // 复位出数据计数器
+        }
+    }
+    UART_EXIT_CRITICAL();                           // 退出临界
+
+    return (len);                                   // 返回接收到n个数据
+}
+
+
+/*********************************************************************************************************
+* 功 能 : 检测接收缓存中的数据个数
+* 入 口 : 'port' 串口编号
+* 返 回 : 缓存中的数据个数
+* 说 明 : 无
+*********************************************************************************************************/
+
+UART_TYPE   UartRxGetNMsgs (u8_t port)
+{
+    stUART_BUF_DEF *p     = NULL;
+    stUART_CTRL    *pCtrl = NULL; 
+    UART_TYPE       cnt = 0;
+
+
+    if (port >= UART_MAX_NUM) {                     // 参数检查
+        return 0;                                   // 返回0
+    }
+
+    UART_ENTER_CRITICAL();                          // 进入临界
+    if ( !UartUsgFlag[port] ) {                     // 参数检查 此端口是否已经配置
+        UART_EXIT_CRITICAL();                       // 退出临界
+        return 0;                                   // 返回0
+    }
+
+    p     = &UartBuf[port].Rx;                      // 取对应串口缓存
+    pCtrl = &p->stCtrl;                             //
+    if ( !pCtrl->bit.bEn ) {                        //
+        UART_EXIT_CRITICAL();                       // 退出临界        
+        return 0;                                   //  
+    }
+    
+    cnt = pCtrl->bit.Cnt;                           // 取接收计数器数据
+    UART_EXIT_CRITICAL();                           // 退出临界
+
+    return (cnt);                                   // 返回接收缓存计数
+}
+
+
+/*********************************************************************************************************
+* 功 能 : 串口接收数据进入缓存
+* 入 口 : 'port' 串口号
+*         'Data' 待入本地缓存的数据
+* 返 回 : 无
+* 说 明 : 1> 内部函数 用户禁止调用
+*         2> 只在中断中使用 不能使用临界处理函数
+*********************************************************************************************************/
+
+static void UartRxInBuf (u8_t port, u8_t Data)
+{
+    stUART_BUF_DEF *p     = NULL;
+    stUART_CTRL    *pCtrl = NULL; 
+
+
+    p     = &UartBuf[port].Rx;                      // 取对应串口缓存
+    pCtrl = &p->stCtrl;                             //
+    if ( !pCtrl->bit.bEn ) {                        //
+        return ;                                    //  
+    }
+    
+    if (pCtrl->bit.Cnt < p->BufSize) {              // 检查缓冲大小
+        pCtrl->bit.Cnt++;                           // 接收缓存计数器累加
+        p->pBuf[pCtrl->bit.In++] = Data;            // 接收到的数据进缓存
+        if (pCtrl->bit.In >= p->BufSize) {          // 处理索引
+            pCtrl->bit.In = 0;                      // 进入索引复位
+        }
+    }
+}
+
+
+/*********************************************************************************************************
+* 功 能 : 检测发送缓存中的空闲空间
+* 入 口 : 'port' 串口编号
+* 返 回 : 缓存中的空闲空间大小
+* 说 明 : 无
+*********************************************************************************************************/
+
+UART_TYPE  UartTxGetEmptyMsgs (u8_t port)
+{
+    stUART_BUF_DEF *p     = NULL;
+    stUART_CTRL    *pCtrl = NULL; 
+    UART_TYPE       cnt = 0;
+
+
+    if (port >= UART_MAX_NUM) {                     // 参数检查
+        return 0;                                   // 返回0
+    }
+
+    UART_ENTER_CRITICAL();                          // 进入临界
+    if ( !UartUsgFlag[port] ) {                     // 参数检查 此端口是否已经配置
+        UART_EXIT_CRITICAL();                       // 退出临界
+        return 0;                                   // 返回0
+    }
+
+    p     = &UartBuf[port].Tx;                      // 取对应串口缓存
+    pCtrl = &p->stCtrl;                             //
+    if ( !pCtrl->bit.bEn ) {                        //
+        UART_EXIT_CRITICAL();                       // 退出临界        
+        return 0;                                   //  
+    }
+    
+    cnt = p->BufSize - pCtrl->bit.Cnt;              // 取接收计数器数据
+    UART_EXIT_CRITICAL();                           // 退出临界
+
+    return (cnt);                                   // 返回接收缓存计数
+}
+
+
+/*********************************************************************************************************
+* 功 能 : 检测发送缓存中的数据个数
+* 入 口 : 'port' 串口编号
+* 返 回 : 缓存中的数据个数
+* 说 明 : 无
+*********************************************************************************************************/
+
+UART_TYPE  UartTxGetNMsgs (u8_t port)
+{
+    stUART_BUF_DEF *p     = NULL;
+    stUART_CTRL    *pCtrl = NULL; 
+    UART_TYPE       cnt = 0;
+
+
+    if (port >= UART_MAX_NUM) {                     // 参数检查
+        return 0;                                   // 返回0
+    }
+
+    UART_ENTER_CRITICAL();                          // 进入临界
+    if ( !UartUsgFlag[port] ) {                     // 参数检查 此端口是否已经配置
+        UART_EXIT_CRITICAL();                       // 退出临界
+        return 0;                                   // 返回0
+    }
+
+    p     = &UartBuf[port].Tx;                      // 取对应串口缓存
+    pCtrl = &p->stCtrl;                             //
+    if ( !pCtrl->bit.bEn ) {                        //
+        UART_EXIT_CRITICAL();                       // 退出临界        
+        return 0;                                   //  
+    }
+    
+    cnt = pCtrl->bit.Cnt;                           // 取接收计数器数据
+    UART_EXIT_CRITICAL();                           // 退出临界
+
+    return (cnt);                                   // 返回接收缓存计数
+}
+
+
+/*********************************************************************************************************
+* 功 能 : 串口发送不了的数据进入缓存
+* 入 口 : 'port' 串口编号
+*         'Data' 进入缓存的消息数据
+* 返 回 : 1> UART_TXD_FLOODL 发送消息进入缓存满 (失败)
+*         2> UART_TXD_OK   发送消息进入缓存OK
+* 说 明 : 1> 内部模式 用户不能调用
+*********************************************************************************************************/
+
+static void UartTxInBuf (u8_t port, u8_t Data)
+{
+    stUART_BUF_DEF *p     = NULL;
+    stUART_CTRL    *pCtrl = NULL;  
+
+
+    p     = &UartBuf[port].Tx;                      // 取对应串口缓存
+    pCtrl = &p->stCtrl;                             //
+    if ( !pCtrl->bit.bEn ) {                        //
+        return ;                                    // 发送特征值 
+    }
+    
+    if (pCtrl->bit.Cnt < p->BufSize) {              // 处理发送缓存计数器
+        pCtrl->bit.Cnt++;                           // 发送缓存计数器加1
+        p->pBuf[pCtrl->bit.In++] = Data;            // 来不及发送的数据进发送缓存
+        if (pCtrl->bit.In >= p->BufSize) {          // 处理发送进缓存计数器
+            pCtrl->bit.In = 0;                      // 复位发送进缓存计数器
+        }
+    }
+}
+
+
+/*********************************************************************************************************
+* 功 能 : 得到指定端口线发送状态
+* 入 口 : 'port' 串口编号
+* 返 回 : 1> FALSE 写满
+*         2> TRUE 为空
+* 说 明 : 1> 内部模式 用户不能调用
+*********************************************************************************************************/
+
+//static BOOL  UartTxLsrSts (u8_t port)
+//{
+//    u32_t LSRValue = 0;
+
+
+//    switch (port) {
+//#if UART0_UNIT_EN > 0
+//    case 0 :
+//        LSRValue = UART_IsTXBusy(UART0);
+//        break;
+//#endif
+
+//#if UART1_UNIT_EN > 0
+//    case 1 :
+//        LSRValue = UART_IsTXBusy(UART1);
+//        break;
+//#endif
+
+//#if UART2_UNIT_EN > 0
+//    case 2 :
+//        LSRValue = UART_IsTXBusy(UART2);
+//        break;
+//#endif
+
+//#if UART3_UNIT_EN > 0
+//    case 3 :
+//        LSRValue = UART_IsTXBusy(UART3);
+//        break;
+//#endif
+
+//    default :
+//        break;
+//    }
+
+//    return ((LSRValue==0) ? (FALSE) : (TRUE));
+//}
+
+
+/*********************************************************************************************************
+* 功 能 : 串口缓存中取数据发送
+* 入 口 : 'port' 串口编号
+*         'Data' 进入缓存的消息数据
+* 返 回 : 1> UART_TXD_FLOODL 发送消息进入缓存满 (失败)
+*         2> UART_TXD_OK   发送消息进入缓存OK
+* 说 明 : 1> 内部模式 用户不能调用
+*********************************************************************************************************/
+
+static u8_t UartTxOutBuf (u8_t port)
+{
+    stUART_BUF_DEF *p     = NULL;
+    stUART_CTRL    *pCtrl = NULL;    
+    u8_t            temp;
+
+
+    p     = &UartBuf[port].Tx;                      // 取对应串口缓存
+    pCtrl = &p->stCtrl;                             //
+    if ( !pCtrl->bit.bEn ) {                        //
+        return 0xAA;                                // 发送特征值 
+    }
+    
+    pCtrl->bit.Cnt--;                               // 发送缓存计数器减一
+    temp = p->pBuf[pCtrl->bit.Out++];             
+    if (pCtrl->bit.Out >= p->BufSize) {          
+        pCtrl->bit.Out = 0;                       
+    }
+
+    return temp;
+}
+         
+
+
+/*********************************************************************************************************
+* 功 能 : 串口发送1 BYTE数据
+* 入 口 : 'port' 串口编号
+*         'Date' 发送的数据
+* 返 回 : 1> UART_TXD_OK    发送数据OK
+*         2> UART_TXD_FALSE 发送失败   一般是发送缓存已满
+* 说 明 : 1> SBUF发送寄存器为空时直接把要发送的数据放到发送缓存
+*         2> SBUF发送寄存器为忙时来不及发的数据进入到发送缓存
+*         3> 发送缓存满时直接返回发送失败
+*********************************************************************************************************/
+
+u8_t UartTxPutChar (u8_t port, u8_t Data)
+{
+    stUART_BUF_DEF *p     = NULL;
+    stUART_CTRL    *pCtrl = NULL; 
+
+
+    if (port >= UART_MAX_NUM) {                     // 参数检查
+        return UART_ERR_TXD_FALSE;                  // 返回0
+    }
+
+    UART_ENTER_CRITICAL();                          // 进入临界
+    if (!UartUsgFlag[port]) {                       // 参数检查
+        UART_EXIT_CRITICAL();                       // 退出临界
+        return UART_ERR_TXD_FALSE;                  // 返回0
+    }
+    
+    p = &UartBuf[port].Tx;                          // 取对应串口缓存
+    pCtrl = &p->stCtrl;                             //
+    if ( !pCtrl->bit.bEn ) {                        //
+        UART_EXIT_CRITICAL();                       // 退出临界
+        return (UART_ERR_TXD_FALSE);                // 
+    }
+    
+    if ( !pCtrl->bit.TxEn ) {                       // 判断串口是否可以直接发送数据
+        UartTxByte(port, Data);                     // 发送出数据
+        UART_EXIT_CRITICAL();                       // 退出临界
+        return (UART_ERR_TXD_NO_ERR);               // 返回代码为发送OK
+    }
+   
+    if (pCtrl->bit.Cnt >= p->BufSize) {             // 判断发送缓存计数器是否为最大发送缓存
+        UART_EXIT_CRITICAL();                       // 是退出临界 不处理
+        return (UART_ERR_TXD_FALSE);                // 发送缓存满 返回代码为发送失败
+    } else {
+        UartTxInBuf(port, Data);                    // 来不及发送的数据一直等到进入发送缓存
+        UART_EXIT_CRITICAL();                       // 退出临界
+        return (UART_ERR_TXD_NO_ERR);               // 返回代码为发送OK
+    }
+}
+
+
+/**
+ ********************************************************************************************************
+ * @brief      UART1 发送N BYTE数据                 
+ * @param[in]  'port' 串口编号
+*              'pBuf' 指向发送消息的指针
+*              'len'  发送数据的长度
+ * @param[out] None   
+ * @retval     实际已经发送的数据长度  
+ * @par Description
+ * @details    
+ * @note       返回实际发送数据的长度 对剩下的字节 就需要用户自己处理
+ ********************************************************************************************************
+ */
+
+UART_TYPE UartTxPutNChar (u8_t port, u8_t *pWBuf, UART_TYPE len)
+{
+    stUART_BUF_DEF *p     = NULL;
+    stUART_CTRL    *pCtrl = NULL; 
+    UART_TYPE       i = 0;
+
+
+    if (port >= UART_MAX_NUM) {                     // 参数检查
+        return 0;                                   // 返回0
+    }
+
+    if ( (pWBuf == NULL) || (len == 0) ) {          // 参数检查
+        return 0;                                   // 返回0
+    }
+
+    UART_ENTER_CRITICAL();                          // 进入临界
+    if (!UartUsgFlag[port]) {                       // 参数检查
+        UART_EXIT_CRITICAL();
+        return 0;                                   // 返回0
+    }
+
+    p     = &UartBuf[port].Tx;                      // 取对应串口缓存
+    pCtrl = &p->stCtrl;
+    if ( !pCtrl->bit.bEn ) {                        // 没有使能
+        UART_EXIT_CRITICAL();                       // 退出临界
+        return 0;                                   // 退出发送
+    }
+    
+    i   = p->BufSize - pCtrl->bit.Cnt;              // 剩下的发送缓存长度
+    if (i == 0) {                                   // 还有剩余空间？
+        UART_EXIT_CRITICAL();                       // 没有退出临界
+        return 0;                                   // 返回0
+    }
+    i   = (i >= len) ? (len) : (i);                 // 处理实际发送数据长度
+    len = i;                                        // 实际已经发送的数据长度
+
+    while (i--) {                                   // 发送数据处理
+        if ( !pCtrl->bit.TxEn ) {                   // 检测直接发送条件
+            UartTxByte(port, *pWBuf);               // 发送数据
+        } else {                                    // 理解下面的指令实际就是变相的while(!TI)
+            UartTxInBuf(port, *pWBuf);              // 发送不了的数据进入发送缓存
+        }
+        pWBuf++;                                    // 指针处理
+    }
+    UART_EXIT_CRITICAL();                           // 退出临界
+
+    return (len);                                   // 返回实际已经发送的数据长度
+}
+
+
+
+/**
+ ********************************************************************************************************
+ * @brief      初始化串口的各种变量                 
+ * @param[in]  None
+ * @param[out] None   
+ * @retval     None  
+ * @par Description
+ * @details    
+ * @note       
+ ********************************************************************************************************
+ */
+
+void UartInit (void)
+{
+    stUART_CTRL *pCtrl = NULL;
+    stUART_BUF  *p     = NULL;
+    int         i;
+    
+    
+    for (i=0; i<UART_MAX_NUM; i++) {                // 复位基本参数
+        p                  = &UartBuf[i];           // 取控制变量
+        
+        p->Rx.stCtrl.value = 0;                     // 接收控制值
+        p->Tx.stCtrl.value = 0;                     // 发送控制值
+        
+        UartUsgFlag[i]     = FALSE;                 //
+    }
+    
+    
+#if UART0_UNIT_EN > 0                               // - uart0
+    p               = &UartBuf[0];
+    
+#if UART0_RXD_EN > 0
+    pCtrl           = &p->Rx.stCtrl;    
+    pCtrl->bit.bEn  = TRUE;
+    
+    p->Rx.pBuf      = Uart0RxBuf;
+    p->Rx.BufSize   = UART0_RXD_BUF_SIZE;
+#endif
+    
+#if UART0_TXD_EN > 0
+    pCtrl           = &p->Tx.stCtrl;
+    pCtrl->bit.bEn  = TRUE;
+    pCtrl->bit.TxEn = UART_TX_NO_BUSY;
+    
+    p->Tx.pBuf      = Uart0TxBuf;
+    p->Tx.BufSize   = UART0_TXD_BUF_SIZE;
+#endif
+
+#endif
+
+    
+#if UART1_UNIT_EN > 0                               // - uart1
+    p               = &UartBuf[1];
+    
+#if UART1_RXD_EN > 0
+    pCtrl           = &p->Rx.stCtrl;    
+    pCtrl->bit.bEn  = TRUE;
+    
+    p->Rx.pBuf      = Uart1RxBuf;
+    p->Rx.BufSize   = UART1_RXD_BUF_SIZE;
+#endif
+    
+#if UART1_TXD_EN > 0
+    pCtrl           = &p->Tx.stCtrl;
+    pCtrl->bit.bEn  = TRUE;
+    pCtrl->bit.TxEn = UART_TX_NO_BUSY;
+    
+    p->Tx.pBuf      = Uart1TxBuf;
+    p->Tx.BufSize   = UART1_TXD_BUF_SIZE;
+#endif
+
+#endif
+
+
+#if UART2_UNIT_EN > 0                               // - uart2
+    p               = &UartBuf[2];
+    
+#if UART2_RXD_EN > 0
+    pCtrl           = &p->Rx.stCtrl;    
+    pCtrl->bit.bEn  = TRUE;
+    
+    p->Rx.pBuf      = Uart2RxBuf;
+    p->Rx.BufSize   = UART2_RXD_BUF_SIZE;
+#endif
+    
+#if UART2_TXD_EN > 0
+    pCtrl           = &p->Tx.stCtrl;
+    pCtrl->bit.bEn  = TRUE;
+    pCtrl->bit.TxEn = UART_TX_NO_BUSY;
+    
+    p->Tx.pBuf      = Uart2TxBuf;
+    p->Tx.BufSize   = UART2_TXD_BUF_SIZE;
+#endif
+
+#endif
+
+
+#if UART3_UNIT_EN > 0                               // - uart3
+    p               = &UartBuf[3];
+    
+#if UART3_RXD_EN > 0
+    pCtrl           = &p->Rx.stCtrl;    
+    pCtrl->bit.bEn  = TRUE;
+    
+    p->Rx.pBuf      = Uart3RxBuf;
+    p->Rx.BufSize   = UART3_RXD_BUF_SIZE;
+#endif
+    
+#if UART3_TXD_EN > 0
+    pCtrl           = &p->Tx.stCtrl;
+    pCtrl->bit.bEn  = TRUE;
+    pCtrl->bit.TxEn = UART_TX_NO_BUSY;
+    
+    p->Tx.pBuf      = Uart3TxBuf;
+    p->Tx.BufSize   = UART3_TXD_BUF_SIZE;
+#endif
+
+#endif
+}
+
+
+
+#endif // UART_MODULE_EN
+/*********************************************************************************************************
+*                                             End Of File
+*********************************************************************************************************/

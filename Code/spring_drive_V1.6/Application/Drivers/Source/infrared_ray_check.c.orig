@@ -1,0 +1,27 @@
+#include "ir.h"
+
+uint8_t ir_count =0;
+
+static void IR_GPIO_Init(void)
+{
+	GPIO_Init(IR_PART,IR_PIN,0,0,1,0);
+	GPIO_ClrBit(IR_PART,IR_PIN);
+	
+}
+
+static void IR_EXTI_Init(void)
+{
+	EXTI_Init(IR_PART,IR_PIN,EXTI_HIGH_LEVEL); //…œ…˝—ÿ¥•∑¢
+	
+	IRQ_Connect(IR_EXTI_CHANNEL,IR_IRQn,0);
+	
+	IR_EXTI_DISABLE();	
+}
+
+
+void IR_check_init(void)
+{
+		IR_GPIO_Init();
+		IR_EXTI_Init();
+		
+}

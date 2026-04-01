@@ -1,0 +1,86 @@
+#include "address.h"
+
+#define ADDR1_PRAT GPIOE
+#define ADDR2_PRAT GPIOE
+
+#define ADDR1_PIN  PIN1
+#define ADDR2_PIN  PIN0
+
+#define EEPROM_ADDRESS 0X3DC00
+#define ADDR_DRIVE_FLAG			(0X3DC00+0x04)//偏移 4字节
+#define ADDR_DRIVE_ADDRRSS	(0X3DC00+0x08)//偏移 8字节
+
+#define DRIVE_FIRST_START_UP 		0XFFFFFFFFUL
+#define DRIVE_NOT_FIRST_START_UP 0x000000FEUL
+#define DRIVER_DEFAULT_ADDR 0x00000001UL
+
+#pragma pack(1)
+typedef struct
+{
+	uint32_t addr_flag;
+	uint32_t drive_addr;
+	
+}Addr_Information; 
+#pragma pack()
+
+Addr_Information  addr_inf;
+
+//void Address_GPIO_Init(void)
+//{
+//    GPIO_Init(ADDR1_PRAT,ADDR1_PIN,0,1,0,0);//上拉
+//    GPIO_Init(ADDR2_PRAT,ADDR2_PIN,0,1,0,0);//上拉
+//}
+
+uint8_t Get_Driver_Addr(void)
+{
+//		uint32_t address = 0;
+//    address |= (GPIO_GetBit(ADDR1_PRAT, ADDR1_PIN)<<1)&0XFF; //第7位
+//    address |= GPIO_GetBit(ADDR2_PRAT, ADDR2_PIN);	//第8位
+	
+    return (uint8_t)(addr_inf.drive_addr&0xFF);
+}
+
+void Drive_Address_Config(void)
+{
+	uint32_t buff[2]={0x00,0x00};
+	
+	FLASH_Read(ADDR_DRIVE_FLAG,buff,2);
+	
+	addr_inf.addr_flag  = buff[0];
+	addr_inf.drive_addr = buff[1];
+	
+	if(addr_inf.addr_flag == DRIVE_FIRST_START_UP) //首次启动
+	{
+		FLASH_Erase(EEPROM_ADDRESS);	//先擦除
+		
+		buff[0] = DRIVE_NOT_FIRST_START_UP;
+		buff[1] = DRIVER_DEFAULT_ADDR;	
+		
+		FLASH_Write(ADDR_DRIVE_FLAG , buff , 2);
+		
+	}
+	
+	FLASH_Read(ADDR_DRIVE_FLAG,buff,2);
+	addr_inf.addr_flag  = buff[0];
+	addr_inf.drive_addr = buff[1];
+}
+
+void Modification_Address(uint8_t new_address)
+{
+		uint32_t buff[2]={0x00,0x00};
+		__disable_irq();
+	
+		FLASH_Erase(EEPROM_ADDRESS);//先擦除
+	
+		buff[0] = DRIVE_NOT_FIRST_START_UP;		
+		buff[1] = ((uint32_t)new_address&0x000000FF);
+		
+		FLASH_Write(ADDR_DRIVE_FLAG , buff ,2);	
+		FLASH_Read(ADDR_DRIVE_FLAG ,buff ,2);
+		
+		addr_inf.addr_flag 	= buff[0];
+		addr_inf.drive_addr = buff[1];
+		
+		
+		__enable_irq();
+}

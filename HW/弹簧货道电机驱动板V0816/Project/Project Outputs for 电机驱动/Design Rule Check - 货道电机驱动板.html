@@ -1,0 +1,448 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html">
+<style type="text/css">
+		h1, h2, h3, h4, h5, h6 {
+			font-family : segoe ui;
+			color : black;
+			background-color : #EDE7D9;
+			padding: 0.3em;
+		}
+
+		h1 {
+			font-size: 1.2em;
+		}		
+
+		h2 {
+			font-size: 1.2em;
+		}
+
+		body {
+			font-family : segoe ui;
+		}
+
+		td, th {
+			padding: 0.5em;
+			text-align : left;
+			width: 10em;
+		}
+		th {
+			background-color : #EEEEEE;
+
+		}
+		th.column1, td.column1 {
+			text-align: left;
+			width : auto;
+		}
+		table {
+			width : 100%;
+			font-size: 0.9em;
+		}
+
+		.DRC_summary_header {
+			padding-bottom : 0.1em;
+			border : 0px solid black;
+			width: 100%;
+			align: left;
+		}
+
+		.DRC_summary_header_col1,
+		.DRC_summary_header_col2, 
+		.DRC_summary_header_col3 {
+			color : black;
+			font-size:100%;
+			padding : 0em;
+			padding-top : 0.2em;
+			padding-bottom 0.2em;
+			border : 0px solid black;
+			vertical-align: top;
+			text-align: left;
+		}
+
+		.DRC_summary_header_col1 {
+			font-weight: bold;
+			width: 8em;
+		}
+
+		.DRC_summary_header_col2 {
+			width: 0.1em;
+		
+		}
+
+		.DRC_summary_header_col3 {
+			width : auto;
+		}
+
+		.header_holder {
+		    Width = 100%;
+		    border = 0px solid green;
+		    padding = 0;
+		}
+
+
+		.front_matter, .front_matter_column1, .front_matter_column2, .front_matter_column3
+		{
+			left : 0;
+			top : 0;
+			padding: 0em;
+			padding-top : 0.1em;
+			border : 0px solid black;
+			width : 100%;
+			vertical-align: top;
+			text-align: left;
+		}
+
+		.front_matter_column1 {
+			width : 8em;
+			font-weight: bold;
+		}
+
+		.front_matter_column2 {
+			width: 0.1em;
+		}
+
+		.front_matter_column3 {
+			width : auto;
+		}
+
+		.total_column1, .total_column {
+			font-weight : bold;
+		}
+		.total_column1 {
+			text-align : left;
+		}
+		.warning, .error {
+			color : red;
+			font-weight : bold;
+		}
+		tr.onmouseout_odd {
+			background-color : #white;
+		}
+		tr.onmouseout_even { 
+			background-color : #FAFAFA;
+		}
+		tr.onmouseover_odd, tr.onmouseover_even { 
+			background-color : #EEEEEE;
+		} 
+		a:link, a:visited, .q a:link,.q a:active,.q {
+			color: #21489e; 
+		}
+		a:link.callback, a:visited.callback { 
+			color: #21489e;
+		}
+		a:link.customize, a:visited.customize {
+			color: #C0C0C0;
+			position: absolute; 
+			right: 10px;
+		}	
+		p.contents_level1 {
+			font-weight : bold;
+			font-size : 110%;
+			margin : 0.5em;
+		}
+		p.contents_level2 {
+			position : relative;
+			left : 20px;
+			margin : 0.5em;
+		}
+	</style><script type="text/javascript">
+		function coordToMils(coord) {
+			var number = coord / 10000;
+			
+			if (number != number.toFixed(3))
+				number = number.toFixed(3);
+
+			return number + 'mil'
+		}
+
+		function coordToMM(coord) {
+			var number = 0.0254 * coord / 10000;
+			
+			if (number != number.toFixed(4))
+				number = number.toFixed(4);
+			
+			return number + 'mm'
+		}
+	
+		function convertCoord(coordNode, units) {
+			for (var i = 0; i < coordNode.childNodes.length; i++) {
+				coordNode.removeChild(coordNode.childNodes[i]);
+			}
+
+			var coord = coordNode.getAttribute('value');
+			if (coord != null) {
+				if (units == 'mm') {
+					textNode = document.createTextNode(coordToMM(coord));
+					coordNode.appendChild(textNode);
+				} else if (units == 'mil') {
+					textNode = document.createTextNode(coordToMils(coord));		
+					coordNode.appendChild(textNode);	
+				}
+			}
+		}
+	
+		function convertUnits(unitNode, units) {
+			for (var i = 0; i < unitNode.childNodes.length; i++) {
+				unitNode.removeChild(unitNode.childNodes[i]);		
+			}
+		
+			textNode = document.createTextNode(units); 
+			unitNode.appendChild(textNode);
+		}
+	
+		function changeUnits(radio_input, units) {
+			if (radio_input.checked) {
+			
+				var elements = document.getElementsByName('coordinate');
+				if (elements) {
+					for (var i = 0; i < elements.length; i++) {
+						convertCoord(elements[i], units);
+					}
+				}
+	
+				var elements = document.getElementsByName('units');
+				if (elements) {
+					for (var i = 0; i < elements.length; i++) {
+						convertUnits(elements[i], units);
+					}
+				}
+			}
+		}
+	</script><title>Design Rule Verification Report</title>
+</head>
+<body onload=""><img ALT="Altium" src="
+			file://D:\EDA\AD\Shared\Templates\AD_logo.png
+		"><h1>Design Rule Verification Report</h1>
+<table class="header_holder">
+<td class="column1">
+<table class="front_matter">
+<tr class="front_matter">
+<td class="front_matter_column1">Date:</td>
+<td class="front_matter_column2"></td>
+<td class="front_matter_column3">2019/8/16</td>
+</tr>
+<tr class="front_matter">
+<td class="front_matter_column1">Time:</td>
+<td class="front_matter_column2"></td>
+<td class="front_matter_column3">14:26:58</td>
+</tr>
+<tr class="front_matter">
+<td class="front_matter_column1">Elapsed Time:</td>
+<td class="front_matter_column2"></td>
+<td class="front_matter_column3">00:00:01</td>
+</tr>
+<tr class="front_matter">
+<td class="front_matter_column1">Filename:</td>
+<td class="front_matter_column2"></td>
+<td class="front_matter_column3"><a href="file:///G:\%E7%A1%AC%E4%BB%B6\%E5%94%AE%E8%B4%A7%E6%9C%BA%E5%A4%96%E8%AE%BE\%E5%BC%B9%E7%B0%A7%E7%94%B5%E6%9C%BA%E9%A9%B1%E5%8A%A8%E6%9D%BF\%E5%BC%B9%E7%B0%A7%E8%B4%A7%E9%81%93%E7%94%B5%E6%9C%BA%E9%A9%B1%E5%8A%A8%E6%9D%BFV0816\PCB\%E8%B4%A7%E9%81%93%E7%94%B5%E6%9C%BA%E9%A9%B1%E5%8A%A8%E6%9D%BF.PcbDoc" class="file"><acronym title="G:\硬件\售货机外设\弹簧电机驱动板\弹簧货道电机驱动板V0816\PCB\货道电机驱动板.PcbDoc">G:\硬件\售货机外设\弹簧电机驱动板\弹簧货道电机驱动板V0816\PCB\货道电机驱动板.PcbDoc</acronym></a></td>
+</tr>
+</table>
+</td>
+<td class="column2">
+<table class="DRC_summary_header">
+<tr>
+<td class="DRC_summary_header_col1">Warnings:</td>
+<td class="DRC_summary_header_col2"></td>
+<td class="DRC_summary_header_col3">0</td></tr>
+<tr>
+<td class="DRC_summary_header_col1">Rule Violations:</td>
+<td class="DRC_summary_header_col2"></td>
+<td class="DRC_summary_header_col3">0</td></tr>
+</table>
+</td>
+</table><a name="IDYK34F0MWB11SCVBHG0UMJL40TE3E4X3Z2QMHQAFA4FVGXC3AAINC"><h2>Summary</h2></a><table>
+<tr>
+<th class="column1">Warnings</th>
+<th class="column2">Count</th>
+</tr>
+<tr>
+<td style="font-weight : bold; text-align : right" class="column1">Total</td>
+<td style="font-weight : bold" class="column2">0</td>
+</tr>
+</table><br><table>
+<tr>
+<th class="column1">Rule Violations</th>
+<th class="column2">Count</th>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDDS3CNA01ENG1BKAZSLRHO4M1HIU5MBSVZ2F4CZGQG4VIF2JEX1FE">Clearance Constraint (Gap=15mil) (InPoly),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDBFYEKUPWTWBYN2CFS4Q3O5MSBC1QVISRZJ02UJN1JJXXUDUGZBIN">Clearance Constraint (Gap=7mil) (All),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDKVK1POSOW4UBC44NXGDUDE4SONM2KVT52PTDLZMUXB3SCP3FJW1D">Short-Circuit Constraint (Allowed=No) (All),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDORWK2HCYV0UIDAT3LPGPAAGACLMCJHDXWU5JCDCUKFDCZFILFJGE">Un-Routed Net Constraint ( (All) )</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDCHN3Y4CCZRBIMJ301G0T3TZKPC0TYELADFG1OZF3XNAVFQR4SAQB">Modified Polygon (Allow modified: No), (Allow shelved: No)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDKMFEUGYZP5NMNGUFY12B4NAOUMIJNXPLRQ2XHTPTZOSAQZTVI5N">Width Constraint (Min=6mil) (Max=500mil) (Preferred=10mil) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDP5AXHTAL1KMSGLCIQG4SH0SION21BG524TGETIZD4MA1CE2IB5C">Power Plane Connect Rule(Relief Connect )(Expansion=20mil) (Conductor Width=10mil) (Air Gap=10mil) (Entries=4) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDJBIDHDT1AIXRLTEJXEWONWQCELVIK3DQF3VWS5BPHACYANEAS4OE">Hole Size Constraint (Min=1mil) (Max=200mil) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDSYOD35P5DABEOWZCE4WPX2YNZN2L0BX5GSHFIJOODEYPJ5DZPA1D">Hole To Hole Clearance (Gap=10mil) (All),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDL2PM4RLMRYQOFXAOY5ZGKMIYTBOHCNR50VLCHRHRGDSSWKBEWJKF">Minimum Solder Mask Sliver (Gap=1mil) (All),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDKXAGN3JONQN4IZ0GRG5A2QEFRJACUIQ4JPFTCMGUCEEF5P422Q5N">Silk To Solder Mask (Clearance=0mil) (IsPad),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDGEAKSUVOZIGPGIXCDX0J1HWXXMIIO4J0NEMFYVMIY1IR21Z0UXZE">Silk to Silk (Clearance=0mil) (All),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDV5UTRBM4AIAAHC4J1IM4RVNTZMMZS0JEMU1NBQM3VVFPH0CZV4MM">Net Antennae (Tolerance=0mil) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#ID0L23FW1FJ4TZDRVFG3KTYV1JGIKE3CUCKGDB5JJ4E5NWW2CPGMJ">Room U_SIG_IN2 (Bounding Region = (5910.594mil, 1938.728mil, 6299.173mil, 2148.728mil) (InComponentClass('U_SIG_IN2'))</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDHVUWUUFDZTDWGIC0BJNGJ0AJYBS214GTIUPBYGMRBXWCMLBAM3HH">Room U_SIG_IN1 (Bounding Region = (5520.594mil, 1861.874mil, 5909.173mil, 2071.874mil) (InComponentClass('U_SIG_IN1'))</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#ID3CNQ5SE0RCINODTAUHDJAOMH0FM5SMAEMHL1DSDFIXEUDXVFM0TP">Room U_SIG_IN4 (Bounding Region = (5910.594mil, 2148.728mil, 6299.173mil, 2358.728mil) (InComponentClass('U_SIG_IN4'))</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDBCNZAGL0EEBSPVWK0GCYQVKWNBDTVLSNNZRVSHCMIYTILVFQIQ2">Room U_SIG_IN3 (Bounding Region = (5520.594mil, 2071.874mil, 5909.173mil, 2281.874mil) (InComponentClass('U_SIG_IN3'))</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDPWMEMGSYNSK1OHGCV230FSFMOPMJECJDTXQUCVFQNP5FDP4K4SBK">Room U_Drive_Y8 (Bounding Region = (5680mil, 3110mil, 6120mil, 3820mil) (InComponentClass('U_Drive_Y8'))</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDCSA4MKZJWMHHIT1G4FP04BBHOAZ4LCFRFV4FOKOWFE3YXMHSAUL">Room U_Drive_Y7 (Bounding Region = (5532.362mil, 3820mil, 5972.362mil, 4530mil) (InComponentClass('U_Drive_Y7'))</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDWLUQRFAJ3KFCJRBPAD1ESMGWZIZHJVXQHYUK2WFO0J0L2MRUCSDG">Room U_Drive_Y10 (Bounding Region = (6119.173mil, 3110mil, 6559.173mil, 3820mil) (InComponentClass('U_Drive_Y10'))</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDFEBPU0OP2UIOF0HFM33E12IY2GMWWFBDKLTHQQEFPDJOVGSNGMQF">Room U_Drive_Y9 (Bounding Region = (5972.362mil, 3820mil, 6412.362mil, 4530mil) (InComponentClass('U_Drive_Y9'))</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDDOIU4BI05NCBJHP0BNLO1SY0QH2QJOAHIOFJ1ZO2GVCLOEMGDHJH">Room U_Drive_Y1 (Bounding Region = (4206.96mil, 3819.582mil, 4646.96mil, 4529.582mil) (InComponentClass('U_Drive_Y1'))</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDDJFXWKTBI12PIIWQKR4IO35TOLRJNG5R3QA5SHHORXC0JTMVIS1I">Room U_SIG_IN10 (Bounding Region = (5910.594mil, 2778.728mil, 6299.173mil, 2988.728mil) (InComponentClass('U_SIG_IN10'))</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDXBGWUI53D0BVD2YLHACLNZO3NGGZJQMUBXOE1BIE1QJTVADEK44L">Room U_SIG_IN8 (Bounding Region = (5910mil, 2565mil, 6298.579mil, 2775mil) (InComponentClass('U_SIG_IN8'))</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDPUWMEHR1ZOTCDJ4MZTCPQSH1FLTCLP2JTKUZDVM2L24WIHCEWR5N">Room U_Drive_Y4 (Bounding Region = (4802.087mil, 3110mil, 5242.087mil, 3820mil) (InComponentClass('U_Drive_Y4'))</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDH0EO3JE5Y3ZQICQB2MVPQSHVYE4RFODAO5MGDHNJVF1QPONSNI5H">Room U_SIG_IN6 (Bounding Region = (5910.594mil, 2358.728mil, 6299.173mil, 2568.728mil) (InComponentClass('U_SIG_IN6'))</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDOTUMIIJTHMNIA4DB2IEKF0MXBN55FWZ1XWD5IEYKVL4TREKMCKI">Room U_SIG_IN5 (Bounding Region = (5520.594mil, 2281.874mil, 5909.173mil, 2491.873mil) (InComponentClass('U_SIG_IN5'))</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDZ4T35GQWKS0MIA4NJKKLLB0DQL0TGIYS1U5KI0LV4SBLC53BX1P">Room U_SIG_IN9 (Bounding Region = (5520.594mil, 2701.873mil, 5909.173mil, 2911.873mil) (InComponentClass('U_SIG_IN9'))</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#ID3HWUAH30ZHLYK1WIN3BJVIHA4OP4DXZSOXCDRUH3MNE0GZCC2CGM">Room U_SIG_IN7 (Bounding Region = (5520.594mil, 2491.873mil, 5909.173mil, 2701.873mil) (InComponentClass('U_SIG_IN7'))</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#ID0RVWMGSXHVOKDEXDOMQASFQ35LF4CXIKVNIYVUFWLUAKIXIUSPVH">Room U_Drive_Y6 (Bounding Region = (5240.819mil, 3110mil, 5680.819mil, 3820mil) (InComponentClass('U_Drive_Y6'))</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDPNNXWXFTYH40FE3D5SST2WKOHFPRCHPPOU30J1BWIBLN1IGB5PYD">Room U_Drive_X5 (Bounding Region = (2868.425mil, 3820mil, 3313.425mil, 4530mil) (InComponentClass('U_Drive_X5'))</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDXDG4P1VNLMSFBOGMFULTUT53LPI50XQCPB2QJFNB4A5C3Q5V0DS">Room U_Drive_X6 (Bounding Region = (3024.614mil, 3110mil, 3469.614mil, 3820mil) (InComponentClass('U_Drive_X6'))</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDTGFWBJXKQADXD45R5AOTWUVIOFQRXYMJETGSPGEFKW10AD2MDP3I">Room U_Drive_X7 (Bounding Region = (3313.425mil, 3819.582mil, 3758.425mil, 4529.582mil) (InComponentClass('U_Drive_X7'))</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#ID20WV11H0V0W3COCSKNB0MR1KKI1FXHCXEPIYNVFQAPY02QHRAVLO">Room U_Drive_X4 (Bounding Region = (2581.189mil, 3110mil, 3026.189mil, 3820mil) (InComponentClass('U_Drive_X4'))</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#ID4UOT401GAOBLBKEFBCFRFFSYDOWSYDYK5WDHSWDLV3CNVO40UFXE">Room U_Drive_X1 (Bounding Region = (1980mil, 3820mil, 2425mil, 4530mil) (InComponentClass('U_Drive_X1'))</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDSWNLGUTPTSXEJ3ZTXYY2APUPNH0EU4WTJJ5OGBCNXGPXNS5YK4FI">Room U_Drive_X2 (Bounding Region = (2135mil, 3110mil, 2580mil, 3820mil) (InComponentClass('U_Drive_X2'))</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDJT055JT03DTLEK421R0IAOWOTJ3530XFYC1KHHCMQAF2QF1FE4WE">Room U_Drive_X3 (Bounding Region = (2425mil, 3820mil, 2870mil, 4530mil) (InComponentClass('U_Drive_X3'))</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDNI4PE1RKC3MJMWEUEGI3BYECDOJO4KL4YE5YL3LDS4VZ0O5AEQUO">Room U_Drive_X8 (Bounding Region = (3470mil, 3110mil, 3915mil, 3820mil) (InComponentClass('U_Drive_X8'))</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDPPUQ0WU2ZXDUIPNUPVROBRRYETJU2ZLIU0BORBZAWMLGUOVNPLE">Room U_Drive_Y3 (Bounding Region = (4649.724mil, 3820mil, 5089.724mil, 4530mil) (InComponentClass('U_Drive_Y3'))</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDUWHGRADRDMMFCE45QKAPWCCBONIC40EBNU1AC0JVWRYKEWTJTD4">Room U_Drive_Y5 (Bounding Region = (5092.362mil, 3820mil, 5532.362mil, 4530mil) (InComponentClass('U_Drive_Y5'))</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDG2AZZCDYBNIQJEB1RJCLL2OSCNQFXNN3IKHCL3P34B04SD4P5YNF">Room U_Drive_Y2 (Bounding Region = (4360.673mil, 3110mil, 4800.673mil, 3820mil) (InComponentClass('U_Drive_Y2'))</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDFO3LU0SZ2KXIKYVKIPVIEE5WWFCEZNFRTTOKQGBOJ4JAXNACIISP">Room U_Drive_X9 (Bounding Region = (3760mil, 3820mil, 4205mil, 4530mil) (InComponentClass('U_Drive_X9'))</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#ID0KSWQUOF0MYHTLU3252CLXO0ISBP5TME3EXGKOZNCRWBMHDEOPJ">Room U_Drive_X10 (Bounding Region = (3915mil, 3110mil, 4360mil, 3820mil) (InComponentClass('U_Drive_X10'))</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#ID3DUPHEJQF2BDDFVDL33VBDW4TEBJU2H0NDFIKGL51MOOXM0OKFWB">Height Constraint (Min=0mil) (Max=1000mil) (Prefered=500mil) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr>
+<td style="font-weight : bold; text-align : right" class="column1">Total</td>
+<td style="font-weight : bold" class="column2">0</td>
+</tr>
+</table><br></body>
+</html>

@@ -1,0 +1,6 @@
+DRC Rules Export File for PCB: G:\硬件\售货机外设\弹簧电机驱动板\弹簧货道电机驱动板V0816\PCB\货道电机驱动板.PcbDoc
+RuleKind=Clearance|RuleName=Clearance|Scope=Board|Minimum=7.00
+RuleKind=SolderMaskExpansion|RuleName=SolderMaskExpansion|Scope=Board|Minimum=4.00
+RuleKind=Width|RuleName=Width|Scope=Board|Minimum=6.00
+RuleKind=Clearance|RuleName=InPolygon|Scope=Board|Minimum=15.00
+RuleKind=ShortCircuit|RuleName=ShortCircuit|Scope=Board|Allowed=0

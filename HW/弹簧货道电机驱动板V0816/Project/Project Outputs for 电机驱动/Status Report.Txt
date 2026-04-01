@@ -1,0 +1,27 @@
+Output: Gerber Files
+Type  : Gerber
+From  : Variant [[No Variations]] of Project [电机驱动.PrjPcb]
+   Generated File[货道电机驱动板.GTO]
+   Generated File[货道电机驱动板.GTP]
+   Generated File[货道电机驱动板.GTS]
+   Generated File[货道电机驱动板.GTL]
+   Generated File[货道电机驱动板.GBL]
+   Generated File[货道电机驱动板.GBS]
+   Generated File[货道电机驱动板.GBP]
+   Generated File[货道电机驱动板.GBO]
+   Generated File[货道电机驱动板.GM1]
+   Generated File[货道电机驱动板.GM13]
+   Generated File[货道电机驱动板.GM15]
+   Generated File[货道电机驱动板.GM32767]
+   Generated File[货道电机驱动板.GKO]
+   Generated File[货道电机驱动板.GPT]
+   Generated File[货道电机驱动板.GPB]
+   Generated File[货道电机驱动板.RUL]
+   Generated File[货道电机驱动板.EXTREP]
+   Generated File[货道电机驱动板.REP]
+
+
+Files Generated   : 18
+Documents Printed : 0
+
+Finished Output Generation At 14:41:44 On 2019/8/16

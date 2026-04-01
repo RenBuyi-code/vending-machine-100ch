@@ -1,0 +1,58 @@
+/* soft_timer.c/h  3.0 */
+
+#ifndef _SOFT_TIMER_H
+#define _SOFT_TIMER_H
+
+
+#include "stdint.h"
+#include "driver_config.h"
+
+
+/* 软件定时器时钟节拍单位 */
+#define TIME_BASE_MS			          50   //20ms 
+//单位时间（1s）/TIME_BASE_MS
+
+/* 软件定时器数量 */
+#define TIMER_NUM                   4
+
+/* 定时器ID */
+#define SOFT_TMR_MOTOR          0		//电机超时
+#define SOFT_TMR_IR             1		//红外超时
+#define SOFT_TMR_COLLECTION     2		//定时采集环境量
+#define SOFT_TMR_LOCK    				3		//开关锁
+#define SOFT_RS485_CH1					4	  //接收 485通道1 剩余字节 
+#define SOFT_RS485_CH2					5		//接收 485通道2 剩余字节 
+
+typedef void callback(void *argv, uint16_t argc);
+
+typedef struct softTimer {
+    uint8_t state;           //状态
+    uint8_t mode;            //模式
+    uint32_t match;          //到期时间
+    uint32_t period;         //定时周期
+    callback *cb;            //回调函数指针
+    void *argv;              //参数指针
+    uint16_t argc;           //参数个数
+} softTimer;
+
+typedef enum tmrState {
+    SOFT_TIMER_STOPPED = 0,  //停止
+    SOFT_TIMER_RUNNING,      //运行
+    SOFT_TIMER_TIMEOUT       //超时
+} tmrState;
+
+typedef enum tmrMode {
+    MODE_ONE_SHOT = 0,       //单次模式
+    MODE_PERIODIC,           //周期模式
+} tmrMode;
+
+
+void tickCnt_Update(void);
+uint32_t tickCnt_Get(void);
+void softTimer_Init(void);
+uint8_t softTimer_GetState(uint16_t id);
+void softTimer_Start(uint16_t id, tmrMode mode, uint32_t delay, callback *cb, void *argv, uint16_t argc);
+void softTimer_Stop(uint16_t id);
+void softTimer_Update(void);
+
+#endif //_SOFT_TIMER_H

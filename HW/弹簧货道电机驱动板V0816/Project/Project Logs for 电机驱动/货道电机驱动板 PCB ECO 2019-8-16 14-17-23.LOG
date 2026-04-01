@@ -1,0 +1,4 @@
+Removed Pin From Net: NetName=IR_POWER_CTR Pin=U1-3
+Removed Pin From Net: NetName=DOOR_CTRL Pin=U1-4
+Added Pin To Net: NetName=DOOR_CTRL Pin=U1-3
+Added Pin To Net: NetName=IR_POWER_CTR Pin=U1-4

@@ -1,0 +1,119 @@
+#ifndef _VM_H
+#define _VM_H
+
+#include "driver_config.h"
+
+/****定义设备类型*****/
+
+#define MOTOR_DEV    ((uint8_t)0x01)
+#define CHARGER_DEV  ((uint8_t)0x02)
+#define RS485_LOCK	 ((uint8_t)0X04)	
+
+#define BROADCAST_ADDRESS ((uint8_t)0xFF)
+#define DEFAULT_ADDRESS   ((uint8_t)0x01)
+
+#define DEVICE_TYPE  MOTOR_DEV
+
+
+#define OPEN_THE_DOOR     0XFF
+#define	CLOSE_THE_DOOR	  0X00
+
+
+#define FRAME_HEAD 0XDDCCBBAAUL  //AABBDDCC
+#define FRAME_END  0XFBFCFDFEUL	 //FEFCFDFB
+
+#define CMD_OUTPUT ((uint8_t)0x01)
+#define CMD_READ	 ((uint8_t)0x02)
+#define CMD_LOCK   ((uint8_t)0X03)
+#define CMD_REPLY	 ((uint8_t)0X04)
+#define CMD_MODIFICATION ((uint8_t)0X05)
+
+#define result_vm_output 0xC1		//输出
+#define result_vm_states 0xC2		//环境量 
+
+
+
+#define IR_NONE    			0xEE
+#define IR_First_Blood	0X01 	//掉落一次
+#define IR_TIMER_OUT		0x00	  
+//#define IR_REPEAT	 		0x22	//掉落多了
+
+
+
+extern uint8_t current_result;
+
+#pragma pack(1)
+typedef struct
+{		
+    uint8_t load_number;   //出货货道	
+    uint8_t load_flag;		 //下位机->上位机 出货状态标志 1出货成功 0出货失败
+    uint8_t ir_flag;		   //红外状态
+	
+} VM_Control; //读写
+#pragma pack()
+
+#pragma pack(1)
+typedef struct
+{
+		uint8_t lock_states;	//锁
+    short humidity;			 	//湿度
+    short temperature;		//温度
+	
+} VM_States; //读写
+#pragma pack()
+
+#pragma pack(1)
+typedef struct
+{
+    uint8_t states;
+		
+} VM_Lock;
+#pragma pack()
+
+#pragma pack(1)
+typedef struct
+{
+    uint8_t new_address;
+		
+} VM_Address;
+#pragma pack()
+
+#pragma pack(1)
+typedef struct VM_Data_Frame_T
+{
+    uint32_t frame_head;  		//帧头
+	  uint8_t  device_Type;
+    uint8_t  driver_address;
+    uint8_t  cmd;
+	
+    union
+    {
+        VM_Lock    lock;			 //锁
+        VM_States  states;		 //售货机反馈
+        VM_Control control;	 	 //控制数据
+				VM_Address address;		 //用于修改板卡地址
+    } data;									   //数据
+
+    uint16_t crc16_code;	     //校验码  2byte
+    uint32_t frame_end;	       // 帧尾	 1byte
+
+}VM_Data_Frame;
+#pragma pack()
+
+
+
+#define VM_Frame_SIZE  sizeof(VM_Data_Frame)
+#define VM_CTRL_SIZE   sizeof(VM_Control)
+#define VM_STATES_SIZE sizeof(VM_States)
+
+extern VM_Control vm_control;
+extern VM_States  vm_states;
+extern VM_Data_Frame vm_data_frame;
+
+uint8_t frame_check(VM_Data_Frame* vdf);
+
+void RS485_CH1_Recv(void);
+void RS485_CH1_Reply(void);
+uint16_t crc16tablefast(uint8_t *ptr, uint16_t len);
+#endif
+

@@ -1,0 +1,55 @@
+Removed Pin From Net: NetName=24V_IN Pin=JP9-1
+Removed Pin From Net: NetName=NetD3_1 Pin=R21-1
+Change Component Comment : Designator=R21 Old Comment=100K New Comment=10K
+Added Component: Designator=Q8(TO252)
+Add component. Clean all parameters for all variants
+Added Component: Designator=Q9(SOT-23)
+Add component. Clean all parameters for all variants
+Added Component: Designator=R14(R 0603)
+Add component. Clean all parameters for all variants
+Add component (AddParameter): Name = "BOM名称"; Value = "贴片电阻"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "学习资源"; Value = "www.ooocke.com"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "版权归属"; Value = "源创客"; VariantName = "[No Variations]"
+Added Component: Designator=R17(R 0603)
+Add component. Clean all parameters for all variants
+Add component (AddParameter): Name = "BOM名称"; Value = "贴片电阻"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "学习资源"; Value = "www.ooocke.com"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "版权归属"; Value = "源创客"; VariantName = "[No Variations]"
+Added Component: Designator=R23(R 0603)
+Add component. Clean all parameters for all variants
+Add component (AddParameter): Name = "BOM名称"; Value = "贴片电阻"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "学习资源"; Value = "www.ooocke.com"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "版权归属"; Value = "源创客"; VariantName = "[No Variations]"
+Added Component: Designator=R24(R 0603)
+Add component. Clean all parameters for all variants
+Add component (AddParameter): Name = "BOM名称"; Value = "贴片电阻"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "学习资源"; Value = "www.ooocke.com"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "版权归属"; Value = "源创客"; VariantName = "[No Variations]"
+Added Pin To Net: NetName=24V_IN Pin=Q8-S
+Added Pin To Net: NetName=GND Pin=Q9-E
+Added Pin To Net: NetName=24V_IN Pin=R14-2
+Added Pin To Net: NetName=DOOR_CTRL Pin=R21-1
+Added Pin To Net: NetName=GND Pin=R24-2
+Added Pin To Net: NetName=IR_POWER_CTR Pin=R23-1
+Added Pin To Net: NetName=IR_POWER_CTR Pin=R24-1
+Added Net: Name=IR_POWER_CTR
+Added Pin To Net: NetName=IR_POWER Pin=JP9-1
+Added Pin To Net: NetName=IR_POWER Pin=Q8-D
+Added Pin To Net: NetName=IR_POWER Pin=U1-3
+Added Net: Name=IR_POWER
+Added Pin To Net: NetName=NetQ8_G Pin=Q8-G
+Added Pin To Net: NetName=NetQ8_G Pin=R14-1
+Added Pin To Net: NetName=NetQ8_G Pin=R17-1
+Added Net: Name=NetQ8_G
+Added Pin To Net: NetName=NetQ9_B Pin=Q9-B
+Added Pin To Net: NetName=NetQ9_B Pin=R23-2
+Added Net: Name=NetQ9_B
+Added Pin To Net: NetName=NetQ9_C Pin=Q9-C
+Added Pin To Net: NetName=NetQ9_C Pin=R17-2
+Added Net: Name=NetQ9_C
+Added Member To Class: ClassName=U_主控制器 Member=Component Q8 SE20P03
+Added Member To Class: ClassName=U_主控制器 Member=Component Q9 S8550
+Added Member To Class: ClassName=U_主控制器 Member=Component R14 10K
+Added Member To Class: ClassName=U_主控制器 Member=Component R17 15K
+Added Member To Class: ClassName=U_主控制器 Member=Component R23 1K
+Added Member To Class: ClassName=U_主控制器 Member=Component R24 10K

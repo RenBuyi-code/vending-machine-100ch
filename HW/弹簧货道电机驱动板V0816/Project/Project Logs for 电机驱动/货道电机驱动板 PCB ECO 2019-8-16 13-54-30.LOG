@@ -1,0 +1,2 @@
+Removed Pin From Net: NetName=IR_POWER Pin=U1-3
+Added Pin To Net: NetName=IR_POWER_CTR Pin=U1-3

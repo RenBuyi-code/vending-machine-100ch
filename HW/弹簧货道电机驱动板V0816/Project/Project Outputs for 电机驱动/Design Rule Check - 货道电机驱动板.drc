@@ -1,0 +1,141 @@
+Protel Design System Design Rule Check
+PCB File : G:\硬件\售货机外设\弹簧电机驱动板\弹簧货道电机驱动板V0816\PCB\货道电机驱动板.PcbDoc
+Date     : 2019/8/16
+Time     : 14:26:58
+
+Processing Rule : Clearance Constraint (Gap=15mil) (InPoly),(All)
+Rule Violations :0
+
+Processing Rule : Clearance Constraint (Gap=7mil) (All),(All)
+Rule Violations :0
+
+Processing Rule : Short-Circuit Constraint (Allowed=No) (All),(All)
+Rule Violations :0
+
+Processing Rule : Un-Routed Net Constraint ( (All) )
+Rule Violations :0
+
+Processing Rule : Modified Polygon (Allow modified: No), (Allow shelved: No)
+Rule Violations :0
+
+Processing Rule : Width Constraint (Min=6mil) (Max=500mil) (Preferred=10mil) (All)
+Rule Violations :0
+
+Processing Rule : Power Plane Connect Rule(Relief Connect )(Expansion=20mil) (Conductor Width=10mil) (Air Gap=10mil) (Entries=4) (All)
+Rule Violations :0
+
+Processing Rule : Hole Size Constraint (Min=1mil) (Max=200mil) (All)
+Rule Violations :0
+
+Processing Rule : Hole To Hole Clearance (Gap=10mil) (All),(All)
+Rule Violations :0
+
+Processing Rule : Minimum Solder Mask Sliver (Gap=1mil) (All),(All)
+Rule Violations :0
+
+Processing Rule : Silk To Solder Mask (Clearance=0mil) (IsPad),(All)
+Rule Violations :0
+
+Processing Rule : Silk to Silk (Clearance=0mil) (All),(All)
+Rule Violations :0
+
+Processing Rule : Net Antennae (Tolerance=0mil) (All)
+Rule Violations :0
+
+Processing Rule : Room U_SIG_IN2 (Bounding Region = (5910.594mil, 1938.728mil, 6299.173mil, 2148.728mil) (InComponentClass('U_SIG_IN2'))
+Rule Violations :0
+
+Processing Rule : Room U_SIG_IN1 (Bounding Region = (5520.594mil, 1861.874mil, 5909.173mil, 2071.874mil) (InComponentClass('U_SIG_IN1'))
+Rule Violations :0
+
+Processing Rule : Room U_SIG_IN4 (Bounding Region = (5910.594mil, 2148.728mil, 6299.173mil, 2358.728mil) (InComponentClass('U_SIG_IN4'))
+Rule Violations :0
+
+Processing Rule : Room U_SIG_IN3 (Bounding Region = (5520.594mil, 2071.874mil, 5909.173mil, 2281.874mil) (InComponentClass('U_SIG_IN3'))
+Rule Violations :0
+
+Processing Rule : Room U_Drive_Y8 (Bounding Region = (5680mil, 3110mil, 6120mil, 3820mil) (InComponentClass('U_Drive_Y8'))
+Rule Violations :0
+
+Processing Rule : Room U_Drive_Y7 (Bounding Region = (5532.362mil, 3820mil, 5972.362mil, 4530mil) (InComponentClass('U_Drive_Y7'))
+Rule Violations :0
+
+Processing Rule : Room U_Drive_Y10 (Bounding Region = (6119.173mil, 3110mil, 6559.173mil, 3820mil) (InComponentClass('U_Drive_Y10'))
+Rule Violations :0
+
+Processing Rule : Room U_Drive_Y9 (Bounding Region = (5972.362mil, 3820mil, 6412.362mil, 4530mil) (InComponentClass('U_Drive_Y9'))
+Rule Violations :0
+
+Processing Rule : Room U_Drive_Y1 (Bounding Region = (4206.96mil, 3819.582mil, 4646.96mil, 4529.582mil) (InComponentClass('U_Drive_Y1'))
+Rule Violations :0
+
+Processing Rule : Room U_SIG_IN10 (Bounding Region = (5910.594mil, 2778.728mil, 6299.173mil, 2988.728mil) (InComponentClass('U_SIG_IN10'))
+Rule Violations :0
+
+Processing Rule : Room U_SIG_IN8 (Bounding Region = (5910mil, 2565mil, 6298.579mil, 2775mil) (InComponentClass('U_SIG_IN8'))
+Rule Violations :0
+
+Processing Rule : Room U_Drive_Y4 (Bounding Region = (4802.087mil, 3110mil, 5242.087mil, 3820mil) (InComponentClass('U_Drive_Y4'))
+Rule Violations :0
+
+Processing Rule : Room U_SIG_IN6 (Bounding Region = (5910.594mil, 2358.728mil, 6299.173mil, 2568.728mil) (InComponentClass('U_SIG_IN6'))
+Rule Violations :0
+
+Processing Rule : Room U_SIG_IN5 (Bounding Region = (5520.594mil, 2281.874mil, 5909.173mil, 2491.873mil) (InComponentClass('U_SIG_IN5'))
+Rule Violations :0
+
+Processing Rule : Room U_SIG_IN9 (Bounding Region = (5520.594mil, 2701.873mil, 5909.173mil, 2911.873mil) (InComponentClass('U_SIG_IN9'))
+Rule Violations :0
+
+Processing Rule : Room U_SIG_IN7 (Bounding Region = (5520.594mil, 2491.873mil, 5909.173mil, 2701.873mil) (InComponentClass('U_SIG_IN7'))
+Rule Violations :0
+
+Processing Rule : Room U_Drive_Y6 (Bounding Region = (5240.819mil, 3110mil, 5680.819mil, 3820mil) (InComponentClass('U_Drive_Y6'))
+Rule Violations :0
+
+Processing Rule : Room U_Drive_X5 (Bounding Region = (2868.425mil, 3820mil, 3313.425mil, 4530mil) (InComponentClass('U_Drive_X5'))
+Rule Violations :0
+
+Processing Rule : Room U_Drive_X6 (Bounding Region = (3024.614mil, 3110mil, 3469.614mil, 3820mil) (InComponentClass('U_Drive_X6'))
+Rule Violations :0
+
+Processing Rule : Room U_Drive_X7 (Bounding Region = (3313.425mil, 3819.582mil, 3758.425mil, 4529.582mil) (InComponentClass('U_Drive_X7'))
+Rule Violations :0
+
+Processing Rule : Room U_Drive_X4 (Bounding Region = (2581.189mil, 3110mil, 3026.189mil, 3820mil) (InComponentClass('U_Drive_X4'))
+Rule Violations :0
+
+Processing Rule : Room U_Drive_X1 (Bounding Region = (1980mil, 3820mil, 2425mil, 4530mil) (InComponentClass('U_Drive_X1'))
+Rule Violations :0
+
+Processing Rule : Room U_Drive_X2 (Bounding Region = (2135mil, 3110mil, 2580mil, 3820mil) (InComponentClass('U_Drive_X2'))
+Rule Violations :0
+
+Processing Rule : Room U_Drive_X3 (Bounding Region = (2425mil, 3820mil, 2870mil, 4530mil) (InComponentClass('U_Drive_X3'))
+Rule Violations :0
+
+Processing Rule : Room U_Drive_X8 (Bounding Region = (3470mil, 3110mil, 3915mil, 3820mil) (InComponentClass('U_Drive_X8'))
+Rule Violations :0
+
+Processing Rule : Room U_Drive_Y3 (Bounding Region = (4649.724mil, 3820mil, 5089.724mil, 4530mil) (InComponentClass('U_Drive_Y3'))
+Rule Violations :0
+
+Processing Rule : Room U_Drive_Y5 (Bounding Region = (5092.362mil, 3820mil, 5532.362mil, 4530mil) (InComponentClass('U_Drive_Y5'))
+Rule Violations :0
+
+Processing Rule : Room U_Drive_Y2 (Bounding Region = (4360.673mil, 3110mil, 4800.673mil, 3820mil) (InComponentClass('U_Drive_Y2'))
+Rule Violations :0
+
+Processing Rule : Room U_Drive_X9 (Bounding Region = (3760mil, 3820mil, 4205mil, 4530mil) (InComponentClass('U_Drive_X9'))
+Rule Violations :0
+
+Processing Rule : Room U_Drive_X10 (Bounding Region = (3915mil, 3110mil, 4360mil, 3820mil) (InComponentClass('U_Drive_X10'))
+Rule Violations :0
+
+Processing Rule : Height Constraint (Min=0mil) (Max=1000mil) (Prefered=500mil) (All)
+Rule Violations :0
+
+
+Violations Detected : 0
+Waived Violations : 0
+Time Elapsed        : 00:00:01

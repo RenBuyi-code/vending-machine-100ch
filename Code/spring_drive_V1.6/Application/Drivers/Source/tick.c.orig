@@ -1,0 +1,26 @@
+#include "tick.h"
+
+uint32_t tick_cnt = 0;
+
+void system_tick_init(void)
+{
+	 SysTick_Config(SystemCoreClock/10);	//10Hz 100ms
+}
+
+void tick_updata(void)
+{
+	tick_cnt++;
+}
+
+uint32_t get_tick(void)
+{
+	return tick_cnt;
+}
+
+void tick_reset(void)
+{
+	tick_cnt =0;
+}
+
+
+

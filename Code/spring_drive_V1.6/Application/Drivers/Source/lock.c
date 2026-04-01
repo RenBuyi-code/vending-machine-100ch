@@ -1,0 +1,32 @@
+#include "lock.h"
+
+
+
+void lock_io_Init(void)
+{
+    GPIO_Init(LOCK_PART,LOCK_PIN,DIR_OUTPUR,PULL_UP_DISALBE,PULL_DOWN_DISALBE,PUSH_PULL);
+    GPIO_Init(LOCK_SIG_PART, LOCK_SIG_PIN,DIR_INPUT,PULL_UP_ENALBE,PULL_DOWN_DISALBE,PUSH_PULL);
+		LOCK_OFF();
+}
+
+void open_the_door(void)
+{
+    uint32_t lock_tick = 0;
+
+    LOCK_ON();
+    tick_reset();
+    lock_tick=get_tick()+30; //4S
+
+    while(TRUE == TRUE)
+    {
+        if(lock_tick < get_tick())
+        {
+            LOCK_OFF();
+
+            break;
+        }
+    }
+
+
+}
+

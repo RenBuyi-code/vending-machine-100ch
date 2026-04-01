@@ -1,0 +1,65 @@
+#include "soft_timer_cb.h"
+
+
+
+void softTimer_lock(void *argv, uint16_t argc)
+{
+    LOCK_OFF();
+    LED_CLOSE();
+
+}
+
+
+void softTimer_RS485_ch1(void *argv, uint16_t argc)
+{
+    uint32_t chr;
+
+    if(__RS485_Ch1_RX_Finish == FALSE)  //上一次已经读取完
+    {
+        while(UART_IsRXFIFOEmpty(RS485_CH1_UART) == 0)
+        {
+            if(UART_ReadByte(RS485_CH1_UART, &chr) == 0)
+            {
+                if(RS485_Ch1_RXIndex < RS485_CH1_RX_LEN)
+                {
+                    RS485_Ch1_Buffer[RS485_Ch1_RXIndex] = chr;
+
+                    RS485_Ch1_RXIndex++;
+                }
+            }
+        }
+        __RS485_Ch1_RX_Finish = TRUE; //发信号
+    }
+
+    RS485_Ch1_SendData(RS485_Ch1_Buffer,RS485_Ch1_RXIndex);
+    memset(RS485_Ch1_Buffer,0,RS485_Ch1_RXIndex);
+    RS485_Ch1_RXIndex = 0;
+    __RS485_Ch1_RX_Finish = FALSE;
+    LED_INV();
+}
+
+
+void softTimer_RS485_ch2(void *argv, uint16_t argc)
+{
+    uint32_t chr;
+
+    if(__RS485_Ch2_RX_Finish == FALSE)  //上一次已经读取完
+    {
+        while(UART_IsRXFIFOEmpty(RS485_CH2_UART) == 0)
+        {
+            if(UART_ReadByte(RS485_CH2_UART, &chr) == 0)
+            {
+                if(RS485_Ch2_RXIndex < RS485_CH2_RX_LEN)
+                {
+                    RS485_Ch2_Buffer[RS485_Ch2_RXIndex] = chr;
+
+                    RS485_Ch2_RXIndex++;
+                }
+            }
+        }
+        __RS485_Ch2_RX_Finish = TRUE; //发信号
+    }
+    LED_INV();
+
+}
+

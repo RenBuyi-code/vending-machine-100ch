@@ -1,0 +1,20 @@
+Change Component Footprint: Designator=Q8 Old Footprint=TO252 New Footprint=SOT23
+Change Component Comment : Designator=Q8 Old Comment=SE20P03 New Comment=CJ2307
+Added Component: Designator=C3(C 0603)
+Add component. Clean all parameters for all variants
+Add component (AddParameter): Name = "BOM名称"; Value = "无极性贴片电容"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "学习资源"; Value = "www.ooocke.com"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "版权归属"; Value = "源创客"; VariantName = "[No Variations]"
+Added Component: Designator=R25(0805_R)
+Add component. Clean all parameters for all variants
+Add component (AddParameter): Name = "ComponentLink1Description"; Value = "供应商链接"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1URL"; Value = "http://www.szlcsc.com/product/details_18165.html"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "0805"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier"; Value = "LC"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SuppliersPartNumber"; Value = "C17477"; VariantName = "[No Variations]"
+Added Pin To Net: NetName=GND Pin=C3-1
+Added Pin To Net: NetName=IR_S Pin=C3-2
+Added Pin To Net: NetName=24V_IN Pin=R25-1
+Added Pin To Net: NetName=IR_POWER Pin=R25-2
+Added Member To Class: ClassName=U_主控制器 Member=Component C3 104
+Added Member To Class: ClassName=U_主控制器 Member=Component R25 0Ω (0R0) ±1%

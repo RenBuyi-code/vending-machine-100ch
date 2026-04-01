@@ -1,0 +1,22 @@
+#include "timer.h"
+
+
+void HW_TIMR_Init(void)
+{
+		TIMR_Init(Motor_TIMR, TIMR_MODE_TIMER, SystemCoreClock*5, 1);	//5S中断一次,检测电机超时
+		IRQ_Connect(IRQ0_15_TIMR0, IRQ11_IRQ, 0);		//定时器0中断链接到IRQ5中断线
+		
+		TIMR_Init(IR_TIMR, TIMR_MODE_TIMER, SystemCoreClock*7, 1);	//每7秒钟触发一次中断,检测出货超时
+		IRQ_Connect(IRQ0_15_TIMR1, IRQ12_IRQ, 0);		//定时器1中断链接到IRQ5中断线
+		
+//		TIMR_Init(AMBIENT_TIMR, TIMR_MODE_TIMER, SystemCoreClock*1, 1);	//每10S 获取温湿度值
+//		IRQ_Connect(IRQ0_15_TIMR2, IRQ13_IRQ, 1);		//定时器2中断链接到IRQ5中断线，低优先级
+//		TIMR_Start(AMBIENT_TIMR);
+	
+		//TIMR_Init(TIMR3, TIMR_MODE_TIMER, SystemCoreClock/100, 1);	
+		//IRQ_Connect(IRQ0_15_TIMR3, IRQ7_IRQ, 1);		//定时器2中断链接到IRQ5中断线，低优先级
+	
+}
+
+
+
